@@ -1,0 +1,169 @@
+body{
+  padding: 0px;
+  margin: 0px;
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap');
+  font-family: 'Roboto', sans-serif;
+}
+
+.topbar{
+	background-color: #525252;
+}
+
+.top{
+  display: flex;
+}
+
+.topbar .logo{
+	padding: 10px 0px 5px 10px;
+}
+
+nav{
+  margin-left: 450px;
+  display: flex;
+}
+
+nav ul li{
+  display: inline-block;
+  margin-right: 10px;
+}
+
+nav ul li a{
+  text-decoration: none;
+  color: white;
+  font-size: 13px;
+  padding: 5px 7px;
+  border-radius: 3px;
+}
+
+.topbar .normalborder{
+  border: 1px solid white;
+  border-radius: 20px;
+  padding: 6px 10px;
+}
+
+.topbar .border{
+  color: #ffffff;
+  border: 1px solid white;
+  border-radius: 20px;
+  background-color: #006072;
+  padding: 6px 17px;
+}
+
+.image img{
+	width: 100%;
+	height: 350px;
+}
+
+.mid{
+  text-align: center;
+}
+
+.heading{
+  color: #4f4f4f;
+  font-size: 30px;
+  text-align: center;
+}
+
+.content{
+  color: #646464;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 30px 200px;
+}
+
+
+.newsletter{
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.newsletter h4{
+  color: #353548;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.newsletter #text{
+  border-radius: 17px;
+  padding: 3px 20px;
+  border-width: 0px;
+  color: #565656;
+  border: 0.6px solid #565656;
+  margin-right: 5px;
+  height: 25px;
+  margin-bottom: 20px;
+}
+
+.newsletter #submitbtn{
+  border-radius: 17px;
+  padding: 8px 20px;
+  background-color: #ff7b6d;
+  color: #ffffff;
+  border-width: 0px;
+  margin-bottom: 20px;
+}
+
+.news .query{
+  margin: 25px 40px 25px 400px;
+  height: 20px;
+  width: 15px;
+}
+
+.last{
+  background-color: #111111;
+}
+
+.foot{
+  display: flex;
+}
+
+.logoo{
+  padding: 20px 55px 20px 100px;
+  margin-right: 60px;
+}
+
+.links{
+  margin-left: 60px;
+}
+
+.links ul li{
+  display: inline-block;
+  padding-top: 33px;
+  margin-right: 15px;
+  font-size: 15px;
+}
+.links ul li a{
+  text-decoration: none;
+  color: #f1f1f1;
+}
+
+.social{
+  padding-top: 43px;
+  margin-left: 200px;
+}
+
+.social .fb{
+  margin-right: 10px;
+}
+
+hr{
+  width: 80%;
+}
+
+.lastfooter{
+  color: #9ba0a3;
+  text-align: center;
+  padding-bottom: 3px;
+}
+
+.checkbtn{
+  font-size: 30px;
+  color: white;
+  margin-top: 10px;
+  margin-left: 240px;
+  cursor: pointer;
+    display: none;
+}
+#check{
+  display: none;
+}
