@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap');
+*{
+  font-family: 'Roboto', sans-serif;
+}
+/*----------------Navbar---------------*/
+#navbar{
+  background-color: #525252;
+}
+.navbar-brand img{
+  height: 54px;
+  width: 73px;
+}
+nav ul li a{
+  max-width: 100%;
+  font-size: 17px;
+}
+nav .colored{
+  background-color: #29626d;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  height: 40px;
+  width: 111px;
+}
+.vertical-line{
+  width: 1px;
+  background-color: #e1e1e1;
+  height: 45px; 
+}
+.dropdown-divider{ 
+  width: 100% ;
+  height: 2px; 
+}
+.hours{
+  color: #a9a9a9;
+}
+
+/*-----------------Welcome---------------*/
+.welcome{
+  background-color: #f9f9f9;
+  color: #4f4f4f;
+  height: 119px;
+  font-size: 30px;
+}
+#welcome{
+  padding-top: 40px;
+}
+/*------------------Sidemenu----------------*/
+#sidemenu{
+  background-color: #1d7a8c;
+  width: 262px;  
+}
+#sidemenu ul li{
+  border-bottom :1px solid #ffffff ;
+}
+#sidemenu ul li a{
+  color: #ffffff;
+  font-size: 18px;
+}
+#sidemenu ul li a:focus {
+  background-color: #146371;
+}
+
+/*---------------service history table---------------*/
+.tableabove, .tablebelow{
+  display: flex;
+}
+.tableabove p{
+  font-size: 22px;
+  color: #646464;
+}
+.tableabove .text1{
+  margin-right: 550px;
+}
+.tablebelow .left{
+  color: #646464;
+  font-size: 14px;
+}
+.tableabove .button{
+  background-color: #146371;
+  width: 70px;
+  height: 34px;
+  border: none;
+  border-radius: 17px;
+}
+.tableabove .button a{
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 14px;
+}
+.tablebelow .right, .tablebelow .rightmost{
+  transform: rotate(180deg);
+}
+.tablebelow .left{
+  margin-right: 333px;
+}
+.entries{
+  height: 40px;
+  width: 58px;
+}
+.table{
+  margin: 0;
+  padding: 0;
+  width: 861px;
+  border: 1px solid #e1e1e1;
+}
+thead{
+  background-color: #f9f9f9;
+}
+.complete{
+  color: #ffffff;
+  background-color: #67b644;
+  font-size: 13px;
+  height: 22px;
+  width: 82px;
+  border: none;
+  padding-top: 2px;
+}
+.cancelled{
+  color: #ffffff;
+  background-color: #ff6b6b;
+  font-size: 13px;
+  height: 22px;
+  width: 82px;
+  border: none;  
+}
+tbody .Rate{
+  font-size: 14px;
+  background-color: #6da9b5;
+  border-radius: 17px;
+  border: none;
+  height: 34px;
+  width: 70px;
+}
+.Rate a{
+  text-decoration: none;
+  color: #ffffff;
+}
+.cs{
+  color: #646464;
+  font-size: 16px;
+}
+.hat{
+  height: 40px;
+  width: 40px;
+}
+.price{
+  color: #1d7a8c;
+  font-size: 20px;
+}
+.price span{
+  font-size: 24px;
+}
+/*----------------Footer-----------------*/
+.footer{
+  background: #111111;
+}
+ul li{
+  list-style: none; 
+  color: #f1f1f1; 
+  font-size: 14px;
+}
+ul li a{ 
+  text-decoration: none; 
+  color: #f1f1f1; 
+}
+.footer a:hover{
+  color: #f1f1f1;
+}
+.footer-line{ 
+  border: 1px solid; 
+  background-color: #424242; 
+  width: 85%; 
+}
+.footer-privacy{
+  color: #9ba0a3;
+  font-size: 14px;
+}
+/*-------------media query----------*/
+@media (max-width: 1199px){
+  .tableabove .text1{
+    margin-right: 335px;
+  }
+  .tablebelow .left{
+  margin-right: 125px;
+}
+.tableabove .text1{
+  margin-right: 420px;
+}
+.tablebelow .left{
+    margin-right: 205px;
+  }
+  #sidemenu{
+    width: 200px;
+  }
+}
+@media (max-width:  991px){
+  .vertical-line{
+    display: none;
+  }
+  .notification, .profile{
+    text-align: center;
+  }
+  .tableabove .text1{
+  margin-right: 400px;
+  }
+  .tablebelow .left{
+    margin-right: 190px;
+  }
+  #sidemenu{
+    width: 100%;
+  }
+}
+@media (max-width: 768px){ 
+  .table thead{ 
+    display:none; 
+  }   
+  .table, .table tbody, .table tr, .table td{ 
+    display: block; 
+    width: 100%; 
+    text-align: center;
+  }
+  .table .cs{
+    text-align: left !important;
+  }
+
+  .table #cs{
+    display: inline-flex;
+  }
+  .table tr{
+    padding-bottom: 30px;
+  }
+  .tableabove, .tablebelow{
+    display: block;
+  }
+  .tableabove .text1{
+    margin-right: 0px;
+  }
+  .tablebelow .left{
+    margin-right: 0px;
+  }
+
+
+
+
+
+
