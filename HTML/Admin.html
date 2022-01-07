@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="CSS/AdminStyle.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<title>Admin | Helperland</title>
+</head>
+<body>
+ <header>
+    <div class="header navbar d-flex align-items-center">
+      <div class="d-flex align-items-center">
+      <button class="navbar-toggler ps-0 ms-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-list" aria-controls="navbar-list" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon ps-0"></span>
+      </button>
+            <h1 class="title1 ps-4">helperland</h1>
+      </div>
+      <div class="d-flex align-items-center pb-2 gap-3 pe-3">
+        <img src="images/admin-user.png">
+        <div class="title2">James Smith</div>
+        <img src="images/logout.png">
+      </div>
+    </div>
+  </header>
+  <section>
+    <div class="container-fluid">
+      <div class="row">
+        <!--sidebar-->
+        <div class="card col-lg-2 col-12" id="sidemenu">
+          <nav class="navbar navbar-expand-lg navbar-dark">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-list" aria-controls="navbar-list" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse text-light" id="navbar-list">
+            <ul class="nav nav-tabs flex-column">
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#sm">Service Management</a>
+            </li>
+             <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#rm">Role Management</a> 
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#ccm">Customer code management</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#es">Escalation Management</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#sr">Service Requests</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#sp">Service Providers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#um">User Management</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#fm">Finance Module</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#zcm">Zip Code Management</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#ram">Rating Management</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#im">Inquiry Management</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#nm">Newsletter Management</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#cm">Content Management</a>
+            </li>
+          </ul>
+          </div>
+        </nav>    
+        </div>
+        <!--sidebar-ends-->
+        <!--main-content-->  
+        <div class="content-right col-lg-10 col-12">
+
+          <div class="tab-content">
+            <div class="tab-pane p-3" id="sm" >
+              <div class="col">
+                <p>Service Management</p>
+              </div>
+            </div>
+            <div class="tab-pane p-3" id="rm" >
+              <div class="col">
+                <p>Role Management</p>
+              </div>
+            </div>
+            <div class="tab-pane p-3" id="ccm" >
+              <div class="col">
+                <p>Coupon Code Management</p>
+              </div>
+            </div>
+            <div class="tab-pane p-3" id="es" >
+              <div class="col">
+                <p>Escalation Management</p>
+              </div>
+            </div>
+            <!-------------Service-Request----------->
+            <div class="tab-pane active" id="sr">                
+                    <div class="col">                        
+                        <div class="tableabove ps-2 pt-3">
+      <p class="text1 fw-bold">Service Requests</p>
+    </div>
+    <!----------------search-bar--------------->
+    <div class="search-bar p-2">
+      <form class="mb-3 d-flex flex-row gap-2 flexwrap">
+        <input class="serviceid py-2 ps-2" type="text" name="serviceid" placeholder="Service ID">
+        <select class="customer form-select" aria-label="Default select example">
+          <option selected>Customer</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+        <select class="serviceprovider form-select" aria-label="Default select example">
+          <option selected>Service Provider</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+         <select class="status form-select" aria-label="Default select example">
+          <option selected>Status</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+        <input class="fromdate py-2 ps-2" name="fromedate" placeholder="From Date">
+        <input class="todate py-2 ps-2" name="todate" placeholder="To Date">
+        <button class="search"><a href="">Serach</a></button>
+        <button class="clear"><a href="">Clear</a></button>
+      </form>    
+    </div>
+  <!------------------------table---------------------------->
+  <table class="table mb-3 ms-2">
+        <thead>
+          <tr>
+          <th>Service ID<img class="ms-2" src="images/arrows.png"></th>
+          <th>Service date<img class="ms-2" src="images/arrows.png"></th>
+          <th>Customer details<img class="ms-2" src="images/arrows.png"></th>
+          <th>Service Provider<img class="ms-2" src="images/arrows.png"></th>
+          <th>Status<img class="ms-2" src="images/arrows.png"></th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td>323436</td>
+            <td><img class="me-2" src="images/calculator.png"><span class="fw-bold">09/04/2018</span><br>
+            <img class="me-2" src="images/time.png"><span>12:00 - 18:00</span></td>
+            <td>David Bough<br>
+            <img class="me-2" src="images/address.png"><span>Musterstrabe 5,12345 Bonn</span></td>
+            <td class="cs">
+            <div><img class="hat me-2" src="images/hat.png"><span>Lyum Watson</div>
+              <div><img class="ms-5" src="images/ystar.png">
+              <img src="images/ystar.png">
+              <img src="images/ystar.png">
+              <img src="images/ystar.png">
+              <img class="me-2" src="images/wstar.png">4
+            </div></span>
+          </td>
+          <td><button class="new mt-2">New</button></td>
+          <td><img class="ms-2 mt-3" src="images/3-dots.png"></td>
+        </tr>
+            <tr>
+            <td>323436</td>
+            <td><img class="me-2" src="images/calculator.png"><span class="fw-bold">09/04/2018</span><br>
+            <img class="me-2" src="images/time.png"><span>12:00 - 18:00</span></td>
+            <td>David Bough<br>
+            <img class="me-2" src="images/address.png"><span>Musterstrabe 5,12345 Bonn</span></td>
+            <td></td>
+          <td><button class="pending mt-2">Pending</button></td>
+          <td><img class="ms-2 mt-3" src="images/3-dots.png"></td>
+        </tr>
+          <tr>
+            <td>323436</td>
+            <td><img class="me-2" src="images/calculator.png"><span class="fw-bold">09/04/2018</span><br>
+            <img class="me-2" src="images/time.png"><span>12:00 - 18:00</span></td>
+            <td>David Bough<br>
+            <img class="me-2" src="images/address.png"><span>Musterstrabe 5,12345 Bonn</span></td>
+          <td class="cs">
+            <div><img class="hat me-2" src="images/hat.png"><span>Lyum Watson</div>
+              <div><img class="ms-5" src="images/ystar.png">
+              <img src="images/ystar.png">
+              <img src="images/ystar.png">
+              <img src="images/ystar.png">
+              <img class="me-2" src="images/wstar.png">4
+            </div></span>
+          </td>
+          <td><button class="complete mt-2">Completed</button></td>
+          <td><img class="ms-2 mt-3" src="images/3-dots.png"></td>
+        </tr>
+           <tr>
+            <td>323436</td>
+            <td><img class="me-2" src="images/calculator.png"><span class="fw-bold">09/04/2018</span><br>
+            <img class="me-2" src="images/time.png"><span>12:00 - 18:00</span></td>
+            <td>David Bough<br>
+            <img class="me-2" src="images/address.png"><span>Musterstrabe 5,12345 Bonn</span></td>
+            <td class="cs">
+            <div><img class="hat me-2" src="images/hat.png"><span>Lyum Watson</div>
+              <div><img class="ms-5" src="images/ystar.png">
+              <img src="images/ystar.png">
+              <img src="images/ystar.png">
+              <img src="images/ystar.png">
+              <img class="me-2" src="images/wstar.png">4
+            </div></span>
+          </td>
+          <td><button class="cancelled mt-2">Cancelled</button></td>
+          <td><img class="ms-2 mt-3" src="images/3-dots.png"></td>    
+        </tr>
+    </tbody>
+    </table>
+    <!---------------------------table-below------------------>
+    <div class="tablebelow navbar d-flex align-items-center">
+      <div class="d-flex align-items-center">
+      <!-------------------------entries------------------>
+      <p class="left">Show <span class="p-0"> <select class="entries table-dropdown" name="table-rows" id="table-rows">
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+    </select></span> Entries</p> 
+      </div>
+      <div class="d-flex align-items-center pb-2 gap-3 pe-3">
+        <!---------------------pagination----------------->
+        <nav aria-label="Page navigation example ">
+        <ul class="pagination pagination-circle pagination-sm">
+          <li class="page-item"><a class="page-link" href="#"><img src="images/polygon-left.png"></a></li>
+          <li class="page-item"><a class="page-link circle circle-md border" href="#"><span>1</span></a></li>
+          <li class="page-item"><a class="page-link circle circle-md" href="#"><span>2</span></a></li>
+          <li class="page-item"><a class="page-link circle circle-md" href="#"><span>3</span></a></li>
+          <li class="page-item"><a class="page-link circle circle-md" href="#"><span>4</span></a></li>
+          <li class="page-item"><a class="page-link circle circle-md" href="#"><span>5</span></a></li>
+          <li class="page-item"><a class="page-link" href="#"><img class="right" src="images/polygon-left.png"></a></li>
+        </ul>
+      </nav>
+      </div>
+    </div>
+    <!---------------------last-line------------------->
+    <div class="last-line ms-2">©2018 Helperland. All rights reserved.</div>
+                    </div>
+                </div>
+                <div class="tab-pane p-3" id="sp" >
+              <div class="col">
+                <p>Service Providers</p>
+              </div>
+            </div>
+      <!------------------user-management------------->
+      <div class="tab-pane" id="um">                
+      <div class="col"> 
+      <div class="tableabove navbar d-flex align-items-center ps-2 pt-3">
+      <div class="d-flex align-items-center">
+        <p class="text1 fw-bold">User Management </p>
+      </div>
+      <div class="d-flex align-items-center pb-2 gap-3 pe-3">
+              <p class="button text-center pt-1"><a href=""><img class="me-1" src="images/add.png">
+        <span>Add New User</span></a></p>
+      </div>
+    </div>                       
+
+    <!----------------search-bar--------------->
+    <div class="search-bar p-2">
+      <form class="mb-3 d-flex flex-row gap-2 flexwrap">
+        <select class="username form-select" aria-label="Default select example" id="username">
+          <option selected>User name</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+        <select class="userrole form-select" aria-label="Default select example" id="userrole">
+          <option selected>User role</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+        <div><button class="code btn-outline-secondary" type="button" aria-expanded="false">+49</button><input class="phone py-2 ps-2" type="text" name="phonenumber" placeholder="Phone number"></div>
+        <input class="zipcode py-2 ps-2" type="text" name="zipcode" placeholder="Zip code">
+        <button class="search"><a href="">Serach</a></button>
+        <button class="clear"><a href="">Clear</a></button>
+      </form>    
+    </div>
+  <!------------------------table---------------------------->
+  <table class="table mb-3 ms-2">                                                      
+      <thead>
+        <tr>
+        <th>User Name<img class="ms-2" src="images/arrows.png"></th>
+        <th> User Type
+        <th>Role</th>
+        <th>Postal Code<img class="ms-2" src="images/arrows.png"></th>
+        <th>City</th>
+        <th>Radius<img class="ms-2" src="images/arrows.png"></th></th>
+        <th>User Status<img class="ms-2" src="images/arrows.png"></th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Lyum watson</td>
+        <td> Call Center </td>
+        <td>Inquiry Manager </td>
+        <td>123456</td>
+        <td>Berlin</td>
+        <td></td>
+        <td><button class="aactive" id="active">Active</button></td>
+        <td><img src="images/3-dots.png"></td>
+      </tr>
+      <tr>
+        <td>John Smith</td>
+        <td>Service Provider</td>
+        <td></td>
+        <td>123456</td>
+        <td>Berlin</td>
+        <td>10 km</td>
+        <td><button class="aactive" id="active">Active</button></td>
+        <td><img src="images/3-dots.png"></td>
+      </tr>
+      <tr>
+        <td>John Smith</td>
+        <td>Call Center</td>
+        <td>Inquiry Manager</td>
+        <td>123456</td>
+        <td>Berlin</td>
+        <td>10 km</td>
+        <td><button class="aactive" id="active">Active</button></td>
+        <td><img src="images/3-dots.png"></td>
+      </tr>
+      <tr>
+        <td>John Smith</td>
+        <td>Customer</td>
+        <td></td>
+        <td>123456</td>
+        <td>Berlin</td>
+        <td></td>
+        <td><button class="inactive" id="inactive">Inactive</button></td>
+        <td><img src="images/3-dots.png"></td>
+      </tr>
+  </tbody>
+  </table>
+  <!---------------------------table-below------------------>
+    <div class="tablebelow navbar d-flex align-items-center">
+      <div class="d-flex align-items-center">
+      <!-------------------------entries------------------>
+      <p class="left">Show <span class="p-0"> <select class="entries table-dropdown" name="table-rows" id="table-rows">
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+    </select></span> Entries</p> 
+      </div>
+      <div class="d-flex align-items-center pb-2 gap-3 pe-3">
+        <!---------------------pagination----------------->
+        <nav aria-label="Page navigation example ">
+        <ul class="pagination pagination-circle pagination-sm">
+          <li class="page-item"><a class="page-link" href="#"><img src="images/polygon-left.png"></a></li>
+          <li class="page-item"><a class="page-link circle circle-md border" href="#"><span>1</span></a></li>
+          <li class="page-item"><a class="page-link circle circle-md" href="#"><span>2</span></a></li>
+          <li class="page-item"><a class="page-link circle circle-md" href="#"><span>3</span></a></li>
+          <li class="page-item"><a class="page-link circle circle-md" href="#"><span>4</span></a></li>
+          <li class="page-item"><a class="page-link circle circle-md" href="#"><span>5</span></a></li>
+          <li class="page-item"><a class="page-link" href="#"><img class="right" src="images/polygon-left.png"></a></li>
+        </ul>
+      </nav>
+      </div>
+    </div>
+    <!---------------------last-line------------------>
+    <div class="last-line ms-2">©2018 Helperland. All rights reserved.</div>
+                    </div>
+                </div>
+                <div class="tab-pane p-3" id="fm" >
+              <div class="col">
+                <p>Finance Module</p>
+              </div>
+            </div>
+            <div class="tab-pane p-3" id="zcm" >
+              <div class="col">
+                <p>Zip Code Management</p>
+              </div>
+            </div>
+            <div class="tab-pane p-3" id="ram" >
+              <div class="col">
+                <p>Rating Management</p>
+              </div>
+            </div>
+            <div class="tab-pane p-3" id="im" >
+              <div class="col">
+                <p>Inquiry Management</p>
+              </div>
+            </div>
+            <div class="tab-pane p-3" id="nm" >
+              <div class="col">
+                <p>Newsletter Management</p>
+              </div>
+            </div>
+            <div class="tab-pane p-3" id="cm" >
+              <div class="col">
+                <p>Content Management</p>
+              </div>
+            </div>
+            </div>            
+        <!--main-content-ends-->
+      </div>
+    </div>
+</div>
+</section>
+	<!------------Table-------------->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/ IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+</body>
+</html>
