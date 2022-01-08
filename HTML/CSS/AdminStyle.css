@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap');
+*{
+  font-family: 'Roboto', sans-serif;
+}
+/*--------Font Family--------*/
+.header{ 
+  background-color: #1FB6FF; 
+  color: #fff; 
+  height: 60px;
+}
+.title1{ 
+  font-size: 37.5px; 
+}
+.title2{ 
+  font-size: 16px; 
+}
+.navbar-toggler{ 
+  color: #fff; 
+  margin-top: -80px;
+}
+/*------------------sidemenu--------------*/
+.card{  
+  border-right: 1px solid black; 
+  box-shadow: 0 0 4px grey;
+}
+#sidemenu ul li{
+  list-style: none;
+  border-bottom: 1px solid #dedddd;
+}
+#sidemenu ul li a{
+  font-size: 16px;
+  color: #646464;
+}
+
+#sidemenu ul li a:hover{
+  color: #1fbfff;
+}
+
+/*--------------------content-right------------------*/
+.serch-bar{
+  background-color: #ffffff!important;
+}
+.content-right{
+  background-color: #f2f4f5;
+}
+/*--------------------user-management------------------*/
+.tableabove .text1{
+   font-size: 22px;
+   color: #646464;
+}
+.tableabove .button{
+  background-color: #1fb6ff;
+  width: 132px;
+  height: 36px;
+  border: none;
+}
+.tableabove .button a{
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 14px;
+}
+/*--------------------search-bar--------------*/
+.username, .userrole, .phone, .code, .zipcode, .serviceid, .customer, .serviceprovider, .status, .fromdate, .todate{
+  height: 46px;
+  font-size: 16px;
+  border: solid 1px #dedddd;
+}
+#username{
+  width: 205px;
+}
+#userrole{
+  width: 215px;
+}
+.code{
+  width: 57px;
+  color: #646464;
+  background-color: #f2f4f5;
+}
+.zipcode, .phone, .search, .clear, .serviceid, .fromdate, .todate{
+  border-radius: 4px;
+} 
+.zipcode{
+  width: 140px;
+}
+.phone{
+  width: 162px;
+}
+.zipcode:hover, .phone:hover{
+  border: 1px solid #1fbfff;
+}
+.serviceid{
+  width: 110px;
+}
+.serviceid:hover{
+  border: 1px solid #1fbfff ;
+}
+.customer{
+  width: 127px;
+  color: #646464;
+}
+.customer: hover{
+  border: 1px solid #1fbfff;
+}
+.serviceprovider{
+  width: 152px;
+  color: #646464;
+}
+.status{
+  width: 120px;
+  color: #646464;
+}
+.fromdate, .todate{
+  width: 135px;
+}
+.fromdate:hover, .todate:hover{
+  border: 1px solid #1fbfff;
+}
+.search a{
+  text-decoration: none;
+  color: #fff;
+}
+.search:hover{
+  background-color: #2b4c7e;
+}
+.search a:hover{
+  color: #fff;
+}
+.search{
+  background-color: #1fb6ff;
+  border: none;
+  width: 84px;
+  height: 46px;
+  font-size: 16px;
+}
+.clear a{
+  text-decoration: none;
+  color: #646464;
+}
+.clear{
+  height: 46px;
+  width: 84px;
+  border: none;
+  border: solid 1px #dedddd;
+  font-size: 16px;
+  background-color: #fff;
+}
+.clear a:hover{
+  color: #1fbfff;
+}
+.clear:hover{
+  border: 1px solid #1fbfff;
+}
+/*----------------------table----------------*/
+.table{
+  margin: 0;
+  padding: 0;
+  width: 1060px;
+  background-color: #ffffff ;
+  border: 1px solid #e1e1e1;
+}
+thead{
+  background-color: #f2f4f5;
+}
+.aactive, .inactive{
+  color: #ffffff;
+  font-size: 13px;
+  height: 24px;
+  width: 58px;
+  border: none;
+  padding-top: 2px;
+}
+#active{
+  background-color: #67b644;
+}
+#inactive{
+  background-color: #ff6b6b;
+}
+.pending{
+  color: #ffffff;
+  background-color: #1fb6ff;
+  font-size: 13px;
+  height: 24px;
+  width: 62px;
+  border: none;
+  padding-top: 2px; 
+}
+.new{
+  color: #ffffff;
+  background-color: #f2bb37;
+  font-size: 13px;
+  height: 24px;
+  width: 45px;
+  border: none;
+  padding-top: 2px; 
+}
+.complete{
+  color: #ffffff;
+  background-color: #67b644;
+  font-size: 13px;
+  height: 24px;
+  width: 78px;
+  border: none;
+  padding-top: 2px;
+}
+.cancelled{
+  color: #ffffff;
+  background-color: #ff6b6b;
+  font-size: 13px;
+  height: 24px;
+  width: 78px;
+  border: none;  
+}
+/*--------------------entries------------*/
+.tablebelow .left{
+  color: #646464;
+  font-size: 14px;
+}
+.entries{
+  height: 40px;
+  width: 58px;
+}
+.tablebelow .right{
+  transform: rotate(180deg);
+}
+.tablebelow .border{
+  background-color: #565656;
+  color: #fff;
+}
+/*------------------last-line-----------*/
+.last-line{
+  color: #a2a6a8;
+  font-size: 14px;
+}
