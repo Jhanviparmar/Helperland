@@ -15,7 +15,7 @@
 
   <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
   <div class="container-fluid">
-    <a class="navbar-brand" href="index.html">
+    <a class="navbar-brand" href="Homepage.html">
       <img class="ms-2 mt-1"  src="images/homelogo.png">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,52 +23,33 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item text-center active ms-xl-2 my-2">
-          <a class="nav-link text-light" aria-current="page" href="#">Book a cleaner</a>
+        <li class="blue-btn nav-item text-center ms-xl-2 my-2">
+          <a class="nav-link text-light px-4" aria-current="page" href="#">Book a cleaner</a>
         </li>
         <li class="nav-item text-center ms-xl-2  my-2 ">
-          <a class="nav-link text-light" aria-current="page" href="prices.html">Prices</a>
+          <a class="nav-link text-light px-4" aria-current="page" href="price.html">Prices</a>
         </li>
         <li class="nav-item text-center ms-xl-2 my-2 ">
-          <a class="nav-link text-light" aria-current="page" href="#">Our Guarantee  </a>
+          <a class="nav-link text-light px-4" aria-current="page" href="#">Our Guarantee  </a>
         </li>
         <li class="nav-item text-center ms-xl-2  my-2 ">
-          <a class="nav-link text-light" aria-current="page" href="#">Blog</a>
+          <a class="nav-link text-light px-4" aria-current="page" href="#">Blog</a>
         </li>
         <li class="nav-item text-center ms-xl-2  my-2 ">
-          <a class="nav-link text-light" aria-current="page" href="contact.html">Contact Us</a>
+          <a class="nav-link text-light px-4" aria-current="page" href="contact.html">Contact Us</a>
         </li>
-        <li class="nav-item text-center active ms-xl-2 my-2 ">
-          <a class="nav-link text-light" aria-current="page" href="#">Login</a>
+        <li class="blue-btn nav-item text-center ms-xl-2 my-2 ">
+          <a class="nav-link text-light px-4" aria-current="page" href="#">Login</a>
         </li>
-        <li class="nav-item text-center active ms-xl-2 my-2 ">
-          <a class="nav-link text-light" aria-current="page" href="#">Become a Helper</a>
-        </li>
+        <li class="blue-btn nav-item text-center ms-xl-2 my-2 ">
+          <a class="nav-link text-light px-4" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Become a Helper</a>
+          <!-- Button trigger modal -->
 
-        <li class="nav-item dropdown ms-xl-2 my-2">
-          <a class="nav-link " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img class="me-2"  src="images/flag.png">
-            <img src="images/downtick.png">
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li>
-              <a class="dropdown-item" href="#">
-              <img class="me-1" src="images/indiaflag.png">India</a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-              <img class="me-1" src="images/usflag.png">US</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-  </nav>
-
-  <!---------------Registrationform------------------>
-  <section class="mt-5">
-  <div class="form container-fluid text-center">
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="form container-fluid text-center mt-5">
 
     <h1 class="heading py-3">Register Now!</h1>
 
@@ -91,7 +72,31 @@
     <img class="my-3 me-5" src="images/captcha.png">
     <button class="getstart mb-5">Get Started <img src="images/rightarrow.png"></button>
   </div>
-  </section>
+    </div>
+  </div>
+</div>
+        </li>
+
+      <li class="nav-item dropdown ms-xl-2 my-2">
+          <a class="nav-link " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img class="me-2"  src="images/ga.png">
+            <img src="images/downtick.png">
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li>
+              <a class="dropdown-item" href="#">
+              <img class="me-1" src="images/india.png"></a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#">
+              <img class="me-1" src="images/us.png"></a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  </nav>
     <div class="container-fluid d-flex flex-column align-items-center justify-content-center mt-5 pb-4">
       <a href="#nextpage"> <img class="nextarrow" src="images/nextarrow.png"></a>
     </div>
@@ -140,7 +145,7 @@
            Accept service requests from your customers
           and complete your work.
             </p>
-            <p class="text-lg-start text-center ">Read More</p>
+            <p class="text-lg-start text-center ">Read More<a href="#"><img class="ms-2" src="images/rarrow.png"></a></p>
           </div>
           <img class="img-fluid order-lg-1 ms-lg-5 ps-lg-5 mt-4 px-3" src="images/work3.png">
         </div>
@@ -167,7 +172,7 @@
           <a href="Homepage.html">HOME</a>
         </li>
         <li class="mb-lg-0 mb-2">
-          <a href="About.html">ABOUT</a>
+          <a href="about.html">ABOUT</a>
         </li>
         <li class="mb-lg-0 mb-2">TESTIMONIALS</li>
         <li class="mb-lg-0 mb-2">
