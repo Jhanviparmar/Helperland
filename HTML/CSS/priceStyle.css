@@ -1,0 +1,273 @@
+/*------------------FONT-FAMILY-----------------*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap');
+*{
+	padding: 0;
+	margin: 0;
+	font-family: 'Roboto', sans-serif;
+}
+#navbar{
+	background-color: #525252;
+	height: 64px;
+}
+.navbar-brand img{
+	height: 54px;
+	width: 73px;
+}
+nav li{
+	max-width: 100%;
+	font-size: 17px;
+}
+.navbar-brand img{
+	height: 54px;
+	width: 73px;
+}
+nav li{
+	max-width: 100%;
+	font-size: 17px;
+}
+nav li:hover, .blue-btn, .active{
+	border: 1px solid rgba(255, 255, 255, 0.5); 
+	border-radius: 20px;
+	transition: 0.5 ease;
+}
+.blue-btn{
+	background-color: #1d7a8c;
+}
+.blue-btn:hover{
+	background-color: #fff;
+	color: #1d7a8c;
+	transition: 0.5 ease;
+}
+.blue-btn a:hover{
+	color: #1d7a8c;
+}
+/*--------------Registrationform--------*/
+
+.form{
+	background-color: #ffffff;
+	max-width: 430px;
+	max-height: 664px;
+}
+
+.heading{
+	color: #4f4f4f; 
+	font-size: 24px; 
+	font-weight: bold; 
+}
+
+.box{ 
+	max-width: 359px;
+	width: 100%; 
+	border: 1px solid #c8c8c8; 
+	margin-bottom: 15px; 
+	height: 46px; 
+	font-size: 16px;
+	color: #a0a0a0;
+	padding-left: 20px;
+}
+
+.box:hover, .phone:hover{
+	border-color:#1fb6ff;
+}
+
+.phone{ 
+	border: 1px solid #c8c8c8; 
+	margin-bottom: 15px; 
+	height: 46px; 
+	font-size: 16px;
+	color: #a0a0a0;
+	padding-left: 20px;
+	width: 313px;
+}
+.code{
+	width: 46px; 
+	height: 46px;
+	font-size: 16px; 
+	padding-top: 10px; 
+	background-color: #c8c8c8; 
+	color: #4f4f4f;
+	border: 1px solid #c8c8c8;  }
+
+#text-checkbox{ 
+	color: #4f4f4f; 
+	font-size: 16px; 
+}
+
+.colored-text{ 
+	color: #1fb6ff; 
+}
+.getstart{ 
+	color: #ffffff;
+	width: 166px; 
+	height: 46px; 
+	border: 1px solid #1d7a8c; 
+	background-color: #1d7a8c;
+	border-radius: 23px;
+}
+
+/*------------------BACKGROUNDIMAGE-----------*/
+.priceshome{
+	max-width: 1560px;
+    max-height: 370px;
+    height: 100%;
+    width: 100%;
+}
+
+/*--------------------PRICES-------------------*/
+.pricebox{
+	text-align: center;
+}
+#pricebox{
+	width: 450px;
+  height: 304px;
+  border: solid 1px #b0c9ce;
+  background-color: var(--white);
+  text-align: center;
+}
+.twenty img{
+	height: 40px;
+	width: 35px;
+	color: #646464;
+}
+.twenty span{
+  font-size: 48px;
+  color: #646464;
+}
+.twenty{
+	font-size: 28px;
+	color: #646464;
+}
+.one-time{
+  background-color: #1d7a8c;
+  color: white;
+  font-size: 28px;
+  height: 59px;
+  width: 450px;
+}
+.middle-line{
+	color: #1d7a8c;
+	margin: 0 10%;
+}
+  
+/*-------------------EXTRA-SERVICES--------*/
+.thirty{
+	font-size: 18px;
+	color: #1d7a8c;
+}
+.inside{
+	font-size: 16px;
+	color: #646464;
+}
+#border{
+	border-radius: 50%;
+  width: 108px;
+  height: 108px;
+  border: solid 1px #b0c9ce;
+  margin-bottom: 20px;
+  padding-left: 35px;
+}
+.p3{
+	padding-top: 35px;
+}
+.p5{
+	padding-left: 30px !important;
+}
+
+/*--------------------CLEANING--------------*/
+.cleaning{
+	background-color: #f6f6f6;
+}
+.cleaning p{
+	font-size: 14px;
+	color: #646464;
+}
+.cleaning h5{
+	font-size: 20px;
+	color: #4f4f4f;
+}
+
+/*------------------WHY-HELPERLAND--------------*/
+h3{
+	color: #4f4f4f;
+	font-size: 36px;
+}
+.separator-border{  
+	width: 62px; 
+	height: 1px; 
+	background-color: #ccc;
+}
+.why-helperland h5{
+	font-size: 20px;
+	color: #646464;
+}
+.why-helperland p{
+	font-size: 14px;
+	color: #646464;
+}
+/*---------------NEWSLETTER---------------------*/
+.newsletter h6{
+	font-size: 18px;
+	font-weight: bold; 
+	color: #353548;
+}
+.email{
+	border-radius: 20px; 
+	font-size: 14px; 
+	color: #565656; 
+	padding: 0px 70px 0px 20px;
+	border: 1px solid #565656;
+	background: #f4f5f8;
+	width: 233px;
+	height: 40px;
+}
+.submit{
+	color: #ffffff;
+	padding: 10px 20px; 
+	background: #ff7b6d; 
+	border-radius: 20px; 
+	font-size: 14px;
+	width: 88px;
+	height: 40px;
+}
+.submit:hover{
+	color: #ff7b6d;
+	background-color: #fff;
+	border: 2px solid #ff7b6d;
+}
+/*----------------FOOTER-------------------------*/
+.footer{
+	background: #111111;
+}
+ul li{
+	list-style: none; 
+	color: #f1f1f1; 
+	font-size: 14px;
+}
+ul li a{ 
+	text-decoration: none; 
+	color: #f1f1f1; 
+}
+.footer a:hover{
+	color: #f1f1f1;
+}
+.footer-line{ 
+	border: 1px solid; 
+	background-color: #424242; 
+	width: 85%; 
+}
+.footer-privacy{
+	color: #9ba0a3;
+	font-size: 14px;
+}
+
+/*-----------------media query----------------*/
+@media (max-width: 500px){
+	#pricebox, .one-time{
+		width: 320px;
+	}
+}
+@media (max-width: 768px){
+	.cleaning{
+		text-align: center;
+	}
+}
