@@ -133,6 +133,14 @@ nav li:hover, .blue-btn{
 }
 
 /*----------------WHY-HELPERLAND-----------------*/
+.zoom{
+	transition: transform .6s ease;
+}
+.zoom:hover {
+  -ms-transform: scale(1.05);
+  -webkit-transform: scale(1.05); 
+  transform: scale(1.05); 
+}
 .why{
 	position: relative;
 }
