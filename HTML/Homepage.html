@@ -318,10 +318,20 @@
   <!---------------------PRIVACY-LINE----------------->
   <div class="privacy-line d-flex text-center justify-content-center" id="thisdiv">
     <p class="pt-4 mx-auto">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut feugiat nunc libero, ac malesuada ligula aliquam ac.<span><a href=""> Privacy Policy</a></span></p>
-      <button onclick="myFunction()">OK!</button>
+      <button id ="ok">OK!</button>
   </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="js/script.js"></script>
+<script src="js/script.js"></scrip>
+<script>
+  window.onload = function () {
+    var el = document.getElementById("ok");
+    el.onclick = hidePrivacy;
+}
+
+function hidePrivacy() {
+    document.getElementById("thisdiv").classList.add("d-none");
+}
+</script>
 
 </body>
 </html>
