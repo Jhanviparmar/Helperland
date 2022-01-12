@@ -102,6 +102,7 @@ nav .colored{
   padding: 0;
   width: 861px;
   border: 1px solid #e1e1e1;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 thead{
   background-color: #f9f9f9;
@@ -227,7 +228,11 @@ ul li a{
     display: inline-flex;
   }
   .table tr{
-    padding-bottom: 30px;
+    border: 3px solid #e1e1e1;
+    margin-bottom: 40px;
+  }
+  .colored{
+    margin-left: 42%;
   }
   .tableabove, .tablebelow{
     display: block;
@@ -238,9 +243,10 @@ ul li a{
   .tablebelow .left{
     margin-right: 0px;
   }
-
-
-
-
+@media (max-width: 500px){
+  .colored{
+    margin-left: 35%;
+  }
+}
 
 
