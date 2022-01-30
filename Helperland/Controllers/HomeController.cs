@@ -21,12 +21,6 @@ namespace Helperland.Controllers
             _logger = logger;
         }
         HelperlanddContext db = new HelperlanddContext();
-        ////private readonly HelperlanddContext _DbContext;
-
-        ////public HomeController(HelperlanddContext DbContext)
-        ////{
-        ////    _DbContext = DbContext;
-        ////}
 
         public IActionResult Index()
         {
