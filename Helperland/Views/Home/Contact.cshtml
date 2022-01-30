@@ -99,15 +99,15 @@
         {
             <form asp-action="Contact" method="post" enctype="multipart/form-data">
                 <div class="row align-items-center justify-content-center g-3 mb-3 mx-md-0 mx-3">
-                    <div class="form-item col-md-4">
+                    <div class="col-md-4">
                         <input type="text" class="form-control name" id="firstName" placeholder="First Name" asp-for="Name">
                     </div>
-                    <div class="form-item col-md-4">
+                    <div class="col-md-4">
                         <input type="text" class="form-control name" id="lastName" placeholder="Last Name" asp-for="Name">
                     </div>
                 </div>
                 <div class="row align-items-center justify-content-center g-3 mb-3 mx-md-0 mx-3">
-                    <div class="form-item col-md-4">
+                    <div class="col-md-4">
                         <div class="input-group row name">
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1">+91</span>
@@ -115,12 +115,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-item col-md-4">
+                    <div class="col-md-4">
                         <input asp-for="Email" type="email" class="name form-control" id="email" placeholder="Email">
                     </div>
                 </div>
                 <div class="row align-items-center justify-content-center mb-3 mx-md-0 mx-3">
-                    <div class="form-item col-md-8">
+                    <div class="col-md-8">
                         <select id="inputState" class="form-control select" asp-for="Subject">
                             <option selected>General</option>
                             <option>Inquiry</option>
@@ -130,7 +130,7 @@
                     </div>
                 </div>
                 <div class="row align-items-center justify-content-center mb-2 mx-md-0 mx-3">
-                    <div class="form-item col-md-8">
+                    <div class="col-md-8">
                         <textarea asp-for="Message" class="form-control mx-auto msg" placeholder="Message" id="message"></textarea>
                     </div>
                 </div>
@@ -153,7 +153,6 @@
                         <button class="submitbtn mt-1 mb-5 px-4 py-2">Submit</button>
                     </div>
             </form>
-            
         }
         </div>
         <!--------------------MAP------------------------>
