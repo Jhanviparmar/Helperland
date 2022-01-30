@@ -1,0 +1,385 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css"href="~/css/HomepageStyle.css">
+    <link href="~/css/HomepageStyle.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css"href="~/css/mobilemenu.css">
+    <link rel="stylesheet" type="text/css"href="~/css/modelsStyle.css">
+    <title>Home | Helperland</title> 
+</head>
+<body>
+
+    <!------------------HEADER------------>
+    <!--landingpage-->
+    <div class="landingpage">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light bg-transparent main-navigation">
+                <div class="container-fluid ">
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                        <img class="ms-2 mt-1" src="~/images/homelogo.png">
+                    </a>
+                    <button class="navbar-toggler order-lg-0 order-1" type="button">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="overlay d-flex d-lg-none"></div>
+                    <div class="d-lg-flex w-100 pb-3 pb-lg-0 sidebar" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="blue-btn nav-item text-center ms-xl-2 my-2">
+                                <a class="nav-link text-light px-3" aria-current="page" href="#">Book a cleaner</a>
+                            </li>
+                            <li class="nav-item text-center ms-xl-2  my-2 ">
+                                <a class="nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="Price">Prices</a>
+                            </li>
+                            <li class="nav-item text-center ms-xl-2 my-2 ">
+                                <a class="nav-link text-light px-3" aria-current="page" href="#">Our Guarantee  </a>
+                            </li>
+                            <li class="nav-item text-center ms-xl-2  my-2 ">
+                                <a class="nav-link text-light px-3" aria-current="page" href="#">Blog</a>
+                            </li>
+                            <li class="nav-item text-center ms-xl-2  my-2 ">
+                                <a class="nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="Contact">Contact Us</a>
+                            </li>
+                            <li class="blue-btn nav-item text-center ms-xl-2 my-2 ">
+                                <a class="nav-link text-light px-3" aria-current="page" data-bs-toggle="modal" href="#exampleModalToggle">Login</a>
+                                <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h2 class="modal-title" id="exampleModalToggleLabel">Login to your account</h2>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form container-fluid text-center mt-3">
+                                                    <div><input class="mb-3 box" type="email" placeholder="Email"></div>
+                                                    <div><input class="mb-3 box" type="password" placeholder="Password"></div>
+                                                    <div>
+                                                        <input class="form-check-input mb-3 check-box" type="checkbox" value="" id="flexCheckDefault">
+                                                        <label class="form-check-label me-5 pe-3" for="flexCheckDefault" id="text-checkbox">Remember me</label>
+                                                    </div>
+                                                    <button class="login mb-4">Login</button>
+                                                    <div><a href="" data-bs-target="#exampleModalToggle1" data-bs-toggle="modal" data-bs-dismiss="modal">Forgot password?</a></div>
+                                                    <div class="mx-5">
+                                                        <p>Don't have an account?<span><a href="create-account.html"> Create an account</a></span></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="exampleModalToggle1" aria-hidden="true" aria-labelledby="exampleModalToggleLabel1" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h2 class="modal-title" id="exampleModalToggleLabel1">Forgot password</h2>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form container-fluid text-center mt-3">
+                                                    <div><input class="mb-3 box" type="email" placeholder="Email Address"></div>
+                                                    <button class="login mb-4">Send</button>
+                                                    <div class="pb-4" id="forgotpassword">
+                                                        <a href="" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Log in now</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="blue-btn nav-item text-center ms-xl-2 my-2">
+                                <a class=" nav-link text-light px-3" aria-current="page" href="service-provider--become-a-provider.html">Become a Helper</a>
+                            </li>
+                            <li><hr class="dropdown-divider divider d-lg-none" style="color: #646464; height: 2px;"></li>
+                            <li class="divider d-lg-none mt-3"><img src="~/images/fb.png" class="mx-5"><img src="~/images/ig.png"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="dropdown me-2 order-lg-1 order-0">
+                    <a class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="~/images/ga.png">
+
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <img class="me-1" src="~/images/india.png">
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <img class="me-1" src="~/images/us.png">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div class="mid pt-5 mt-5 ps-5">
+            <div class="lefttext text-left">
+                <div>
+                    <h1 class="fw-medium pb-2">Lorem ipsum text</h1>
+                    <p><img class="me-2" src="~/images/tick.png"><span>Lorem ipsum dolor sit amet, consectetur adipiscing</span></p>
+                    <p><img class="me-2" src="~/images/tick.png"><span>Lorem ipsum dolor sit amet, consectetur adipiscing</span></p>
+                    <p><img class="me-2" src="~/images/tick.png"><span>Lorem ipsum dolor sit amet, consectetur adipiscing</span></p>
+                </div>
+            </div>
+            <div class="justify-content-center container-fluid d-flex mt-3 mb-5">
+                <div class="center-button mt-3" href="#">Let's Book a Cleaner</div>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="container">
+                <div class="row d-flex flex-sm-row flex-column py-5 mt-5 px-lg-5 mx-lg-5 px-0 mx-0">
+                    <div class="col">
+                        <img src="~/images/h1.png">
+                        <p class="text">Enter your postcode</p>
+                    </div>
+                    <div class="col "><img class="arrow1" src="~/images/arrow1.png"></div>
+                    <div class="col">
+                        <img src="~/images/h2.png">
+                        <p class="text">Select your plan</p>
+                    </div>
+                    <div class="col"><img class="arrow2" src="~/images/arrow2.png"></div>
+                    <div class="col">
+                        <img src="~/images/h3.png">
+                        <p class="text">Pay securely online</p>
+                    </div>
+                    <div class="col"><img class="arrow1" src="~/images/arrow1.png"></div>
+                    <div class="col">
+                        <img src="~/images/h4.png">
+                        <p class="text">Enjoy amazing service</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nextarrow text-center pb-5"><a href="#why"><img src="~/images/nextarrow.png"></a></div>
+    </div>
+    <!------------------WHY-HELPERLAND-------------->
+    <section class="why mt-5" id="why">
+        <h2 class="text-center fw-bold mb-5">Why Helperland</h2>
+        <div class="container mb-5">
+            <div class="row text-center ">
+                <div class="col-lg-4 col-12">
+                    <img class="mx-2 zoom" src="~/images/why1.png">
+                    <h3 class="mt-4">Experience & Vetted Professionals</h3>
+                    <p>
+                        dominate the industry in scale and scope with an adaptable, extensive network that consistently delivers exceptional results.
+                    </p>
+                </div>
+                <div class="col-lg-4 col-12">
+                    <img class="mx-2 zoom" src="~/images/why2.png">
+                    <h3 class="mt-5 pb-3">Secure Online Payment</h3>
+                    <p>Payment is processed securely online. Customers pay safely online and manage the booking.</p>
+                </div>
+                <div class="col-lg-4 col-12">
+                    <img class="mx-2 zoom" src="~/images/why3.png">
+                    <h3 class="mt-5 pb-3">Dedicated Customer Service</h3>
+                    <p>to our customers and are guided in all we do by their needs. The team is always happy to support you and offer all the information.</p>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-----------------CUBE------------------------->
+    <section>
+        <div class="backgroundimages">
+            <div class="cube mt-5">
+                <div class="container">
+                    <div class="row g-0">
+                        <div class="col-lg-8 col-12 order-lg-1 order-1">
+                            <h3 class="mt-4 fw-bold">Lorem ipsum dolor sit amet, consectetur</h3>
+                            <div class="para mt-3 mb-5">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nisi sapien, suscipit ut accumsan vitae,
+                                    pulvinar ac libero.
+                                </p>
+                                <p>Aliquam erat volutpat. Nullam quis ex odio. Nam bibendum cursus purus, vel efficitur urna finibus vitae. Nullam finibus aliquet pharetra. Morbi in sem dolor. Integer pretium hendrerit ante quis vehicula.</p>
+                                <p>Mauris consequat ornare enim, sed lobortis quam ultrices sed.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-12 order-lg-2 order-0 text-center zoom">
+                            <img src="~/images/cube.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!------------------OUR-BLOG-------------------->
+            <div class="our-blog mt-5 pt-5">
+                <h2 class="text-center fw-bold mb-5">Our Blog</h2>
+                <div class="container">
+                    <div class="row gx-3">
+                        <div class="col-lg-4 col-12">
+                            <div class="card zoom mb-5">
+                                <img src="~/images/blog1.png">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">Lorem ipsum dolor sit amet</h5>
+                                    <p id="date">January 28, 2019</p>
+                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum metus pulvinar aliquet.</p>
+                                    <a href="" class="card-link">Read the Post<img class="ms-2" src="~/images/rarrow.png"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <div class="card zoom mb-5">
+                                <img src="~/images/blog2.png">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">Lorem ipsum dolor sit amet</h5>
+                                    <p id="date">January 28, 2019</p>
+                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum metus pulvinar aliquet.</p>
+                                    <a href="" class="card-link">Read the Post<img class="ms-2" src="~/images/rarrow.png"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <div class="card zoom mb-5">
+                                <img src="~/images/blog3.png">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">Lorem ipsum dolor sit amet</h5>
+                                    <p id="date">January 28, 2019</p>
+                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum metus pulvinar aliquet.</p>
+                                    <a href="" class="card-link">Read the Post<img class="ms-2" src="~/images/rarrow.png"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--------------------CUSTOMER-------------->
+    <section>
+        <div class="customer mt-5 pt-5">
+            <h2 class="text-center fw-bold mb-5">What Our Customers Say</h2>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-12 zoom">
+                        <div class="card d-flex flex-column shadow mb-3 cust-card" id="card1">
+                            <div class="ps-3 pt-5 d-flex img-fluid grid-3-image">
+                                <img src="~/images/c1.png">
+                                <div class="d-flex justify-content-center ps-3">
+                                    <span class="name fw-bold pt-2">
+                                        Lary Watson
+                                        <h6 class="city">Manchester</h6>
+                                    </span>
+                                </div>
+                                <img src="~/images/message.png" class="ms-5 pb-5 msg">
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text ">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum metus pulvinar aliquet consequat. Praesent nec malesuada nibh.</p>
+                                <p class="card-text">Nullam et metus congue, auctor augue sit amet, consectetur tortor. </p>
+                                <p class="read-more"><a href="">Read More<img class="img-fluid ps-2" src="~/images/rarrow.png"></a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-12 zoom">
+                        <div class="card d-flex flex-column shadow mb-3 cust-card" id="card1">
+                            <div class="ps-3 pt-5 d-flex img-fluid grid-3-image">
+                                <img src="~/images/c2.png">
+                                <div class="d-flex justify-content-center ps-3">
+                                    <span class="name fw-bold pt-2">
+                                        John Smith
+                                        <h6 class="city">Manchester</h6>
+                                    </span>
+                                </div>
+                                <img src="~/images/message.png" class="ms-5 pb-5 msg">
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text ">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum metus pulvinar aliquet consequat. Praesent nec malesuada nibh.</p>
+                                <p class="card-text">Nullam et metus congue, auctor augue sit amet, consectetur tortor. </p>
+                                <p class="read-more"><a href="">Read More<img class="img-fluid ps-2" src="~/images/rarrow.png"></a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-12 zoom">
+                        <div class=" card d-flex flex-column shadow mb-3 cust-card" id="card1">
+                            <div class="ps-3 pt-5 d-flex img-fluid grid-3-image">
+                                <img src="~/images/c3.png">
+                                <div class="d-flex justify-content-center ps-3">
+                                    <span class="name fw-bold pt-2">
+                                        Lars Johnson
+                                        <h6 class="city">Manchester</h6>
+                                    </span>
+                                </div>
+                                <img src="~/images/message.png" class="ms-5 pb-5 msg">
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text ">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum metus pulvinar aliquet consequat. Praesent nec malesuada nibh.</p>
+                                <p class="card-text">Nullam et metus congue, auctor augue sit amet, consectetur tortor. </p>
+                                <p class="read-more"><a href="">Read More<img class="img-fluid ps-2" src="~/images/rarrow.png"></a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!---------------NEWSLETTER--------------------->
+            <div class="newsletter justify-content-center py-5">
+                <div>
+                    <h6 class="newsletter pb-2 text-center mt-lg-5">GET OUR NEWSLETTER</h6>
+                    <div class="d-flex justify-content-center gap-2">
+                        <input class="email" type="email" placeholder="YOUR EMAIL">
+                        <div class="submit">Submit</div>
+                    </div>
+                </div>
+                <img class="query" src="~/images/query.png">
+            </div>
+        </div>
+    </section>
+
+    <!-----------------FOOTER------------------------->
+    <section class="footer">
+        <div class="d-flex flex-lg-row flex-column justify-content-between align-items-center">
+            <img class="footerlogo mx-lg-5 mt-4 mb-lg-3 ps-lg-3" src="~/images/footerlogo.png">
+            <ul class="d-flex flex-lg-row flex-column align-items-center gap-lg-4 mt-lg-3 mt-5 me-4 mb-4">
+                <li class="mb-lg-0 mb-2">
+                    <a href="Homepage.html">HOME</a>
+                </li>
+                <li class="mb-lg-0 mb-2">
+                    <a asp-controller="Home" asp-action="About">ABOUT</a>
+                </li>
+                <li class="mb-lg-0 mb-2">TESTIMONIALS</li>
+                <li class="mb-lg-0 mb-2">
+                    <a asp-controller="Home" asp-action="faqs">FAQS</a>
+                </li>
+                <li class="mb-lg-0 mb-2">INSURANCE POLICY</li>
+                <li>IMPRESSIUM</li>
+            </ul>
+            <div class="socials mx-lg-5 mt-lg-3 mb-3 mt-4 pe-xl-5">
+                <img class="me-3" src="~/images/fb.png">
+                <img src="~/images/ig.png">
+                <img src="~/images/ig.png" />
+            </div>
+        </div>
+        <div class="d-flex flex-column text-center align-items-center justify-content-center">
+            <div class="footer-line"></div>
+            <div class="footer-privacy py-3">©2018 Helperland. All rights reserved.     Terms and Conditions  |  Privacy Policy</div>
+        </div>
+    </section>
+    <div onclick="topFunction()" id="myBtn" title="Go to top"><img class="scroll ms-5" src="~/images/up.png"></div>
+    <!---------------------PRIVACY-LINE----------------->
+    <div class="privacy-line d-flex text-center justify-content-center" id="thisdiv">
+        <p class="pt-4 mx-auto">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut feugiat nunc libero, ac malesuada ligula aliquam ac.<span><a href=""> Privacy Policy</a></span></p>
+        <button id="ok">OK!</button>
+    </div>
+
+    <script src="~/js/script.js"></script>
+    <script>
+        window.onload = function () {
+            var el = document.getElementById("ok");
+            el.onclick = hidePrivacy;
+        }
+
+        function hidePrivacy() {
+            document.getElementById("thisdiv").classList.add("d-none");
+        }
+    </script>
+    <script src="~/js/mobilemenu.js"></script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="~/css/aboutstyle.css">
+        <link rel="stylesheet" type="text/css" href="~/css/styles.css">
+        <title>About | Helperland</title>
+        <!-----------------BOOTSTRAP------------------->
+           </head>
+    <body>
+        <!------------------NAVBAR------------------>
+        <header>
+            <section id="navbar">
+                <nav class="navbar navbar-expand-lg navbar-light bg-transparent main-navigation">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                            <img class="pb-2" src="~/images/smallhomelogo.png">
+                        </a>
+                        <button class="navbar-toggler" type="button">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="overlay d-flex d-lg-none"></div>
+                        <div class="d-lg-flex w-100 pb-3 pb-lg-0 sidebar" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto pb-3">
+                                <li class="blue-btn nav-item text-center ms-xl-2">
+                                    <a class="nav-link text-light px-3" aria-current="page" href="#">Book a cleaner</a>
+                                </li>
+                                <li class="nav-item text-center ms-xl-2  my-2 ">
+                                    <a class="nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="Price">Prices</a>
+                                </li>
+                                <li class="nav-item text-center ms-xl-2 my-2 ">
+                                    <a class="nav-link text-light px-3" aria-current="page" href="#">Our Guarantee  </a>
+                                </li>
+                                <li class="nav-item text-center ms-xl-2  my-2 ">
+                                    <a class="nav-link text-light px-3" aria-current="page" href="#">Blog</a>
+                                </li>
+                                <li class="nav-item text-center ms-xl-2  my-2 ">
+                                    <a class="nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="Contact">Contact Us</a>
+                                </li>
+                                <li class="blue-btn nav-item text-center ms-xl-2 me-2">
+                                    <a class=" nav-link text-light px-3" aria-current="page" href="#">Login</a>
+                                </li>
+                                <li class="blue-btn nav-item text-center ms-xl-2 ">
+                                    <a class=" nav-link text-light px-3" aria-current="page" href="service-provider--become-a-provider.html">Become a Helper</a>
+                                </li>
+                                <li><hr class="dropdown-divider divider d-lg-none" style="color: #646464; height: 2px;"></li>
+                                <li class="divider d-lg-none mt-3"><img src="~/images/fb.png" class="mx-5"><img src="~/images/ig.png"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </section>
+        </header>
+        <!------------------BACKGROUNDIMAGE------------>
+        <img class="pt-5 image-fluid abouthome" src="~/images/abouthome.png">
+
+
+        <!-----------------FEW WORDS----------------->
+        <section class="main pt-5 d-flex flex-column text-center align-items-center justify-content-center px-md-5 px-3">
+            <div class="few-words px-lg-0 px-5">
+                <h3 class="fw-medium">A Few words about us</h3>
+                <div class="d-flex text-center align-items-center justify-content-center pb-3">
+                    <div class="separator-border me-2"></div>
+                    <img src="~/images/separator.png">
+                    <div class="separator-border ms-2"></div>
+                </div>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie convallis tempor. Duis vestibulum vel risus condimentum dictum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus quis enim orci. Fusce risus lacus, sollicitudin eu magna sed, pharetra sodales libero. Proin tincidunt vel erat id porttitor. Donec tristique est arcu, sed dignissim velit vulputate ultricies.
+                </p>
+                <p>
+                    Interdum et malesuada fames ac ante ipsum primis in faucibus. In hac habitasse platea dictumst. Vivamus eget mauris eget nisl euismod volutpat sed sed libero. Quisque sit amet lectus ex. Ut semper ligula et mauris tincidunt hendrerit. Aenean ut rhoncus orci, vel elementum turpis. Donec tempor aliquet magna eu fringilla. Nam lobortis libero ut odio finibus lobortis. In hac habitasse platea dictumst. Mauris a hendrerit felis. Praesent ac vehicula ipsum, at porta tellus. Sed dolor augue, posuere sed neque eget, aliquam ultricies velit. Sed lacus elit, tincidunt et massa ac, vehicula placerat lorem.
+                </p>
+            </div>
+            <!----------------OUR STORY--------------------->
+
+            <div class="our-story mt-5">
+                <h3 class="fw-medium">Our Story</h3>
+                <div class="d-flex text-center align-items-center justify-content-center pb-3">
+                    <div class="separator-border me-2"></div>
+                    <img src="~/images/separator.png">
+                    <div class="separator-border ms-2"></div>
+                </div>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie convallis tempor. Duis vestibulum vel risus condimentum dictum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus quis enim orci. Fusce risus lacus, sollicitudin eu magna sed, pharetra sodales libero. Proin tincidunt vel erat id porttitor. Donec tristique est arcu, sed dignissim velit vulputate ultricies.<br><br>
+
+                    Interdum et malesuada fames ac ante ipsum primis in faucibus. In hac habitasse platea dictumst. Vivamus eget mauris eget nisl euismod volutpat sed sed libero. Quisque sit amet lectus ex. Ut semper ligula et mauris tincidunt hendrerit. <br><br>
+
+                    Aenean ut rhoncus orci, vel elementum turpis. Donec tempor aliquet magna eu fringilla. Nam lobortis libero ut odio finibus lobortis. In hac habitasse platea dictumst. Mauris a hendrerit felis. Praesent ac vehicula ipsum, at porta tellus. Sed dolor augue, posuere sed neque eget, aliquam ultricies velit. Sed lacus elit, tincidunt et massa ac, vehicula placerat lorem.
+                </p>
+            </div>
+        </section>
+
+        <!---------------NEWSLETTER--------------------->
+        <div class="newsletter justify-content-center pb-5">
+            <h6 class="newsletter pb-2 text-center mt-lg-5">GET OUR NEWSLETTER</h6>
+            <div class="d-flex justify-content-center gap-2 ">
+                <input class="email" type="email" placeholder="YOUR EMAIL">
+                <div class="submit">Submit</div>
+            </div>
+        </div>
+        <!-----------------FOOTER------------------------->
+        <section class="footer mt-5">
+            <div class="d-flex flex-lg-row flex-column justify-content-between align-items-center">
+                <img class="footerlogo mx-lg-5 mt-4 mb-lg-3 ps-lg-3" src="~/images/footerlogo.png">
+                <ul class="d-flex flex-lg-row flex-column align-items-center gap-lg-4 mt-lg-3 mt-5 me-4 mb-4">
+                    <li class="mb-lg-0 mb-2">
+                        <a href="Homepage.html">HOME</a>
+                    </li>
+                    <li class="mb-lg-0 mb-2">
+                        <a asp-controller="Home" asp-action="About">ABOUT</a>
+                    </li>
+                    <li class="mb-lg-0 mb-2">TESTIMONIALS</li>
+                    <li class="mb-lg-0 mb-2">
+                        <a asp-controller="Home" asp-action="faqs">FAQS</a>
+                    </li>
+                    <li class="mb-lg-0 mb-2">INSURANCE POLICY</li>
+                    <li>IMPRESSIUM</li>
+                </ul>
+                <div class="socials mx-lg-5 mt-lg-3 mb-3 mt-4 pe-xl-5">
+                    <img class="me-3" src="~/images/fb.png">
+                    <img src="~/images/ig.png">
+                </div>
+            </div>
+            <div class="d-flex flex-column text-center align-items-center justify-content-center">
+                <div class="footer-line"></div>
+                <div class="footer-privacy py-3">©2018 Helperland. All rights reserved.     Terms and Conditions  |  Privacy Policy</div>
+            </div>
+        </section>
+        <div onclick="topFunction()" id="myBtn" title="Go to top"><img class="scroll ms-5" src="~/images/up.png"></div>
+
+        <script src="~/js/mobilemenu.js"></script>
+        <script src="~/js/script.js"></script>
+    </body>
+</html>
+}
