@@ -43,7 +43,7 @@ namespace Helperland.Controllers
         }
         [HttpPost]
         
-        public IActionResult Contact(ContactU contactu)
+        public IActionResult Contact(ContactU contactu, HttpPostedfilebase file)
         {
             ContactU contactUs = new ContactU();
             contactUs.Name = contactu.Name + contactu.Name;
@@ -51,7 +51,8 @@ namespace Helperland.Controllers
             contactUs.PhoneNumber = contactu.PhoneNumber;
             contactUs.Message = contactu.Message;
             contactUs.Subject = contactu.Subject;
-            contactUs.CreatedOn = DateTime.Now;          
+            contactUs.CreatedBy = contactu.ContactUsId;
+            contactUs.CreatedOn = DateTime.UtcNow; 
             db.ContactUs.Add(contactu);
             db.SaveChanges();
             return View("Contact");
