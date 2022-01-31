@@ -97,7 +97,7 @@
             <h3 class="get-in-touch fw-bold text-center mb-4">Get in touch with us</h3>
         @using (Html.BeginForm("Contact", "Home", FormMethod.Post))
         {
-            <form asp-action="Contact" method="post" enctype="multipart/form-data">
+            <form asp-action="Contact" method="post">
                 <div class="row align-items-center justify-content-center g-3 mb-3 mx-md-0 mx-3">
                     <div class="col-md-4">
                         <input type="text" class="form-control name" id="firstName" placeholder="First Name" asp-for="Name">
