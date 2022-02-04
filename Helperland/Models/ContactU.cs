@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -22,7 +23,7 @@ namespace Helperland.Models
         [Required(ErrorMessage = "Message is required")]
         public string Message { get; set; }
         public string UploadFileName { get; set; }
-        public DateTime? CreatedOn { get; set; }
+        public DateTime? CreatedOn { get; set; } = DateTime.UtcNow;
         public int? CreatedBy { get; set; }
         public string FileName { get; set; }
     }
