@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Helperland.Models;
@@ -30,6 +31,7 @@ namespace Helperland.Data
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserAddress> UserAddresses { get; set; }
         public virtual DbSet<Zipcode> Zipcodes { get; set; }
+        public object Configuration { get; internal set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -63,7 +65,9 @@ namespace Helperland.Data
             {
                 entity.HasKey(e => e.ContactUsId);
 
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+                entity.Property(e => e.CreatedOn)
+                .HasColumnType("datetime")
+                .HasDefaultValueSql("getdate()");
 
                 entity.Property(e => e.Email)
                     .IsRequired()
@@ -251,7 +255,9 @@ namespace Helperland.Data
 
                 entity.Property(e => e.BankTokenId).HasMaxLength(100);
 
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("getdate()");
 
                 entity.Property(e => e.DateOfBirth).HasColumnType("datetime");
 
@@ -271,7 +277,9 @@ namespace Helperland.Data
                     .IsRequired()
                     .HasMaxLength(20);
 
-                entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+                entity.Property(e => e.ModifiedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("getdate()");
 
                 entity.Property(e => e.Password).HasMaxLength(100);
 
