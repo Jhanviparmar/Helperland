@@ -24,14 +24,6 @@ namespace Helperland.Controllers
         }
         HelperlanddContext db = new HelperlanddContext();
         
-
-        ////private readonly HelperlanddContext _DbContext;
-
-        ////public HomeController(HelperlanddContext DbContext)
-        ////{
-        ////    _DbContext = DbContext;
-        ////}
-
         public IActionResult Index()
         {
             return View();
@@ -162,7 +154,6 @@ namespace Helperland.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ResetPassword(User u)
         {
-            //User users = new User();
             var message = "";
             if (ModelState.IsValid)
             {
