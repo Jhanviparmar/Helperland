@@ -1,0 +1,202 @@
+﻿@model Helperland.Models.User
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="~/css/service-provider-Signup.css">
+        <link rel="stylesheet" type="text/css" href="~/css/mobilemenu.css">
+        <link rel="stylesheet" type="text/css" href="~/css/modelsStyle.css">
+        <title>Serviceprovider > Become-a-provider</title>
+    </head>
+    <body>
+        <!-----------------Background------------------>
+        <section class="background" id="top">
+
+            <!-----------------navbar------------------->
+            <header>
+                <nav class="navbar navbar-expand-lg navbar-light bg-transparent main-navigation">
+                    <div class="container-fluid ">
+                        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                            <img class="ms-2 mt-1" src="~/images/homelogo.png">
+                        </a>
+                        <button class="navbar-toggler order-lg-0 order-1" type="button">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="overlay d-flex d-lg-none"></div>
+                        <div class="d-lg-flex w-100 pb-3 pb-lg-0 sidebar" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto">
+                                <li class="blue-btn nav-item text-center ms-xl-2 my-2">
+                                    <a class="nav-link text-light px-3" aria-current="page" href="#">Book a cleaner</a>
+                                </li>
+                                <li class="nav-item text-center ms-xl-2  my-2 ">
+                                    <a class="nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="Price">Prices</a>
+                                </li>
+                                <li class="nav-item text-center ms-xl-2 my-2 ">
+                                    <a class="nav-link text-light px-3" aria-current="page" href="#">Our Guarantee  </a>
+                                </li>
+                                <li class="nav-item text-center ms-xl-2  my-2 ">
+                                    <a class="nav-link text-light px-3" aria-current="page" href="#">Blog</a>
+                                </li>
+                                <li class="nav-item text-center ms-xl-2  my-2 ">
+                                    <a class="nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="Contact">Contact Us</a>
+                                </li>
+                                <li class="blue-btn nav-item text-center ms-xl-2 my-2 ">
+                                    <a class="nav-link text-light px-3" aria-current="page" data-bs-toggle="modal" href="#exampleModalToggle">Login</a>
+                                </li>
+                                <li class="blue-btn nav-item text-center ms-xl-2 my-2">
+                                    <a class=" nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="serviceproviderSignup">Become a Helper</a>
+                                </li>
+                                <li><hr class="dropdown-divider divider d-lg-none" style="color: #646464; height: 2px;"></li>
+                                <li class="divider d-lg-none mt-3"><img src="~/images/fb.png" class="mx-5"><img src="~/images/ig.png"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="dropdown me-2 order-lg-1 order-0">
+                        <a class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="~/images/ga.png">
+
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <img class="me-1" src="~/images/india.png">
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <img class="me-1" src="~/images/us.png">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            @Html.Partial("_login")
+            <!---------------Registrationform----------------->
+            @using (Html.BeginForm("serviceproviderSignup", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <form asp-action="serviceproviderSignup" method="post">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-4 col-md-6 form p-3">
+                            <h2 style="color:#4f4f4f; font-size: 28px;" class="fw-bold py-2">Register Now!</h2>
+                            <input type="text" class="form-control mb-3 py-2" id="firstName" placeholder="First Name" asp-for="FirstName" required>
+                            <input type="text" class="form-control mb-3 py-2" id="lastName" placeholder="Last Name" asp-for="LastName">
+                            <input type="email" class="form-control mb-3 py-2" id="Email" placeholder="Email" asp-for="Email">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text py-2" id="basic-addon1">+91</span>
+                                </div>
+                                <input type="tel" class="form-control py-2" placeholder="Phone Number" aria-label="Phone Number" aria-describedby="basic-addon1" asp-for="Mobile">
+                            </div>
+                            <input type="password" class="form-control mb-3 py-2" id="password" placeholder="Password" asp-for="Password">
+                            <input type="password" class="form-control mb-3 py-2" id="password" placeholder="Confirm Password" asp-for="ConfirmPassword" required>
+                            <label>
+                                <input type="checkbox" required class="mb-3"> Send me newsletters from Helperland
+                            </label>
+                            <label>
+                                <input type="checkbox" required>
+                                I accept <span class="colored-text">terms and conditions</span> & <span class="colored-text">privacy policy</span>
+                            </label>
+                            <img class="my-3 captcha" src="~/images/captcha.png">
+                            <div class="text-center">
+                                <button class="get-started px-3 py-2 mb-5">Get Started <img src="~/images/rightarrow.png"></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            }
+            <div class="container-fluid d-flex flex-column align-items-center justify-content-center mt-5 pb-4">
+                <a href="#nextpage"> <img class="nextarrow" src="~/images/nextarrow.png"></a>
+            </div>
+        </section>
+
+        <!---------------How it works------------------>
+        <div class="backgroundimages">
+            <section class="work" id="nextpage">
+                <div class="container d-flex flex-column align-items-center justify-content-center">
+                    <h2 class="py-4 fw-bold" style="color:#4f4f4f; font-size:36px">How it Works</h2>
+                    <div class="d-flex flex-row  flex-wrap flex-lg-nowrap  justify-content-around  mt-lg-5 mb-5">
+                        <div class="order-md-0 order-1 me-lg-0 pt-lg-5 pt-3">
+                            <h4 class="text-lg-start text-center pt-5">
+                                Register yourself
+                            </h4>
+                            <p class="text1 text-lg-start text-center ">
+                                Provide your basic information to register
+                                yourself as a service provider.
+                            </p>
+                            <p class="text-lg-start text-center">Read More<a href="#"><img class="ms-2" src="~/images/rarrow.png"></a></p>
+                        </div>
+                        <img class="img-fluid order-md-1 ms-lg-5 ps-lg-5 mt-3 px-3 zoom" src="~/images/work1.png">
+                    </div>
+
+                    <div class="d-flex flex-row  flex-wrap flex-lg-nowrap justify-content-around  mt-lg-5 mb-5">
+                        <div class="order-md-1 order-1 me-lg-0 ps-lg-5 ps-0 pt-lg-5 pt-3">
+                            <h4 class="text-lg-start text-center pt-5">
+                                Get service requests
+                            </h4>
+                            <p class="text2 text-lg-start text-center ">
+                                You will get service requests from
+                                customes depend on service area and profile.
+                            </p>
+                            <p class="text-lg-start text-center">Read More<a href="#"><img class="ms-2" src="~/images/rarrow.png"></a></p>
+                        </div>
+                        <img class="img-fluid order-md-0 mt-3 pe-lg-5 ps-lg-0 px-3 zoom" src="~/images/work2.png">
+                    </div>
+
+                    <div class="d-flex flex-row  flex-wrap flex-lg-nowrap justify-content-around  mt-lg-5 mb-5 pb-5">
+                        <div class="order-md-0 order-1 me-lg-0 pt-lg-5 pt-3">
+                            <h4 class="text-lg-start text-center pt-5">
+                                Complete service
+                            </h4>
+                            <p class="text3 text-lg-start text-center ">
+                                Accept service requests from your customers
+                                and complete your work.
+                            </p>
+                            <p class="text-lg-start text-center ">Read More<a href="#"><img class="ms-2" src="~/images/rarrow.png"></a></p>
+                        </div>
+                        <img class="img-fluid order-md-1 ms-lg-5 ps-lg-5 mt-4 px-3 zoom" src="~/images/work3.png">
+                    </div>
+                </div>
+
+            </section>
+        </div>
+        <!-----------------Newsletter---------------->
+        <div class="newsletter justify-content-center">
+            <h6 class="newsletter pb-2 text-center mt-lg-5">GET OUR NEWSLETTER</h6>
+            <div class="d-flex justify-content-center gap-3 pb-5">
+                <input class="email px-3 py-2" type="email" placeholder="YOUR EMAIL">
+                <div class="submit px-3 py-2">Submit</div>
+            </div>
+        </div>
+
+        <!-----------------Footer----------------------->
+        @Html.Partial("_footer")
+        <div onclick="topFunction()" id="myBtn" title="Go to top"><img class="scroll ms-5" src="~/images/up.png"></div>
+        <script>
+            var mybutton = document.getElementById("myBtn");
+
+            window.onscroll = function () { scrollFunction() };
+
+            function scrollFunction() {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    mybutton.style.display = "block";
+                } else {
+                    mybutton.style.display = "none";
+                }
+            }
+
+            function topFunction() {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
+        </script>
+        <script src="~/js/mobilemenu.js"></script>
+        <script src="~/js/script.js"></script>
+    </body>
+</html>
+}

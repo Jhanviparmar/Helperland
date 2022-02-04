@@ -1,0 +1,59 @@
+﻿@model Helperland.Models.User;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@Html.Raw(ViewBag.ErrorMessage);
+@{
+    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="exampleModalToggleLabel">Login to your account</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("_login", "Home", FormMethod.Post))
+                    {
+                        <div class="form container-fluid text-center mt-3">
+                            <div><input class="mb-3 box" type="email" placeholder="Email" asp-for="Email"></div>
+                            <div><input class="mb-3 box" type="password" placeholder="Password" asp-for="Password"></div>
+                            <div>
+                                <input class="form-check-input mb-3 check-box" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label me-5 pe-3" for="flexCheckDefault" id="text-checkbox">Remember me</label>
+                            </div>
+                            <button class="login mb-4">Login</button>
+                            <div>
+                                <a href="" data-bs-target="#exampleModalToggle1" data-bs-toggle="modal" data-bs-dismiss="modal">Forgot password?</a>
+                            </div>
+                            <div class="mx-5">
+                                <p>Don't have an account?<span><a asp-controller="Home" asp-action="CreateAccount"> Create an account</a></span></p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    @using (Html.BeginForm("ForgotPassword", "Home", FormMethod.Post))
+    { 
+<div class="modal fade" id="exampleModalToggle1" aria-hidden="true" aria-labelledby="exampleModalToggleLabel1" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalToggleLabel1">Forgot password</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form container-fluid text-center mt-3">
+                    <div><input class="mb-3 box" type="email" placeholder="Email Address"></div>
+                    <button class="login mb-4">Send</button>
+                    <div class="pb-4" id="forgotpassword">
+                        <a href="" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Log in now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    }
+}

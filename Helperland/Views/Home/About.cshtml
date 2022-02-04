@@ -14,48 +14,8 @@
            </head>
     <body>
         <!------------------NAVBAR------------------>
-        <header>
-            <section id="navbar">
-                <nav class="navbar navbar-expand-lg navbar-light bg-transparent main-navigation">
-                    <div class="container-fluid">
-                        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                            <img class="pb-2" src="~/images/smallhomelogo.png">
-                        </a>
-                        <button class="navbar-toggler" type="button">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="overlay d-flex d-lg-none"></div>
-                        <div class="d-lg-flex w-100 pb-3 pb-lg-0 sidebar" id="navbarSupportedContent">
-                            <ul class="navbar-nav ms-auto pb-3">
-                                <li class="blue-btn nav-item text-center ms-xl-2">
-                                    <a class="nav-link text-light px-3" aria-current="page" href="#">Book a cleaner</a>
-                                </li>
-                                <li class="nav-item text-center ms-xl-2  my-2 ">
-                                    <a class="nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="Price">Prices</a>
-                                </li>
-                                <li class="nav-item text-center ms-xl-2 my-2 ">
-                                    <a class="nav-link text-light px-3" aria-current="page" href="#">Our Guarantee  </a>
-                                </li>
-                                <li class="nav-item text-center ms-xl-2  my-2 ">
-                                    <a class="nav-link text-light px-3" aria-current="page" href="#">Blog</a>
-                                </li>
-                                <li class="nav-item text-center ms-xl-2  my-2 ">
-                                    <a class="nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="Contact">Contact Us</a>
-                                </li>
-                                <li class="blue-btn nav-item text-center ms-xl-2 me-2">
-                                    <a class=" nav-link text-light px-3" aria-current="page" href="#">Login</a>
-                                </li>
-                                <li class="blue-btn nav-item text-center ms-xl-2 ">
-                                    <a class=" nav-link text-light px-3" aria-current="page" href="service-provider--become-a-provider.html">Become a Helper</a>
-                                </li>
-                                <li><hr class="dropdown-divider divider d-lg-none" style="color: #646464; height: 2px;"></li>
-                                <li class="divider d-lg-none mt-3"><img src="~/images/fb.png" class="mx-5"><img src="~/images/ig.png"></li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </section>
-        </header>
+        @Html.Partial("_header")
+        @Html.Partial("_login")
         <!------------------BACKGROUNDIMAGE------------>
         <img class="pt-5 image-fluid abouthome" src="~/images/abouthome.png">
 
@@ -104,33 +64,7 @@
             </div>
         </div>
         <!-----------------FOOTER------------------------->
-        <section class="footer mt-5">
-            <div class="d-flex flex-lg-row flex-column justify-content-between align-items-center">
-                <img class="footerlogo mx-lg-5 mt-4 mb-lg-3 ps-lg-3" src="~/images/footerlogo.png">
-                <ul class="d-flex flex-lg-row flex-column align-items-center gap-lg-4 mt-lg-3 mt-5 me-4 mb-4">
-                    <li class="mb-lg-0 mb-2">
-                        <a href="Homepage.html">HOME</a>
-                    </li>
-                    <li class="mb-lg-0 mb-2">
-                        <a asp-controller="Home" asp-action="About">ABOUT</a>
-                    </li>
-                    <li class="mb-lg-0 mb-2">TESTIMONIALS</li>
-                    <li class="mb-lg-0 mb-2">
-                        <a asp-controller="Home" asp-action="faqs">FAQS</a>
-                    </li>
-                    <li class="mb-lg-0 mb-2">INSURANCE POLICY</li>
-                    <li>IMPRESSIUM</li>
-                </ul>
-                <div class="socials mx-lg-5 mt-lg-3 mb-3 mt-4 pe-xl-5">
-                    <img class="me-3" src="~/images/fb.png">
-                    <img src="~/images/ig.png">
-                </div>
-            </div>
-            <div class="d-flex flex-column text-center align-items-center justify-content-center">
-                <div class="footer-line"></div>
-                <div class="footer-privacy py-3">©2018 Helperland. All rights reserved.     Terms and Conditions  |  Privacy Policy</div>
-            </div>
-        </section>
+        @Html.Partial("_footer")
         <div onclick="topFunction()" id="myBtn" title="Go to top"><img class="scroll ms-5" src="~/images/up.png"></div>
 
         <script src="~/js/mobilemenu.js"></script>
