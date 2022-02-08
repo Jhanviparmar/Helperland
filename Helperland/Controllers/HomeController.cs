@@ -152,32 +152,23 @@ namespace Helperland.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ResetPassword(User u)
+        public ActionResult ResetPassword(User u)
         {
-            var message = "";
-            if (ModelState.IsValid)
+            var getUser = db.Users.FirstOrDefault(x => x.Email.Equals(u.Email));
+            if (getUser != null)
             {
-                using (var db = new HelperlanddContext())
-                {
-                    var getUser = db.Users.Where(p => p.Email == u.Email).FirstOrDefault();
-                    if (getUser != null)
-                    {
-                        getUser.Password = u.Password;
-                        getUser.Email = u.Email;
-                        db.Users.Update(getUser);
-                        db.SaveChanges();
-                        message = "New password updated successfully";
-                    }
-                }
+                getUser.Email = u.Email;
+                getUser.Password = u.Password;
+                db.Users.Update(getUser);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Home");
             }
             else
             {
-                message = "Something invalid";
+                TempData["ErrorMessage"] = "Invalid email";
+                return RedirectToAction("ResetPassword");
             }
-            ViewBag.Message = message;
-            return View();
         }
-
         public IActionResult CreateAccount()
         {
             return View();
