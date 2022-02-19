@@ -1,4 +1,4 @@
-﻿using Helperland.Models;
+using Helperland.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -24,6 +24,14 @@ namespace Helperland.Controllers
         }
         HelperlanddContext db = new HelperlanddContext();
         
+
+        ////private readonly HelperlanddContext _DbContext;
+
+        ////public HomeController(HelperlanddContext DbContext)
+        ////{
+        ////    _DbContext = DbContext;
+        ////}
+
         public IActionResult Index()
         {
             return View();
@@ -64,14 +72,13 @@ namespace Helperland.Controllers
         {
             return View();
         }
-
-        public IActionResult _login()
+        [HttpGet]
+        public IActionResult Login()
         {
             return View();
         }
-
         [HttpPost]
-        public IActionResult _login(User u)
+        public IActionResult Login(User u)
         {
             User Users = new User();
             var User = db.Users.Where(model => model.Email == u.Email && model.Password == u.Password).FirstOrDefault(); ;
@@ -83,68 +90,61 @@ namespace Helperland.Controllers
             else
             {
                 ViewBag.ErrorMessage = "<script>alert('Email or Password is incorrect')</script>";
-                return PartialView("_login");
+                return PartialView("Index");
             }
         }
 
-        public ActionResult ForgotPassword()
-        {
-            return View();
-        }
         [HttpPost]
-        public ActionResult ForgotPassword(string EmailID)
+        public IActionResult ForgetPassword(User user)
         {
             string resetCode = Guid.NewGuid().ToString();
             var link = "<a href='" + Url.Action("ResetPassword", "Home", null, "http") + "'>Reset Password</a>";
+            //string baseUrl = string.Format("{0}://{1}",
+            //           HttpContext.Request.Scheme, HttpContext.Request.Host);
             using (var db = new HelperlanddContext())
             {
 
-                var getUser = (from s in db.Users where s.Email == EmailID select s).FirstOrDefault();
-          
+                var getUser = db.Users.FirstOrDefault(x => x.Email.Equals(user.Email));
+
                 if (getUser != null)
                 {
-                    //getUser.Resetpasscode = resetCode;
-                    //db.Configuration.ValidateOnSaveEnabled = false;
-                    db.SaveChanges();
+                    var senderemail = new MailAddress("Helperlandservices@gmail.com", "Reset your password");
+                    var receiveremail = new MailAddress(user.Email);
 
+                    var password = "2022#helperland";
                     var subject = "Password Reset Request";
-                    var body = "Hi " + getUser.FirstName + ", <br/> You recently requested to reset your password for your account. Click the link below to reset it. " +
+                    var body = "Hi " + getUser.FirstName + ", You recently requested to reset your password for your account. Click the link to reset it. " 
+                                     + link + 
+                                     "If you did not request a password reset, please ignore this email or reply to let us know.Thank you";
+                    var smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        Port = 587,
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(senderemail.Address, password)
+                    };
+                    using (var message = new MailMessage(senderemail, receiveremail)
+                    {
+                        Subject = subject,
+                        Body = body
 
-                         " <br/><br/><a href='" + link + "'>" + link + "</a> <br/><br/>" +
-                         "If you did not request a password reset, please ignore this email or reply to let us know.<br/><br/> Thank you";
+                    })
+                    {
+                        smtp.Send(message);
+                    }
+                    return RedirectToAction("Index", "Home");
 
-                    SendEmail(getUser.Email, body, subject);
-
-                    ViewBag.Message = "Reset password link has been sent to your email id.";
                 }
                 else
                 {
-                    ViewBag.Message = "User doesn't exists.";
                     return View();
+
                 }
             }
-
-            return View();
         }
 
-        private void SendEmail(string emailAddress, string body, string subject)
-
-        {
-            using (MailMessage mm = new MailMessage("Helperlandservices@gmail.com", emailAddress))
-            {
-                mm.Subject = subject;
-                mm.Body = body;
-                mm.IsBodyHtml = true;
-                SmtpClient smtp = new SmtpClient();
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new System.Net.NetworkCredential("helperlandservices@gmail.com", "2022#helperland");
-                smtp.EnableSsl = true;
-                smtp.Host = "smtp.gmail.com";
-                smtp.Port = 587;
-                smtp.Send(mm);
-
-            }
-        }
         public ActionResult ResetPassword()
         {   
             return View();
@@ -184,7 +184,6 @@ namespace Helperland.Controllers
             return View("CreateAccount");
         }
 
-
         public IActionResult serviceproviderSignup()
         {
             return View();
@@ -198,6 +197,63 @@ namespace Helperland.Controllers
             db.SaveChanges();
             return View("serviceproviderSignup");
         }
+
+        [HttpGet]
+        public IActionResult BookNow()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult BookNow(Zipcode zc)
+        {
+            Zipcode zipcode = new Zipcode();
+            var zp = db.Zipcodes.Where(model => model.ZipcodeValue == zc.ZipcodeValue).FirstOrDefault(); ;
+            if (zp != null)
+            {
+                ViewBag.Messase = "<script>alert('Available')</script>";
+                return View();
+            }
+            else
+            {
+                ViewBag.Message = "<script>alert('Service is not available in this area')</script>";
+                return View();
+            }
+            return View();
+        }
+
+
+        //[HttpPost]
+        //public ActionResult SchedulePlan(ServiceRequest sr)
+        //{
+        //    ServiceRequest servicerequest = new ServiceRequest();
+        //    //servicerequest.Comments = sr.Comments;
+        //    //servicerequest.HasPets = sr.HasPets;
+        //    //db.ServiceRequests.Add(sr);
+        //    db.SaveChanges();
+        //    return View();
+        //}  
+
+        //[HttpGet]
+        //public IActionResult Details()
+        //{
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //public ActionResult Details(ServiceRequestAddress sra)
+        //{
+        //    ServiceRequestAddress address = new ServiceRequestAddress();
+        //    address.AddressLine1 = sra.AddressLine1;
+        //    address.AddressLine1 = sra.AddressLine2;
+        //    address.PostalCode = sra.PostalCode;
+        //    address.City = sra.City;
+        //    db.ServiceRequestAddresses.Add(sra);
+        //    db.SaveChanges();
+        //    return View();
+        //}
+
+       
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
