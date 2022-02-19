@@ -1,0 +1,58 @@
+﻿
+    <div class="col flex-column p-3">
+        <div class="flex-column">
+            <div class="fw-bold mb-2" style="font-size:18px">Choose one of the following payment methods.</div>
+            <div class="mb-2">
+                <label for="dcode" class="mb-2">Discount code (optional)</label><br>
+                <input type="text" id="fname" name="fname" placeholder="Discount code (optional)" class="p-2 me-3 mb-2">
+                <span><button class="use py-2 px-4">Use</button></span>
+            </div>
+        </div>
+        <hr style="height:2px">
+        <div class="card px-2 py-1 my-3">
+            <div class="d-flex navbar flex-row">
+                <div>
+                    <input name="credit-number" class="cc-number" type="tel" pattern="\d*" maxlength="19" placeholder="Card Number" id="card_number">
+                </div>
+                <div>
+                    <input type="text" name="month" placeholder="MM" maxlength="2" size="2" />
+                    <span>/</span>
+                    <input type="text" name="year" placeholder="YY" maxlength="2" size="2" />
+                    <input type="text" name="cvv" placeholder="CVV" maxlength="4">
+                </div>
+            </div>
+        </div>
+        <div class="cards flex-column">
+            <div>Accepted cards:</div>
+            <div><img src="~/images/credit-cards.png"></div>
+        </div>
+        <hr style="height:2px">
+        <div>
+            <label for="pets" style="color: #646464; font-size:14px">
+                <input type="checkbox" required>
+                I accept the terms and conditions , the cancellation policy and the data protection regulations . I confirm that Helperland will start executing the contract before the end of the cancellation period and that I will lose my right of cancellation as a consumer once the contract has been fully performed.
+            </label>
+        </div>
+        <hr style="height:2px">
+        <button type="button" class="d-inline-flex continue button px-4 py-2" data-toggle="modal" data-target="#exampleModal">
+            Book with costs
+        </button>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border:none; font-size: 36px; background-color:#fff; color: #4f4f4f;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center align-items-center justify-content-center">
+                        <img src="~/images/green-tick.png" style="height:50px; width:50px;">
+                        <div style="font-size: 20px">The booking was successfully sent</div>
+                        <div>Service ID : 0</div>
+                        <button type="button" class="button px-4 py-2 my-2" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

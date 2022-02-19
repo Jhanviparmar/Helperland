@@ -1,0 +1,88 @@
+﻿@model Helperland.Models.ServiceRequest;
+
+    @using (Html.BeginForm("SchedulePlan", "Home", FormMethod.Post))
+    {
+    <div class="col p-4">
+        <div class="row">
+            <div class="col">
+                <div class="flex-column">
+                    <div class="fw-bold mb-3">When do you want your helper to be with you?</div>
+                    <div>
+                        <input type="date" id="date" class="p-2 me-2 mb-2" asp-for="ServiceStartDate">
+                        <span><input type="time" id="appt" name="appt" asp-for="SpacceptedDate"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="flex-column">
+                    <div class="fw-bold mb-3">How long do you need your helper?</div>
+                    <div>
+                        <select name="time" id="service-time" class="p-2" asp-for="ServiceHours">
+                            <option value="3.0 Std">3.0 Std</option>
+                            <option value="3.5 Std">3.5 Std</option>
+                            <option value="4.0 Std">4.0 Std</option>
+                            <option value="4.5 Std">4.5 Std</option>
+                            <option value="5.0 Std">5.0 Std</option>
+                            <option value="5.5 Std">5.5 Std</option>
+                            <option value="6.0 Std">6.0 Std</option>
+                            <option value="6.5 Std">6.5 Std</option>
+                            <option value="7.0 Std">7.0 Std</option>
+                            <option value="7.5 Std">7.5 Std</option>
+                            <option value="8.0 Std">8.0 Std</option>
+                            <option value="8.5 Std">8.5 Std</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr style="height:2px">
+        <div class="container extra-service">
+            <div class="fw-bold mb-4" style="color: #646464; font-size:18px">Extra Services</div>
+            <div class="row">
+                <div class="col ">
+                    <div class="ischecked pt-4" id="border" @*onclick="InsideCabinet()"*@ target="false" target2="InsideCabinet">
+                        <img class="pe-5" src="~/images/p1.png">
+                    </div>
+                    <p class="inside">Inside cabinets</p>
+                </div>
+                <div class="col">
+                    <div class="ischecked pt-4" id="border" @*onclick="InsideFridge()"*@ target="false" target2="InsideFridge"><img src="~/images/p2.png"></div>
+                    <p class="inside">Inside fridge</p>
+                </div>
+                <div class="col">
+                    <div class="ischecked p3 ps-4" id="border" @*onclick="InsideOven()"*@ target="false" target2="InsideOven"><img src="~/images/p3.png"></div>
+                    <p class="inside">Inside oven</p>
+                </div>
+                <div class="col">
+                    <div class="ischecked pt-4" id="border" @*onclick="InsideLaundry()"*@ target="false" target2="InsideLaundry"><img src="~/images/p4.png"></div>
+                    <p class="inside">Laundry wash & dry</p>
+                </div>
+                <div class="col">
+                    <div class="ischecked p5 pt-4" id="border" @*onclick="InsideWindow()"*@ target="false" target2="InsideWindow"><img src="~/images/p5.png"></div>
+                    <p class="inside">Interior windows</p>
+                </div>
+            </div>
+        </div>
+        <hr style="height:2px">
+        <div class="d-flex flex-column fw-bold" style="color: #646464; font-size:18px">Comments</div>
+        <div class="form-outline w-90">
+            <textarea class="form-control" id="textAreaExample6" rows="3" asp-for="Comments"></textarea>
+            <label class="form-label comments" for="textAreaExample6"></label>
+        </div>
+        <div class="mt-3">
+            <input type="checkbox" id="pets" asp-for="HasPets">
+            <label for="pets" style="color: #646464; font-size:18px"> I have pets at home</label><br>
+        </div>
+        <hr style="height:2px">
+        <div>
+            <button type="button"
+                   class="d-inline-flex continue button px-4 py-2" id="button2">Continue</button>
+        </div>
+    </div>
+    }
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#date").datepicker({ dateFormat: 'dd/mm/yy' });
+    });
+</script>
