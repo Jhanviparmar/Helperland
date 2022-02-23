@@ -578,38 +578,6 @@
                     console.log(extraservice);
                 }
             });
-
-            $(document).on('click', '#booking-btn', function () {
-                var book = {};
-                book.ServiceStartDate = $('#ServiceStartDate').val();
-                book.ZipCode = $('#postalcode').val();
-                book.ServiceHours = parseFloat($('#total-time').text());
-                book.SubTotal = parseFloat($('#sub-total').text());
-                book.TotalCost = parseFloat($('#total-cost').text());
-                book.HasPets = $('#pets').is(':checked');
-                book.Comments = $('#Comments').text();
-                book.AddressId = parseInt($('.select-service-address:checked').val());
-                console.log(book);
-                $.ajax({
-                    url: '@Url.Action("BookServiceRequest", "Home")',
-                    type: 'post',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    data: JSON.stringify(book),
-                    success: function (res) {
-                        console.log(res);
-                        if (res == true) {
-                            console.log("true");
-                        }
-                        else if (res == false) {
-                            alert("Something went wrong while adding address..");
-                        }
-                    },
-                    error: function(err) {
-                        console.log('error in ajax');
-                    }
-                });
-            });
         </script>
     </body>
 </html>
