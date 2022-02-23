@@ -198,60 +198,60 @@ namespace Helperland.Controllers
             return View("serviceproviderSignup");
         }
 
-        [HttpGet]
-        public IActionResult BookNow()
+        public IActionResult BookService()
         {
             return View();
         }
 
-        [HttpPost]
-        public ActionResult BookNow(Zipcode zc)
+        public string PostalCode(string postalcode)
         {
-            Zipcode zipcode = new Zipcode();
-            var zp = db.Zipcodes.Where(model => model.ZipcodeValue == zc.ZipcodeValue).FirstOrDefault(); ;
-            if (zp != null)
+
+            var PostalCode = db.Zipcodes.Where(x => x.ZipcodeValue == postalcode).SingleOrDefault();
+            string IsValid;
+            if (PostalCode != null)
             {
-                ViewBag.Messase = "<script>alert('Available')</script>";
-                return View();
+                IsValid = "true";
             }
             else
             {
-                ViewBag.Message = "<script>alert('Service is not available in this area')</script>";
-                return View();
+                IsValid = "false";
             }
-            return View();
+            return IsValid;
+
+        }
+        [HttpPost]
+        public string BookServiceRequest([FromBody] ServiceRequest book)
+        {
+            
+            book.UserId = 2;
+            book.ServiceId = 12345;
+            book.PaymentDue = true;
+            book.CreatedDate = DateTime.Now;
+            book.ModifiedDate = DateTime.Now;
+            book.ModifiedBy = 2;
+            book.Distance = 10;
+
+            db.ServiceRequests.Add(book);
+            db.SaveChanges();
+            return "true";
         }
 
 
-        //[HttpPost]
-        //public ActionResult SchedulePlan(ServiceRequest sr)
-        //{
-        //    ServiceRequest servicerequest = new ServiceRequest();
-        //    //servicerequest.Comments = sr.Comments;
-        //    //servicerequest.HasPets = sr.HasPets;
-        //    //db.ServiceRequests.Add(sr);
-        //    db.SaveChanges();
-        //    return View();
-        //}  
+        public IActionResult Details()
+        {
+            System.Threading.Thread.Sleep(3000);
+            return View();
+        }
 
-        //[HttpGet]
-        //public IActionResult Details()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public ActionResult Details(ServiceRequestAddress sra)
-        //{
-        //    ServiceRequestAddress address = new ServiceRequestAddress();
-        //    address.AddressLine1 = sra.AddressLine1;
-        //    address.AddressLine1 = sra.AddressLine2;
-        //    address.PostalCode = sra.PostalCode;
-        //    address.City = sra.City;
-        //    db.ServiceRequestAddresses.Add(sra);
-        //    db.SaveChanges();
-        //    return View();
-        //}
+        public string SaveAddress([FromBody] UserAddress address)
+        {
+            address.UserId = 13;
+            address.IsDefault = false;
+                address.IsDeleted = false;
+                db.UserAddresses.Add(address);
+                db.SaveChanges();
+                return "true";
+        }
 
        
 
