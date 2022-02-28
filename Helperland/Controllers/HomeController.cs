@@ -1,4 +1,4 @@
-using Helperland.Models;
+﻿using Helperland.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -84,13 +84,12 @@ namespace Helperland.Controllers
             var User = db.Users.Where(model => model.Email == u.Email && model.Password == u.Password).FirstOrDefault(); ;
             if (User != null)
             {
-                ViewBag.SuccessMessase = "<script>alert('Login Successful)</script>";
                 return RedirectToAction("About");
             }
             else
             {
-                ViewBag.ErrorMessage = "<script>alert('Email or Password is incorrect')</script>";
-                return PartialView("Index");
+                TempData["ErrorMessage"] = "*Username or Password is invalid";
+                return RedirectToAction("Index");
             }
         }
 
@@ -165,7 +164,7 @@ namespace Helperland.Controllers
             }
             else
             {
-                TempData["ErrorMessage"] = "Invalid email";
+                TempData["Error"] = "Invalid email";
                 return RedirectToAction("ResetPassword");
             }
         }
@@ -178,10 +177,10 @@ namespace Helperland.Controllers
         public IActionResult CreateAccount(User user)
         {
             User users = new User();
-            users.UserTypeId = 1;
+            user.UserTypeId = 1;
             db.Users.Add(user);
             db.SaveChanges();
-            return View("CreateAccount");
+            return View("Index");
         }
 
         public IActionResult serviceproviderSignup()
@@ -191,11 +190,11 @@ namespace Helperland.Controllers
         [HttpPost]
         public IActionResult serviceproviderSignup(User user)
         {
-            User users = new User();
-            users.UserTypeId = 2;
+            //User users = new User();
+            user.UserTypeId = 2;
             db.Users.Add(user);
             db.SaveChanges();
-            return View("serviceproviderSignup");
+            return View("Index");
         }
 
         public IActionResult BookService()
@@ -220,18 +219,18 @@ namespace Helperland.Controllers
 
         }
         [HttpPost]
-        public string BookServiceRequest([FromBody] ServiceRequest book)
+        public string ConfirmServiceRequest([FromBody] ServiceRequest sr)
         {
             
-            book.UserId = 2;
-            book.ServiceId = 12345;
-            book.PaymentDue = true;
-            book.CreatedDate = DateTime.Now;
-            book.ModifiedDate = DateTime.Now;
-            book.ModifiedBy = 2;
-            book.Distance = 10;
-
-            db.ServiceRequests.Add(book);
+            sr.UserId = 13;
+            sr.ServiceId = 8570;
+            sr.ServiceHourlyRate = 9;
+            sr.PaymentDue = true;
+            sr.CreatedDate = DateTime.Now;
+            sr.ModifiedDate = DateTime.Now;
+            sr.ModifiedBy = 13;
+            sr.Distance = 15;
+            db.ServiceRequests.Add(sr);
             db.SaveChanges();
             return "true";
         }
@@ -239,21 +238,91 @@ namespace Helperland.Controllers
 
         public IActionResult Details()
         {
-            System.Threading.Thread.Sleep(3000);
-            return View();
+            List<UserAddress> add = db.UserAddresses.Where(x => x.UserId == 13).ToList();
+            System.Threading.Thread.Sleep(2000);
+            return View(add);
         }
 
         public string SaveAddress([FromBody] UserAddress address)
         {
             address.UserId = 13;
             address.IsDefault = false;
-                address.IsDeleted = false;
-                db.UserAddresses.Add(address);
-                db.SaveChanges();
-                return "true";
+            address.IsDeleted = false;
+            db.UserAddresses.Add(address);
+            db.SaveChanges();
+            return "true";
         }
+        
 
-       
+
+
+        //[HttpGet]
+        //public IActionResult BookNow()
+        //{
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //public ActionResult BookNow(Zipcode zc)
+        //{
+        //    Zipcode zipcode = new Zipcode();
+        //    var zp = db.Zipcodes.Where(model => model.ZipcodeValue == zc.ZipcodeValue).FirstOrDefault(); ;
+        //    if (zp != null)
+        //    {
+        //        ViewBag.Messase = "<script>alert('Available')</script>";
+        //        return View();
+        //    }
+        //    else
+        //    {
+        //        ViewBag.Message = "<script>alert('Service is not available in this area')</script>";
+        //        return View();
+        //    }
+        //    return View();
+        //}
+
+
+        ////[HttpPost]
+        ////public ActionResult SchedulePlan(ServiceRequest sr)
+        ////{
+        ////    ServiceRequest servicerequest = new ServiceRequest();
+        ////    //servicerequest.Comments = sr.Comments;
+        ////    //servicerequest.HasPets = sr.HasPets;
+        ////    //db.ServiceRequests.Add(sr);
+        ////    db.SaveChanges();
+        ////    return View();
+        ////}  
+
+        ////[HttpGet]
+        ////public IActionResult Details()
+        ////{
+        ////    return View();
+        ////}
+
+        ////[HttpPost]
+        ////public ActionResult Details(ServiceRequestAddress sra)
+        ////{
+        ////    ServiceRequestAddress address = new ServiceRequestAddress();
+        ////    address.AddressLine1 = sra.AddressLine1;
+        ////    address.AddressLine1 = sra.AddressLine2;
+        ////    address.PostalCode = sra.PostalCode;
+        ////    address.City = sra.City;
+        ////    db.ServiceRequestAddresses.Add(sra);
+        ////    db.SaveChanges();
+        ////    return View();
+        ////}
+
+        //[HttpGet]
+        //public IActionResult MakePayment()
+        //{
+        //    return View();
+        //}
+
+        ////[HttpPost]
+        ////public ActionResult MakePayment(ServiceRequest sr)
+        ////{
+
+        ////    return View();
+        ////}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
