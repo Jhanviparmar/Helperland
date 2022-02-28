@@ -24,14 +24,6 @@ namespace Helperland.Controllers
         }
         HelperlanddContext db = new HelperlanddContext();
         
-
-        ////private readonly HelperlanddContext _DbContext;
-
-        ////public HomeController(HelperlanddContext DbContext)
-        ////{
-        ////    _DbContext = DbContext;
-        ////}
-
         public IActionResult Index()
         {
             return View();
@@ -253,76 +245,6 @@ namespace Helperland.Controllers
             return "true";
         }
         
-
-
-
-        //[HttpGet]
-        //public IActionResult BookNow()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public ActionResult BookNow(Zipcode zc)
-        //{
-        //    Zipcode zipcode = new Zipcode();
-        //    var zp = db.Zipcodes.Where(model => model.ZipcodeValue == zc.ZipcodeValue).FirstOrDefault(); ;
-        //    if (zp != null)
-        //    {
-        //        ViewBag.Messase = "<script>alert('Available')</script>";
-        //        return View();
-        //    }
-        //    else
-        //    {
-        //        ViewBag.Message = "<script>alert('Service is not available in this area')</script>";
-        //        return View();
-        //    }
-        //    return View();
-        //}
-
-
-        ////[HttpPost]
-        ////public ActionResult SchedulePlan(ServiceRequest sr)
-        ////{
-        ////    ServiceRequest servicerequest = new ServiceRequest();
-        ////    //servicerequest.Comments = sr.Comments;
-        ////    //servicerequest.HasPets = sr.HasPets;
-        ////    //db.ServiceRequests.Add(sr);
-        ////    db.SaveChanges();
-        ////    return View();
-        ////}  
-
-        ////[HttpGet]
-        ////public IActionResult Details()
-        ////{
-        ////    return View();
-        ////}
-
-        ////[HttpPost]
-        ////public ActionResult Details(ServiceRequestAddress sra)
-        ////{
-        ////    ServiceRequestAddress address = new ServiceRequestAddress();
-        ////    address.AddressLine1 = sra.AddressLine1;
-        ////    address.AddressLine1 = sra.AddressLine2;
-        ////    address.PostalCode = sra.PostalCode;
-        ////    address.City = sra.City;
-        ////    db.ServiceRequestAddresses.Add(sra);
-        ////    db.SaveChanges();
-        ////    return View();
-        ////}
-
-        //[HttpGet]
-        //public IActionResult MakePayment()
-        //{
-        //    return View();
-        //}
-
-        ////[HttpPost]
-        ////public ActionResult MakePayment(ServiceRequest sr)
-        ////{
-
-        ////    return View();
-        ////}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
