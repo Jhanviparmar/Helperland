@@ -1,69 +1,80 @@
-﻿@model Helperland.Models.ServiceRequestAddress;
+﻿@model IEnumerable<Helperland.Models.UserAddress>
+@{
+    ViewData["Title"] = "yourDetail";
+    Layout = null;
+}
 
-    @using (Html.BeginForm("Details", "Home", FormMethod.Post))
+<div class="col p-3">
+    <div class="my-2">Enter your contact details, so we can serve you in better way!</div>
+    @foreach (var item in Model)
     {
-    <div class="col p-3">
-        <div class="my-2">Enter your contact details, so we can serve you in better way!</div>
         <div class="radio p-2 mb-3">
-            <input type="radio" id="details">
+
+            <input type="radio" id="details" class="selected-address">
             <label for="details" class="ms-3">
-                <div>Address: Test 123, 37318 kichgandern</div>
-                <div>Phone number: 9955648797</div>
+                <div>
+                    Address:  @Html.DisplayFor(modelItem => item.AddressLine1)<span> @Html.DisplayFor(modelItem => item.AddressLine2)</span>
+                    <span>@Html.DisplayFor(modelItem => item.PostalCode)</span>
+                    <span>@Html.DisplayFor(modelItem => item.City)</span>
+                </div>
+                <div>Phone number:  @Html.DisplayFor(modelItem => item.Mobile)</div>
             </label>
         </div>
-        <div class="radio p-2 mb-3">
-            <input type="radio" id="details">
-            <label for="details" class="ms-3">
-                <div>Address: Test 122, 37318 kichgandern</div>
-                <div>Phone number: 9955648797</div>
-            </label>
-        </div>
-        <button onclick="hidefunction()" class="new-address px-3 py-2 mb-3" id="address"><img class="me-2" src="~/images/add-address.png">Add New Address</button>
-        <div class="add-new-address p-3 d-none" id="address-box">
-            <form>
-                <div class="row gx-5 mb-3 mx-md-0 mx-3">
-                    <div class="col-md-4 me-5">
-                        <label>Street</label>
-                        <input type="text" class="form-control" id="Street" placeholder="Street" asp-for="AddressLine1" required>
-                    </div>
-                    <div class="col-md-4 ms-5">
-                        <label>House Number</label>
-                        <input type="text" class="form-control" id="HouseNumber" placeholder="House Number" asp-for="AddressLine2" required>
-                    </div>
-                </div>
-                <div class="row gx-5 mb-3 mx-md-0 mx-3">
-                    <div class="col-md-4 me-5">
-                        <label>Postcode</label>
-                        <input type="text" class="form-control" id="postcode" placeholder="postcode" asp-for="PostalCode" required>
-                    </div>
-                    <div class="col-md-4 ms-5">
-                        <label>location</label>
-                        <input type="text" class="form-control" id="location" placeholder="location" asp-for="City" required>
-                    </div>
-                </div>
-                <div class="row gx-5 mb-3 mx-md-0 mx-3">
-                    <div class="col-md-4 me-5 Phone">
-                        <label>Phone Number</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text py-2" id="basic-addon1">+91</span>
-                            </div>
-                            <input type="tel" class="form-control py-2" placeholder="Phone Number" aria-label="Phone Number" aria-describedby="basic-addon1">
+    }
+       
+        @using (Html.BeginForm("Details", "Home", FormMethod.Post))
+        {
+            <button onclick="hidefunction()" class="new-address px-3 py-2 mb-3" id="address"><img class="me-2" src="~/images/add-address.png">Add New Address</button>
+            <div class="add-new-address p-3 d-none" id="address-box">
+                <form>
+                    <div class="row gx-5 mb-3 mx-md-0 mx-3">
+                        <div class="col-md-4 me-5">
+                            <label>Street</label>
+                            <input type="text" class="form-control" id="AddressLine1" placeholder="Street" required>
+                        </div>
+                        <div class="col-md-4 ms-5">
+                            <label>House Number</label>
+                            <input type="text" class="form-control" placeholder="House Number" id="AddressLine2" required>
                         </div>
                     </div>
-                </div>
-                <button type="submit" class="button mb-3 px-4 py-2 me-2">Save</button>
-                <button  class="discard mb-3 px-3 py-2" onclick="discard()">Discard</button>
-            </form>
-        </div>
-        <div>
-            <input type="checkbox" id="pets">
-            <label for="pets" style="color: #646464; font-size:18px"> My billing address differs from the given address.</label>
-        </div>
-        <hr style="height:2px">
-        <div>
-            <button type="button" 
-                   class="d-inline-flex continue button px-4 py-2" id="button3">Continue</button>
-        </div>
+                    <div class="row gx-5 mb-3 mx-md-0 mx-3">
+                        <div class="col-md-4 me-5">
+                            <label>Postcode</label>
+                            <input type="text" class="form-control" placeholder="postcode" id="PostalCode" required>
+                        </div>
+                        <div class="col-md-4 ms-5">
+                            <label>location</label>
+                            <input type="text" class="form-control" placeholder="location" id="City" required>
+                        </div>
+                    </div>
+                    <div class="row gx-5 mb-3 mx-md-0 mx-3">
+                        <div class="col-md-4 me-5 Phone">
+                            <label>Phone Number</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text py-2" id="basic-addon1">+91</span>
+                                </div>
+                                <input type="tel" id="Mobile" class="form-control py-2" placeholder="Phone Number"
+                                       aria-label="Phone Number" maxlength="10" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="button mb-3 px-4 py-2 me-2" id="save-address">Save</button>
+                    <button class="discard mb-3 px-3 py-2" onclick="discard() ">Discard</button>
+                </form>
+            </div>
+            <div>
+                <input type="checkbox" id="pets">
+                <label for="pets" style="color: #646464; font-size:18px"> My billing address differs from the given address.</label>
+            </div>
+            <hr style="height:2px">
+            <div>
+                <button type="button"
+                        class="d-inline-flex continue button px-4 py-2" id="button3"
+                        onclick="$('#tab4').click();">
+                    Continue
+                </button>
+            </div>
+
+        }
     </div>
-    }
