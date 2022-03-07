@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Helperland.Models.UserAddress>
+<div class="col p-3">
+    <p class="fw-bold d-md-none" style="font-size: 18px;">My Addresses</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Adresses</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <div>
+                        Address:  @Html.DisplayFor(modelItem => item.AddressLine1)<span> @Html.DisplayFor(modelItem => item.AddressLine2)</span>
+                        <span>@Html.DisplayFor(modelItem => item.PostalCode)</span>
+                        <span>@Html.DisplayFor(modelItem => item.City)</span>
+                    </div>
+                    <div>Phone number:  @Html.DisplayFor(modelItem => item.Mobile)</div>
+                        
+                </td>
+                <td>
+                    <img src="~/images/edit-icon.png" type="button" class="btn" data-toggle="modal" data-target="#editaddress">
+                    <img src="~/images/delete-icon.png" class="btn" data-toggle="modal" data-target="#deleteaddress">
+                    <div class="modal fade" id="deleteaddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel111" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" style="font-size: 18px;">
+                                    Are you sure, You want to delete this address?
+                                </div>
+                                <button class="login mb-4 mt-3 ms-5">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
