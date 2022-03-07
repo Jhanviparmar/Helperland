@@ -1,4 +1,4 @@
-﻿using Helperland.Models;
+using Helperland.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Web;
 using System.Net.Mail;
 using System.Net;
+using Microsoft.AspNetCore.Http;
 
 namespace Helperland.Controllers
 {
@@ -24,6 +25,14 @@ namespace Helperland.Controllers
         }
         HelperlanddContext db = new HelperlanddContext();
         
+
+        ////private readonly HelperlanddContext _DbContext;
+
+        ////public HomeController(HelperlanddContext DbContext)
+        ////{
+        ////    _DbContext = DbContext;
+        ////}
+
         public IActionResult Index()
         {
             return View();
@@ -69,20 +78,52 @@ namespace Helperland.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult Login(User u)
         {
-            User Users = new User();
-            var User = db.Users.Where(model => model.Email == u.Email && model.Password == u.Password).FirstOrDefault(); ;
-            if (User != null)
+
+            var login_user = db.Users.Where(x => x.Email == u.Email && x.Password == u.Password).FirstOrDefault();
+            /*User login_user = db.Users.Where(model => model.Email == u.Email && model.Password == u.Password).FirstOrDefault()*/
+            
+            if (login_user != null)
             {
-                return RedirectToAction("About");
+                if (login_user.UserTypeId == 1)
+                {
+                    HttpContext.Session.SetInt32("User_id", login_user.UserId);
+                    TempData["username"] = login_user.FirstName;
+                    TempData["LastName"] = login_user.LastName;
+                    TempData["Email"] = login_user.Email;
+                    TempData["Mobile"] = login_user.Mobile;
+                    return RedirectToAction("CustomerPages", "Home");
+                }
+                else if (login_user.UserTypeId == 2)
+                {
+                    HttpContext.Session.SetInt32("User_id", login_user.UserId);
+                    TempData["username"] = login_user.FirstName;
+                    TempData["LastName"] = login_user.LastName;
+                    TempData["Email"] = login_user.Email;
+                    TempData["Mobile"] = login_user.Mobile;
+                    TempData["Password"] = login_user.Password;
+                    return RedirectToAction("CustomerPages", "Home");
+                    
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
             else
             {
-                TempData["ErrorMessage"] = "*Username or Password is invalid";
-                return RedirectToAction("Index");
+                ViewBag.message = "Username or Password is Incorrect. Please try again";
+                return RedirectToAction("Price");
             }
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("User_id");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -90,8 +131,6 @@ namespace Helperland.Controllers
         {
             string resetCode = Guid.NewGuid().ToString();
             var link = "<a href='" + Url.Action("ResetPassword", "Home", null, "http") + "'>Reset Password</a>";
-            //string baseUrl = string.Format("{0}://{1}",
-            //           HttpContext.Request.Scheme, HttpContext.Request.Host);
             using (var db = new HelperlanddContext())
             {
 
@@ -244,7 +283,51 @@ namespace Helperland.Controllers
             db.SaveChanges();
             return "true";
         }
-        
+
+        public IActionResult CustomerPages()
+        {
+            return View();
+        }
+
+
+        public IActionResult Mysettings()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public string mydetails([FromBody] User u)
+        {
+            db.Users.Update(u);
+            db.SaveChanges();
+            return "true";
+        }
+        public string saveAddress([FromBody] UserAddress address)
+        {
+            address.UserId = 13;
+            address.IsDefault = false;
+            address.IsDeleted = false;
+            db.UserAddresses.Add(address);
+            db.SaveChanges();
+            return "true";
+        }
+
+        public IActionResult address()
+        {
+            List<UserAddress> add = db.UserAddresses.Where(x => x.UserId == 13).ToList();
+            System.Threading.Thread.Sleep(2000);
+            return View(add); 
+        }
+
+        [HttpPost]
+        public string password([FromBody] User u)
+        {
+            User user = new User();
+            user.Password = u.Password;
+            db.Users.Update(u);
+            db.SaveChanges();
+            return "true";
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -257,3 +340,4 @@ namespace Helperland.Controllers
     {
     }
 }
+
