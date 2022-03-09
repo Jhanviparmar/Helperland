@@ -1,4 +1,4 @@
-using Helperland.Models;
+﻿using Helperland.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -53,20 +53,16 @@ namespace Helperland.Controllers
             return View();
         }
         [HttpPost]
-        
+        [ValidateAntiForgeryToken]
         public IActionResult Contact(ContactU contactu)
         {
-            ContactU contactUs = new ContactU();
-            contactUs.Name = contactu.Name + contactu.Name;
-            contactUs.Email = contactu.Email;
-            contactUs.PhoneNumber = contactu.PhoneNumber;
-            contactUs.Message = contactu.Message;
-            contactUs.Subject = contactu.Subject;
-            contactUs.CreatedBy = contactu.ContactUsId;
-            contactUs.CreatedOn = DateTime.UtcNow; 
+            contactu.Name = HttpContext.Request.Form["firstName"] + " " + HttpContext.Request.Form["lastName"];
+            contactu.CreatedOn = DateTime.Now;
+            contactu.CreatedBy = contactu.ContactUsId;
             db.ContactUs.Add(contactu);
             db.SaveChanges();
-            return View("Contact");
+            TempData["Msg"] = "Your Response has been recorded";
+            return RedirectToAction("Contact");
         }
 
         public IActionResult About()
@@ -105,7 +101,7 @@ namespace Helperland.Controllers
                     TempData["Email"] = login_user.Email;
                     TempData["Mobile"] = login_user.Mobile;
                     TempData["Password"] = login_user.Password;
-                    return RedirectToAction("CustomerPages", "Home");
+                    return RedirectToAction("ServiceproviderPages", "Home");
                     
                 }
                 else
@@ -207,25 +203,50 @@ namespace Helperland.Controllers
         [HttpPost]
         public IActionResult CreateAccount(User user)
         {
-            User users = new User();
-            user.UserTypeId = 1;
-            db.Users.Add(user);
-            db.SaveChanges();
-            return View("Index");
+            if (ModelState.IsValid)
+            {
+                user.UserTypeId = 1;
+                user.IsRegisteredUser = false;
+                user.WorksWithPets = false;
+                user.CreatedDate = DateTime.Now;
+                user.ModifiedDate = DateTime.Now;
+                user.ModifiedBy = 0;
+                user.IsApproved = false;
+                user.IsActive = true;
+                user.IsDeleted = false;
+                db.Users.Add(user);
+                db.SaveChanges();
+                ViewBag.Msg = "Your Customer account is created!! Now go to Login.";
+                return View();
+            }
+            return View();
         }
 
         public IActionResult serviceproviderSignup()
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult serviceproviderSignup(User user)
         {
-            //User users = new User();
-            user.UserTypeId = 2;
-            db.Users.Add(user);
-            db.SaveChanges();
-            return View("Index");
+            if (ModelState.IsValid)
+            {
+                user.UserTypeId = 2;
+                user.IsRegisteredUser = false;
+                user.WorksWithPets = false;
+                user.CreatedDate = DateTime.Now;
+                user.ModifiedDate = DateTime.Now;
+                user.ModifiedBy = 0;
+                user.IsApproved = false;
+                user.IsActive = true;
+                user.IsDeleted = false;
+                db.Users.Add(user);
+                db.SaveChanges();
+                ViewBag.Msg = "Your service Provider account is created!! Now go to Login";
+                return View();
+            }
+            return View();
         }
 
         public IActionResult BookService()
@@ -289,6 +310,17 @@ namespace Helperland.Controllers
             return View();
         }
 
+        public IActionResult ServiceRequest()
+        {
+            List<ServiceRequest> sr = db.ServiceRequests.Where(x => x.UserId == 13).ToList();
+            return View(sr);
+        }
+
+        public IActionResult ServiceHistory()
+        {
+            List<ServiceRequest> sr = db.ServiceRequests.Where(x => x.UserId == 13).ToList();
+            return View(sr);
+        }
 
         public IActionResult Mysettings()
         {
@@ -319,6 +351,20 @@ namespace Helperland.Controllers
             return View(add); 
         }
 
+        public string updateaddress([FromBody] UserAddress change)
+        {
+            UserAddress add = db.UserAddresses.Where(x => x.AddressId == 4).FirstOrDefault();
+
+            add.AddressLine1 = change.AddressLine1;
+            add.AddressLine2 = change.AddressLine2;
+            add.PostalCode = change.PostalCode;
+            add.City = change.City;
+            add.Mobile = change.Mobile;
+            db.UserAddresses.Update(add);
+            db.SaveChanges();
+            return "true";
+
+        }
         [HttpPost]
         public string password([FromBody] User u)
         {
@@ -327,6 +373,11 @@ namespace Helperland.Controllers
             db.Users.Update(u);
             db.SaveChanges();
             return "true";
+        }
+
+        public IActionResult ServiceproviderPages()
+        {
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -340,4 +391,3 @@ namespace Helperland.Controllers
     {
     }
 }
-
