@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Helperland.Models.ServiceRequest>
+@{
+    <div class="col">
+        <div class="tableabove navbar d-flex align-items-center">
+            <div class="d-flex align-items-center"><p class="text1 fw-bold">Service History</p></div>
+            <div class="d-flex align-items-center">
+                <p class="button text-center">
+                    <a href="" class="px-3">Export</a>
+                </p>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Service Id<img class="ms-2" src="~/images/arrows.png"></th>
+                    <th>Service Details<img class="ms-2" src="~/images/arrows.png"></th>
+                    <th>Service Provider<img class="ms-2" src="~/images/arrows.png"></th>
+                    <th>Payment<img class="ms-2" src="~/images/arrows.png"></th>
+                    <th>Status<img class="ms-2" src="~/images/arrows.png"></th>
+                    <th>Rate SP</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><button type="button" class="btn" data-toggle="modal" data-target="#myModal">@item.ServiceId</button></td>
+                        <td class="cs btn" id="cs" type="button" data-toggle="modal" data-target="#myModal">
+                            <div class="details fw-bold"><img class="me-2" src="~/images/calender.png">@item.ServiceStartDate </div>
+                            <div class="ms-lg-0 ms-5">@item.ServiceHours</div>
+                        </td>
+                        <td class="cs">
+                            <img class="hat me-2" src="~/images/hat.png"><span>Lyum Watson</span>
+                            <div class="rate">
+                                <input type="radio" id="star5" name="rate" value="5" />
+                                <label for="star5" title="text">5 stars</label>
+                                <input type="radio" id="star4" name="rate" value="4" />
+                                <label for="star4" title="text">4 stars</label>
+                                <input type="radio" id="star3" name="rate" value="3" />
+                                <label for="star3" title="text">3 stars</label>
+                                <input type="radio" id="star2" name="rate" value="2" />
+                                <label for="star2" title="text">2 stars</label>
+                                <input type="radio" id="star1" name="rate" value="1" />
+                                <label for="star1" title="text">1 star</label>
+                            </div>
+                        </td>
+                        <td class="price">€<span class="fw-bold">@item.SubTotal</span></td>
+                        <td><button class="complete mt-md-3 mt-2">Completed</button></td>
+                        <td><button class="Rate mt-2"><a href="#">Rate SP</a></button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="tablebelow navbar d-flex align-items-center">
+            <div class="d-flex align-items-center">
+                <!-------------------------entries------------------>
+                <p class="left">
+                    Show <span class="p-0">
+                        <select class="entries table-dropdown" name="table-rows" id="table-rows">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </span> Entries
+                </p>
+            </div>
+            <div class="d-flex align-items-center pb-2 gap-3 pe-3">
+                <!---------------------pagination----------------->
+                <nav aria-label="Page navigation example ">
+                    <ul class="pagination pagination-circle pagination-sm">
+                        <li class="page-item"><a class="page-link" href="#"><img src="~/images/group-36.png"></a></li>
+                        <li class="page-item"><a class="page-link" href="#"><img src="~/images/keyboard-arrow.png"></a></li>
+                        <li class="page-item"><a class="page-link circle circle-md border" href="#"><span>1</span></a></li>
+                        <li class="page-item"><a class="page-link circle circle-md" href="#"><span>2</span></a></li>
+                        <li class="page-item"><a class="page-link circle circle-md" href="#"><span>3</span></a></li>
+                        <li class="page-item"><a class="page-link" href="#"><img class="right" src="~/images/keyboard-arrow.png"></a></li>
+                        <li class="page-item"><a class="page-link" href="#"><img class="right" src="~/images/group-36.png"></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+}
