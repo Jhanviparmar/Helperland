@@ -24,14 +24,7 @@ namespace Helperland.Controllers
             _logger = logger;
         }
         HelperlanddContext db = new HelperlanddContext();
-        
-
-        ////private readonly HelperlanddContext _DbContext;
-
-        ////public HomeController(HelperlanddContext DbContext)
-        ////{
-        ////    _DbContext = DbContext;
-        ////}
+       
 
         public IActionResult Index()
         {
@@ -206,14 +199,8 @@ namespace Helperland.Controllers
             if (ModelState.IsValid)
             {
                 user.UserTypeId = 1;
-                user.IsRegisteredUser = false;
-                user.WorksWithPets = false;
                 user.CreatedDate = DateTime.Now;
                 user.ModifiedDate = DateTime.Now;
-                user.ModifiedBy = 0;
-                user.IsApproved = false;
-                user.IsActive = true;
-                user.IsDeleted = false;
                 db.Users.Add(user);
                 db.SaveChanges();
                 ViewBag.Msg = "Your Customer account is created!! Now go to Login.";
@@ -233,14 +220,8 @@ namespace Helperland.Controllers
             if (ModelState.IsValid)
             {
                 user.UserTypeId = 2;
-                user.IsRegisteredUser = false;
-                user.WorksWithPets = false;
                 user.CreatedDate = DateTime.Now;
                 user.ModifiedDate = DateTime.Now;
-                user.ModifiedBy = 0;
-                user.IsApproved = false;
-                user.IsActive = true;
-                user.IsDeleted = false;
                 db.Users.Add(user);
                 db.SaveChanges();
                 ViewBag.Msg = "Your service Provider account is created!! Now go to Login";
@@ -373,11 +354,6 @@ namespace Helperland.Controllers
             db.Users.Update(u);
             db.SaveChanges();
             return "true";
-        }
-
-        public IActionResult ServiceproviderPages()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
