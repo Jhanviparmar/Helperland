@@ -1,42 +1,142 @@
-﻿<header>
-    <section id="navbar">
-        <nav class="navbar navbar-expand-lg navbar-light bg-transparent main-navigation">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                    <img class="pb-2" src="~/images/smallhomelogo.png">
-                </a>
-                <button class="navbar-toggler" type="button">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="overlay d-flex d-lg-none"></div>
-                <div class="d-lg-flex w-100 pb-3 pb-lg-0 sidebar" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto pb-3">
-                        <li class="blue-btn nav-item text-center ms-xl-2">
-                            <a class="nav-link text-light px-3" aria-current="page" href="#">Book a cleaner</a>
-                        </li>
-                        <li class="nav-item text-center ms-xl-2 ">
-                            <a class="nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="Price">Prices & Services</a>
-                        </li>
-                        <li class="nav-item text-center ms-xl-2">
-                            <a class="nav-link text-light px-3" aria-current="page" href="#">Warranty</a>
-                        </li>
-                        <li class="nav-item text-center ms-xl-2">
-                            <a class="nav-link text-light px-3" aria-current="page" href="#">Blog</a>
-                        </li>
-                        <li class="nav-item text-center active ms-xl-2">
-                            <a class="nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="Contact">Contact Us</a>
-                        </li>
-                        <li class="blue-btn nav-item text-center ms-xl-2 me-2">
-                            <a class="nav-link text-light px-3" aria-current="page" data-bs-toggle="modal" href="#exampleModalToggle">Login</a>
-                        </li>
-                        <li class="blue-btn nav-item text-center ms-xl-2 ">
-                            <a class=" nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="serviceproviderSignup">Become a Helper</a>
-                        </li>
-                        <li><hr class="dropdown-divider divider d-lg-none" style="color: #646464; height: 2px;"></li>
-                        <li class="divider d-lg-none mt-3"><img src="~/images/fb.png" class="mx-5"><img src="~/images/ig.png"></li>
-                    </ul>
+﻿@using Microsoft.AspNetCore.Http;
+@if (Context.Session.GetString("User_id") == null)
+{
+    <header>
+        <section id="navbar">
+            <nav class="navbar navbar-expand-lg navbar-light bg-transparent main-navigation">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                        <img class="pb-2" src="~/images/smallhomelogo.png">
+                    </a>
+                    <button class="navbar-toggler" type="button">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="overlay d-flex d-lg-none"></div>
+                    <div class="d-lg-flex w-100 pb-3 pb-lg-0 sidebar" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto pb-3">
+                            <li class="blue-btn nav-item text-center ms-xl-2">
+                                <a class="nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="BookService">Book a cleaner</a>
+                            </li>
+                            <li class="nav-item text-center ms-xl-2 ">
+                                <a class="nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="Price">Prices & Services</a>
+                            </li>
+                            <li class="nav-item text-center ms-xl-2">
+                                <a class="nav-link text-light px-3" aria-current="page" href="#">Warranty</a>
+                            </li>
+                            <li class="nav-item text-center ms-xl-2">
+                                <a class="nav-link text-light px-3" aria-current="page" href="#">Blog</a>
+                            </li>
+                            <li class="nav-item text-center active ms-xl-2">
+                                <a class="nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="Contact">Contact Us</a>
+                            </li>
+                            <li class="blue-btn nav-item text-center ms-xl-2 me-2">
+                                <a class="nav-link text-light px-3" aria-current="page" data-bs-toggle="modal" href="#exampleModalToggle">Login</a>
+                            </li>
+                            <li class="blue-btn nav-item text-center ms-xl-2 ">
+                                <a class=" nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="serviceproviderSignup">Become a Helper</a>
+                            </li>
+                            <li><hr class="dropdown-divider divider d-lg-none" style="color: #646464; height: 2px;"></li>
+                            <li class="divider d-lg-none mt-3"><img src="~/images/fb.png" class="mx-5"><img src="~/images/ig.png"></li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </section>
-</header>
+            </nav>
+        </section>
+    </header>
+}
+else
+{
+    <header>
+        <section id="navbar">
+            <nav class="navbar navbar-expand-lg navbar-light bg-transparent main-navigation">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-action="Index" asp-controller="Home">
+                        <img class="pb-2" src="~/images/smallhomelogo.png">
+                    </a>
+                    <img class="mx-lg-2 mb-2 d-lg-none" src="~/images/notification.png">
+                    <button class="navbar-toggler" type="button">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="overlay d-flex d-lg-none"></div>
+                    <div class="d-lg-flex w-100 pb-3 pb-lg-0 sidebar" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto pb-3">
+                            <div class="d-lg-none px-3 pt-3" style="color:#4f4f4f;">Warm welcome,<div class="fw-bold">Customer</div></div>
+                            <li><hr class="dropdown-divider divider d-lg-none" style="color: #646464; height: 2px;"></li>
+                            <ul class="nav nav-pills flex-column d-lg-none mobo-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link px-3" data-toggle="pill" href="#overview">Overview</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link px-3" data-toggle="pill" href="#css">Completed Service Orders</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link px-3" data-toggle="pill" href="#cview">Calender View</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link px-3" data-toggle="pill" href="#favpros">Favourite Pros</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link px-3" data-toggle="pill" href="#invoices">Invoices</a>
+                                </li>
+                            </ul>
+                            <li class="nav-item text-center ms-xl-2 d-lg-none">
+                                <a class="nav-link px-3" data-toggle="pill" href="#mysettings">My Setting</a>
+                            </li>
+                            <li class="nav-item text-center ms-xl-2 d-lg-none">
+                                <a class="nav-link text-light px-3" aria-current="page" href="#">Logout</a>
+                            </li>
+                            <li><hr class="dropdown-divider divider d-lg-none" style="color: #646464; height: 2px;"></li>
+                            <li class="blue-btn nav-item text-center ms-xl-2">
+                                <a class="nav-link text-light px-3" aria-current="page" asp-action="BookService" asp-controller="Home">Book a cleaner</a>
+                            </li>
+                            <li class="nav-item text-center ms-xl-2 ">
+                                <a class="nav-link text-light px-3" aria-current="page" asp-action="Price" asp-controller="Home">Prices & Services</a>
+                            </li>
+                            <li class="nav-item text-center ms-xl-2">
+                                <a class="nav-link text-light px-3" aria-current="page" href="#">Warranty</a>
+                            </li>
+                            <li class="nav-item text-center ms-xl-2">
+                                <a class="nav-link text-light px-3" aria-current="page" href="#">Blog</a>
+                            </li>
+                            <li class="nav-item text-center active ms-xl-2">
+                                <a class="nav-link text-light ps-3" aria-current="page" asp-action="Contact" asp-controller="Home">Contact Us</a>
+                            </li>
+                            <li><hr class="dropdown-divider divider d-lg-none" style="color: #646464; height: 2px;"></li>
+                            <li class="divider d-lg-none mt-3"><img src="~/images/fb.png" class="mx-5"><img src="~/images/ig.png"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="vertical-line mx-2 mb-2 d-lg-block d-none"></div>
+                <img class="mx-lg-2 mb-2 d-lg-block d-none" src="~/images/notification.png">
+                <div class="vertical-line mx-2 mb-2 d-lg-block d-none"></div>
+                <div class="dropdown d-lg-block d-none">
+                    <a type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img class="me-5 mb-2 pe-5 px-2" src="~/images/profile.png">
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li>
+                            <a class="dropdown-item bg-transparent" href="#">Welcome <br><div class="fw-bold">@TempData["username"]</div> </a>
+                        </li>
+                        <li> <hr class="dropdown-divider"> </li>
+
+                        <div class="nav flex-column nav-pills me-3 profile-dropdown" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+
+                            @if (Context.Session.GetInt32("Usertype_id") == 1)
+                            {
+                                <a style="text-decoration: none;" class="ps-3" asp-action="sdashboard" asp-controller="Home">Dashboard</a>
+                                <a class="nav-link" id="v-pills-mysettings-tab" asp-action="settings" asp-controller="Home" role="tab" aria-controls="v-pills-css" aria-selected="false">My Settings</a>
+                            }
+                            else
+                            {
+                                <a style="text-decoration: none;" class="ps-3" asp-action="SPDashboard" asp-controller="Home">Dashboard</a>
+                                <a class="nav-link" id="v-pills-mysettings-tab" asp-action="ServiceProviderSettings" asp-controller="Home" role="tab">My Settings</a>
+                            }
+                            <a style="text-decoration: none;" class="ps-3" asp-action="Logout" asp-controller="Home">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </section>
+    </header>
+}
