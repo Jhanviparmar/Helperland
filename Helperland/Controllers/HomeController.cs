@@ -1,17 +1,14 @@
-﻿using Helperland.Models;
+﻿using Helperland.Data;
+using Helperland.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Helperland.Data;
-using Microsoft.EntityFrameworkCore;
-using System.Web;
-using System.Net.Mail;
 using System.Net;
-using Microsoft.AspNetCore.Http;
+using System.Net.Mail;
 
 namespace Helperland.Controllers
 {
@@ -24,10 +21,18 @@ namespace Helperland.Controllers
             _logger = logger;
         }
         HelperlanddContext db = new HelperlanddContext();
-       
+        
+
+        ////private readonly HelperlanddContext _DbContext;
+
+        ////public HomeController(HelperlanddContext DbContext)
+        ////{
+        ////    _DbContext = DbContext;
+        ////}
 
         public IActionResult Index()
         {
+
             return View();
         }
 
@@ -73,28 +78,21 @@ namespace Helperland.Controllers
         {
 
             var login_user = db.Users.Where(x => x.Email == u.Email && x.Password == u.Password).FirstOrDefault();
-            /*User login_user = db.Users.Where(model => model.Email == u.Email && model.Password == u.Password).FirstOrDefault()*/
-            
             if (login_user != null)
             {
                 if (login_user.UserTypeId == 1)
                 {
                     HttpContext.Session.SetInt32("User_id", login_user.UserId);
-                    TempData["username"] = login_user.FirstName;
-                    TempData["LastName"] = login_user.LastName;
-                    TempData["Email"] = login_user.Email;
-                    TempData["Mobile"] = login_user.Mobile;
-                    return RedirectToAction("CustomerPages", "Home");
+                    HttpContext.Session.SetInt32("Usertype_id", login_user.UserTypeId);
+                    HttpContext.Session.SetString("username", u.FirstName + " " + u.LastName);
+                    return RedirectToAction("sdashboard", "Home");
                 }
                 else if (login_user.UserTypeId == 2)
                 {
                     HttpContext.Session.SetInt32("User_id", login_user.UserId);
-                    TempData["username"] = login_user.FirstName;
-                    TempData["LastName"] = login_user.LastName;
-                    TempData["Email"] = login_user.Email;
-                    TempData["Mobile"] = login_user.Mobile;
-                    TempData["Password"] = login_user.Password;
-                    return RedirectToAction("ServiceproviderPages", "Home");
+                    HttpContext.Session.SetInt32("Usertype_id", login_user.UserTypeId);
+                    HttpContext.Session.SetString("username", u.FirstName + " " + u.LastName);
+                    return RedirectToAction("SPDashboard", "Home");
                     
                 }
                 else
@@ -199,8 +197,14 @@ namespace Helperland.Controllers
             if (ModelState.IsValid)
             {
                 user.UserTypeId = 1;
+                user.IsRegisteredUser = false;
+                user.WorksWithPets = false;
                 user.CreatedDate = DateTime.Now;
                 user.ModifiedDate = DateTime.Now;
+                user.ModifiedBy = 0;
+                user.IsApproved = false;
+                user.IsActive = true;
+                user.IsDeleted = false;
                 db.Users.Add(user);
                 db.SaveChanges();
                 ViewBag.Msg = "Your Customer account is created!! Now go to Login.";
@@ -220,8 +224,14 @@ namespace Helperland.Controllers
             if (ModelState.IsValid)
             {
                 user.UserTypeId = 2;
+                user.IsRegisteredUser = false;
+                user.WorksWithPets = false;
                 user.CreatedDate = DateTime.Now;
                 user.ModifiedDate = DateTime.Now;
+                user.ModifiedBy = 0;
+                user.IsApproved = false;
+                user.IsActive = true;
+                user.IsDeleted = false;
                 db.Users.Add(user);
                 db.SaveChanges();
                 ViewBag.Msg = "Your service Provider account is created!! Now go to Login";
@@ -232,7 +242,14 @@ namespace Helperland.Controllers
 
         public IActionResult BookService()
         {
-            return View();
+            var UserID = HttpContext.Session.GetInt32("User_id");
+
+            if (UserID != null)
+            {
+                return View();
+            }
+            ViewBag.msg = "<alert>You have to login first to Book a Service.</alert>";
+            return RedirectToAction("Index");
         }
 
         public string PostalCode(string postalcode)
@@ -251,11 +268,32 @@ namespace Helperland.Controllers
             return IsValid;
 
         }
+
+        public IActionResult Details()
+        {
+            var UserID = HttpContext.Session.GetInt32("User_id");
+            List<UserAddress> add = db.UserAddresses.Where(x => x.UserId == UserID).ToList();
+            System.Threading.Thread.Sleep(2000);
+            return View(add);
+
+        }
+
+        public string SaveAddress([FromBody] UserAddress address)
+        {
+            address.UserId = (int)HttpContext.Session.GetInt32("User_id");
+            address.IsDefault = false;
+            address.IsDeleted = false;
+            db.UserAddresses.Add(address);
+            db.SaveChanges();
+            return "true";
+        }
+
         [HttpPost]
         public string ConfirmServiceRequest([FromBody] ServiceRequest sr)
         {
-            
-            sr.UserId = 13;
+
+            sr.UserId = (int)HttpContext.Session.GetInt32("User_id");
+            //UserAddress address = db.UserAddresses.Where(x => x.AddressId == sr.AddressId).SingleOrDefault();
             sr.ServiceId = 8570;
             sr.ServiceHourlyRate = 9;
             sr.PaymentDue = true;
@@ -263,22 +301,87 @@ namespace Helperland.Controllers
             sr.ModifiedDate = DateTime.Now;
             sr.ModifiedBy = 13;
             sr.Distance = 15;
+            sr.Status = 0;
             db.ServiceRequests.Add(sr);
             db.SaveChanges();
             return "true";
         }
 
-
-        public IActionResult Details()
+        public IActionResult sdashboard()
         {
-            List<UserAddress> add = db.UserAddresses.Where(x => x.UserId == 13).ToList();
-            System.Threading.Thread.Sleep(2000);
+            int userid = (int)HttpContext.Session.GetInt32("User_id");
+            List<ServiceRequest> obj = new List<ServiceRequest>();
+            obj = db.ServiceRequests.Where(x => x.UserId == userid && x.Status == 0).ToList();
+            return View(obj);
+        }
+
+        public IActionResult shistory()
+        {
+            int userid = (int)HttpContext.Session.GetInt32("User_id");
+            List<ServiceRequest> obj = db.ServiceRequests.Where(x => x.UserId == userid && x.Status == 2 || x.Status == 3).ToList();
+            return View(obj);
+        }
+
+        public bool CancelRequest([FromBody] ServiceRequest sr)
+        {
+            ServiceRequest obj = db.ServiceRequests.Where(x => x.ServiceRequestId == sr.ServiceRequestId).FirstOrDefault();
+            obj.Status = 3;
+            obj.Comments = sr.Comments;
+            db.ServiceRequests.Update(obj);
+            db.SaveChanges();
+            return true;
+        }
+
+        public IActionResult favouritepros()
+        {
+            return View();
+        }
+
+        public IActionResult settings()
+        {
+            var a = (int)HttpContext.Session.GetInt32("User_id");
+            User u = db.Users.Where(x => x.UserId == a).FirstOrDefault();
+            return View(u);
+        }
+
+        public string UpdateDetails([FromBody] User book)
+        {
+            var a = (int)HttpContext.Session.GetInt32("User_id");
+            User u = db.Users.Where(x => x.UserId == a).FirstOrDefault();
+            u.FirstName = book.FirstName;
+            u.LastName = book.LastName;
+            u.Mobile = book.Mobile;
+            db.Users.Update(u);
+            db.SaveChanges();
+
+            
+            HttpContext.Session.SetString("username", u.FirstName + " " + u.LastName);
+            return "true";
+        }
+        public string Updatepassword([FromBody] User password)
+        {  
+                var a = (int)HttpContext.Session.GetInt32("User_id");
+                User u = db.Users.Where(x => x.UserId == a).FirstOrDefault();
+                if (u.Password == password.Password)
+                {
+                    u.Password = password.ConfirmPassword;
+                    db.Users.Update(u);
+                    db.SaveChanges();
+                    return "true";
+                }
+                return "false";
+        }
+        public IActionResult CustomerAddress()
+        {
+            var UserID = HttpContext.Session.GetInt32("User_id");
+            List<UserAddress> add = db.UserAddresses.Where(x => x.UserId == UserID).ToList();
             return View(add);
+
         }
 
-        public string SaveAddress([FromBody] UserAddress address)
+        public string SaveNewAddress([FromBody] UserAddress address)
         {
-            address.UserId = 13;
+            address.UserId = (int)HttpContext.Session.GetInt32("User_id");
             address.IsDefault = false;
             address.IsDeleted = false;
             db.UserAddresses.Add(address);
@@ -286,75 +389,114 @@ namespace Helperland.Controllers
             return "true";
         }
 
-        public IActionResult CustomerPages()
+        public IActionResult EditAddress()
+        {
+            var a = (int)HttpContext.Session.GetInt32("User_id");
+            UserAddress u = db.UserAddresses.Where(x => x.AddressId == a).FirstOrDefault();
+            return View(u);
+        }
+
+        [HttpPost]
+        public string Editaddress([FromBody] UserAddress add)
+        {
+            var a = (int)HttpContext.Session.GetInt32("User_id");
+            UserAddress ua = db.UserAddresses.Where(x => x.UserId == a).FirstOrDefault();
+            ua.AddressLine1 = add.AddressLine1;
+            ua.AddressLine2 = add.AddressLine2;
+            ua.PostalCode = add.PostalCode;
+            ua.City = add.City;
+            ua.Mobile = add.Mobile;
+            db.UserAddresses.Update(ua);
+            db.SaveChanges();
+            return "true";
+        }
+
+        [HttpPost]
+        public string DeleteAddress(int Id)
+        {
+            UserAddress userAddress = db.UserAddresses.Where(x => x.AddressId == Id).FirstOrDefault();
+            db.UserAddresses.Remove(userAddress);
+            db.SaveChanges();
+            return "true";
+        }
+
+        public IActionResult SPDashboard()
         {
             return View();
         }
 
-        public IActionResult ServiceRequest()
+        public IActionResult SPNewRequest()
         {
-            List<ServiceRequest> sr = db.ServiceRequests.Where(x => x.UserId == 13).ToList();
-            return View(sr);
+            return View();
         }
-
-        public IActionResult ServiceHistory()
+        public IActionResult SPUpcomingServices()
         {
-            List<ServiceRequest> sr = db.ServiceRequests.Where(x => x.UserId == 13).ToList();
-            return View(sr);
+            return View();
         }
-
-        public IActionResult Mysettings()
+        public IActionResult SPServiceHistory()
+        {
+            return View();
+        }
+        public IActionResult SPRatings()
+        {
+            return View();
+        }
+        public IActionResult BlockCustomer()
         {
             return View();
         }
 
+        public IActionResult ServiceProviderSettings()
+        {
+            var a = (int)HttpContext.Session.GetInt32("User_id");
+            User u = db.Users.Where(x => x.UserId == a).FirstOrDefault();
+            return View(u);
+        }
+
+        public IActionResult spAddress()
+        {
+            var a = (int)HttpContext.Session.GetInt32("User_id");
+            UserAddress u = db.UserAddresses.Where(x => x.AddressId == a).FirstOrDefault();
+            return View(u);
+        }
+
         [HttpPost]
-        public string mydetails([FromBody] User u)
+        public string spAddress([FromBody] UserAddress add)
         {
-            db.Users.Update(u);
-            db.SaveChanges();
-            return "true";
-        }
-        public string saveAddress([FromBody] UserAddress address)
-        {
-            address.UserId = 13;
-            address.IsDefault = false;
-            address.IsDeleted = false;
-            db.UserAddresses.Add(address);
+            var a = (int)HttpContext.Session.GetInt32("User_id");
+            UserAddress ua = db.UserAddresses.Where(x => x.UserId == a).FirstOrDefault();
+            ua.AddressLine1 = add.AddressLine1;
+            ua.AddressLine2 = add.AddressLine2;
+            ua.PostalCode = add.PostalCode;
+            ua.City = add.City;
+            ua.Mobile = add.Mobile;
+            db.UserAddresses.Update(ua);
             db.SaveChanges();
             return "true";
         }
 
-        public IActionResult address()
-        {
-            List<UserAddress> add = db.UserAddresses.Where(x => x.UserId == 13).ToList();
-            System.Threading.Thread.Sleep(2000);
-            return View(add); 
-        }
+        //public IActionResult spAddress()
+        //{
+        //    var a = (int)HttpContext.Session.GetInt32("User_id");
+        //    UserAddress u = db.UserAddresses.Where(x => x.AddressId == a).FirstOrDefault();
+        //    return View(u);
+        //}
 
-        public string updateaddress([FromBody] UserAddress change)
-        {
-            UserAddress add = db.UserAddresses.Where(x => x.AddressId == 4).FirstOrDefault();
+        //[HttpPost]
+        //public string spAddress([FromBody] UserAddress add)
+        //{
+        //    var a = (int)HttpContext.Session.GetInt32("User_id");
+        //    UserAddress ua = db.UserAddresses.Where(x => x.UserId == a).FirstOrDefault();
+        //    ua.AddressLine1 = add.AddressLine1;
+        //    ua.AddressLine2 = add.AddressLine2;
+        //    ua.PostalCode = add.PostalCode;
+        //    ua.City = add.City;
+        //    ua.Mobile = add.Mobile;
+        //    db.UserAddresses.Update(ua);
+        //    db.SaveChanges();
+        //    return "true";
+        //}
 
-            add.AddressLine1 = change.AddressLine1;
-            add.AddressLine2 = change.AddressLine2;
-            add.PostalCode = change.PostalCode;
-            add.City = change.City;
-            add.Mobile = change.Mobile;
-            db.UserAddresses.Update(add);
-            db.SaveChanges();
-            return "true";
-
-        }
-        [HttpPost]
-        public string password([FromBody] User u)
-        {
-            User user = new User();
-            user.Password = u.Password;
-            db.Users.Update(u);
-            db.SaveChanges();
-            return "true";
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
