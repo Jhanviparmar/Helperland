@@ -1,0 +1,315 @@
+﻿@model IEnumerable<Helperland.Models.ServiceRequest>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="~/css/book-a-serviceStyle.css">
+    <link rel="stylesheet" type="text/css" href="~/css/service-historyStyle.css">
+    <link rel="stylesheet" type="text/css" href="~/css/styles.css">
+    <title>Customer Pages</title>
+    <!--------------Bootstrap------------------>
+</head>
+<body>
+    <!------------Navbar-------------->
+    @Html.Partial("_header")
+    <!----------------Welcome------------->
+    <section class="welcome" style="padding: 100px 0 20px 0;">
+        <div class="d-flex text-center align-items-center justify-content-center">
+            <p id="welcome">Welcome, <span class="fw-bold"> Gaurang!</span></p>
+        </div>
+    </section>
+    <!----------------Mainbody-------------->
+    <div class="row px-5" style="padding-top: 50px;">
+        <div class="col-lg-3 d-lg-block d-none">
+            <div class="sidemenu mb-5">
+                <div class="nav flex-column nav-pills bg-transparent" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+                    <a class="nav-link active" id="v-pills-Overview-tab" asp-action="sdashboard" asp-controller="Home" role="tab" aria-controls="v-pills-overview" aria-selected="true">Dashboard</a>
+
+                    <a class="nav-link" id="v-pills-css-tab" asp-action="shistory" asp-controller="Home" role="tab" aria-controls="v-pills-css" aria-selected="false">Service History</a>
+
+                    <a class="nav-link" id="v-pills-cview-tab" data-toggle="pill" href="#cview" role="tab" aria-controls="v-pills-cview" aria-selected="false">Service Schedule</a>
+
+                    <a class="nav-link" id="v-pills-favpros-tab" asp-action="favouritepros" asp-controller="Home" role="tab" aria-controls="v-pills-favpros" aria-selected="false">Favourite Pros</a>
+
+                    <a class="nav-link" id="v-pills-invoices-tab" data-toggle="pill" role="tab" aria-controls="v-pills-invoices" aria-selected="false">Invoices</a>
+
+                    <a class="nav-link" id="v-pills-notifications-tab" data-toggle="pill" role="tab" aria-controls="v-pills-notifications" aria-selected="false">Notifications</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-9 col-12">
+
+            <div class="tab-content" id="v-pills-tabContent">
+
+                <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="v-pills-overview-tab">
+                    <div class="col">
+                        <div class="tableabove navbar d-flex align-items-center">
+                            <div class="d-flex align-items-center"><p class="text1 fw-bold">Current Service Requests</p></div>
+                            <div class="d-flex align-items-center">
+                                <p class="button text-center">
+                                    <a asp-action="BookService" asp-controller="Home" class="px-3">Add new service request</a>
+                                </p>
+                            </div>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Service Id<img class="ms-2" src="~/images/arrows.png"></th>
+                                    <th>Service Details<img class="ms-2" src="~/images/arrows.png"></th>
+                                    <th>Service Provider<img class="ms-2" src="~/images/arrows.png"></th>
+                                    <th>Payment<img class="ms-2" src="~/images/arrows.png"></th>
+                                    <th class="ps-5">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+
+                                <tr>
+                                    <td><button type="button" SRid="@item.ServiceRequestId" class="btn" data-toggle="modal" data-target="#myModal2">@item.ServiceId</button></td>
+                                    <td class="cs" id="cs" type="button" class="btn" data-toggle="modal" data-target="#myModal2">
+                                        <div class="fw-bold"><img class="me-2" src="~/images/calender.png">@item.ServiceStartDate</div>
+                                        <div class="ms-lg-0 ms-5">12:00 - 18:00</div>
+                                    </td>
+                                    <td></td>
+                                    <td class="price">€<span class="fw-bold">@item.SubTotal</span></td>
+                                    <td>
+                                        <button type="button" class="button mt-md-3 mt-2 px-3" data-toggle="modal" data-target="#exampleModal">
+                                            Reschedule
+                                        </button>
+                                        <button type="button" class="button mt-md-3 mt-2 px-3" data-toggle="modal" data-target="#exampleModal1" id="cancel">Cancel</button>
+                                    </td>
+                                </tr>
+                                
+                                }
+                            </tbody>
+                        </table>
+                        <div class="tablebelow navbar d-flex align-items-center">
+                            <div class="d-flex align-items-center">
+                                <!-------------------------entries------------------>
+                                <p class="left">
+                                    Show <span class="p-0">
+                                        <select class="entries table-dropdown" name="table-rows" id="table-rows">
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                    </span> Entries
+                                </p>
+                            </div>
+                            <div class="d-flex align-items-center pb-2 gap-3 pe-3">
+                                <!---------------------pagination----------------->
+                                <nav aria-label="Page navigation example ">
+                                    <ul class="pagination pagination-circle pagination-sm">
+                                        <li class="page-item"><a class="page-link" href="#"><img src="~/images/group-36.png"></a></li>
+                                        <li class="page-item"><a class="page-link" href="#"><img src="~/images/keyboard-arrow.png"></a></li>
+                                        <li class="page-item"><a class="page-link circle circle-md border" href="#"><span>1</span></a></li>
+                                        <li class="page-item"><a class="page-link circle circle-md" href="#"><span>2</span></a></li>
+                                        <li class="page-item"><a class="page-link circle circle-md" href="#"><span>3</span></a></li>
+                                        <li class="page-item"><a class="page-link" href="#"><img class="right" src="~/images/keyboard-arrow.png"></a></li>
+                                        <li class="page-item"><a class="page-link" href="#"><img class="right" src="~/images/group-36.png"></a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane fade" id="cview" role="tabpanel" aria-labelledby="v-pills-cview-tab">
+                    <div class="row border g-0 rounded shadow-sm">
+                        <div class="col p-4">
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane fade" id="invoices" role="tabpanel" aria-labelledby="v-pills-invoices-tab">
+                    <div class="row border g-0 rounded shadow-sm">
+                        <div class="col p-4">
+
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="notifications" role="tabpanel" aria-labelledby="v-pills-notifications-tab">
+                    <div class="row border g-0 rounded shadow-sm">
+                        <div class="col p-4">
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!---------RescheduleModal----------->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="exampleModalToggleLabel">Reschedule Service Request</h2>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="pb-1">Select New Date & Time</p>
+                    <div class="mb-2">
+                        <input class="me-2 calender" type="date" id="start" name="trip-start"
+                               value="2022-01-01" min="2022-01-01" max="2022-12-31">
+                        <input class="time" type="time" id="appt" name="appt" value="08:00" min="09:00" max="18:00" required>
+                    </div>
+                    <button type="submit" class="login mb-4 mt-3 ms-5">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---------CancelModal----------->
+    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="exampleModalToggleLabel">Cancel Service Request</h2>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="pb-1">Why you want to cancel the service request?</p>
+                    <textarea rows="4" cols="50" id="reason"></textarea>
+                    <button type="submit" class="login mb-4 mt-3 ms-5" id="cancelService">Cancel Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!---------ServiceHistory-------------->
+    <div class="modal fade px-5" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Service Details</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex flex-row"><h6>Duration : </h6><span class="ps-2">hours</span></div>
+                    <div class="d-flex flex-row"><h6>Service-ID : </h6></div>
+                    <div class="d-flex flex-row"><h6>Extras : </h6><span class="ps-2">Cleaning cupboard interiors, cleaning the refridgerator</span></div>
+                    <div class="d-flex flex-row"><h6>Total payment : </h6><span class="price fw-bold ps-5">  0.00 €</span></div>
+                    <hr>
+                    <div class="d-flex flex-row"><h6>Address : </h6><span class="ps-2">123</span></div>
+                    <div class="d-flex flex-row"><h6>Billing address : </h6><span class="ps-2">Same as address</span></div>
+                    <div class="d-flex flex-row"><h6>Phone : </h6><span class="ps-2">+49 1232123454</span></div>
+                    <div class="d-flex flex-row"><h6>E-Mail : </h6><span class="ps-2">a@gmail.com</span></div>
+
+                    <hr>
+                    <h6>Do you want to tell your helper something?</h6>
+                    <div>I keep Pets</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--------------CurrentBooking--------------->
+    <div class="modal fade px-5" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Service Details</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex flex-row"><h6>Duration : </h6><span class="ps-2">hours</span></div>
+                    <div class="d-flex flex-row"><h6>Service-ID : </h6></div>
+                    <div class="d-flex flex-row"><h6>Extras : </h6><span class="ps-2">Cleaning cupboard interiors, cleaning the refridgerator</span></div>
+                    <div class="d-flex flex-row"><h6>Total payment : </h6><span class="price fw-bold ps-5">  0.00 €</span></div>
+                    <hr>
+                    <div class="d-flex flex-row"><h6>Address : </h6><span class="ps-2">123</span></div>
+                    <div class="d-flex flex-row"><h6>Billing address : </h6><span class="ps-2">Same as address</span></div>
+                    <div class="d-flex flex-row"><h6>Phone : </h6><span class="ps-2">+49 1232123454</span></div>
+                    <div class="d-flex flex-row"><h6>E-Mail : </h6><span class="ps-2">a@gmail.com</span></div>
+
+                    <hr>
+                    <h6>Do you want to tell your helper something?</h6>
+                    <div>I keep Pets</div>
+                    <button type="button" class="button mt-md-3 mt-2 px-3" data-toggle="modal"
+                            data-target="#exampleModal" id="Reschedule" data-dismiss="modal">
+                        Reschedule
+                    </button>
+                    <button type="button" class="button mt-md-3 mt-2 px-3" data-toggle="modal"
+                            data-target="#exampleModal1" id="cancel" data-dismiss="modal">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---------------footer--------------------->
+    @Html.Partial("_footer")
+
+    <div onclick="topFunction()" id="myBtn" title="Go to top"><img class="scroll ms-5" src="~/images/up.png"></div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src=”https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js”></script>
+    <script src=”https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js”></script>
+
+    <script src="~/js/mobilemenu.js"></script>
+    <script src="~/js/script.js"></script>
+    <script type="text/javascript">
+        window.addEventListener("scroll", function ()){
+            var header = document.querySelector("header");
+            header.classList.toggle("sticky", window.scrollY > 0);
+        }
+    </script>
+    <script>
+        var srid;
+        $(document).on("click","#cancel",function () {
+            srid = parseInt($(this).attr("SRid"));
+            console.log(srid);
+        });
+        $("#cancelService").click(function () {
+            var comment = $("#reason").val();
+                console.log(comment);
+            $.ajax({
+                url: '@Url.Action("CancelRequest", "Home")',
+                type: 'post',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify({
+                    ServiceRequestId: srid,
+                    Comments: $("#reason").val()
+                }),
+                success: function (res) {
+                    console.log(res);
+                    $("#cancel").modal("hide");
+                    alert("Your Service Request has been Cancelled.");
+                    location.reload();
+                },
+                error: function (err) {
+                    console.log(err);
+                    console.log("Error");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

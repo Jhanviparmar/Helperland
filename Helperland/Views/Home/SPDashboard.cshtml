@@ -1,0 +1,110 @@
+﻿@using Microsoft.AspNetCore.Http;
+@{
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="~/css/book-a-serviceStyle.css">
+        <link rel="stylesheet" type="text/css" href="~/css/service-historyStyle.css">
+        <link rel="stylesheet" type="text/css" href="~/css/upcoming-servicesStyle.css">
+        <link rel="stylesheet" type="text/css" href="~/css/styles.css">
+        <title>Serviceprovider Pages</title>
+        <!--------------Bootstrap------------------>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    </head>
+    <body>
+        <!------------Navbar-------------->
+        @Html.Partial("_header")
+        <!----------------Welcome------------->
+        <section class="welcome" style="padding: 100px 0 20px 0;">
+            <div class="d-flex text-center align-items-center justify-content-center">
+                <p id="welcome">Welcome, <span class="fw-bold">@Context.Session.GetString("username")</span></p>
+            </div>
+        </section>
+        <!----------------Mainbody-------------->
+        <div class="row px-5" style="padding-top: 50px;">
+            <div class="col-lg-3 d-lg-block d-none">
+                <div class="sidemenu mb-5">
+                    <div class="nav flex-column nav-pills bg-transparent" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+                        <a class="nav-link active" id="v-pills-db-tab" asp-action="SPDashboard" asp-controller="Home" role="tab" aria-controls="v-pills-db" aria-selected="true">Dashboard</a>
+
+                        <a class="nav-link" id="v-pills-nsr-tab" asp-action="SPNewRequest" asp-controller="Home" role="tab" aria-controls="v-pills-nsr" aria-selected="false">New Service Requests</a>
+
+                        <a class="nav-link" id="v-pills-us-tab" asp-action="SPUpcomingServices" asp-controller="Home" role="tab" aria-controls="v-pills-us" aria-selected="false">Upcoming Services</a>
+
+                        <a class="nav-link" id="v-pills-ss-tab" data-toggle="pill" href="#ss" role="tab" aria-controls="v-pills-ss" aria-selected="false">Service Schedule</a>
+
+                        <a class="nav-link" id="v-pills-sh-tab" asp-action="SPServiceHistory" asp-controller="Home" role="tab" aria-controls="v-pills-sh" aria-selected="false">Service History</a>
+
+                        <a class="nav-link" id="v-pills-mr-tab" asp-action="SPRatings" asp-controller="Home" role="tab" aria-controls="v-pills-mr" aria-selected="false">My Ratings</a>
+
+                        <a class="nav-link" id="v-pills-bc-tab" asp-action="BlockCustomer" asp-controller="Home" role="tab" aria-controls="v-pills-bc" aria-selected="false">Block Customer</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9 col-12">
+
+                <div class="tab-content" id="v-pills-tabContent">
+
+                    <div class="tab-pane fade show active" id="db" role="tabpanel" aria-labelledby="v-pills-db-tab">
+                        <div class="row p-3">
+                            <div class="col-md-4 col-12 blue flex-column text-center mb-3">
+                                <div class="count mb-3 p-3" style="background-color: #29c5f6;">0</div>
+                                <div class="mb-2 fw-bold">New Requests</div>
+                                <button class="show px-2 py-1">Show all</button>
+                            </div>
+                            <div class="col-md-4 col-12 green flex-column text-center mb-3">
+                                <div class="count mb-3 p-3" style="background-color: #03ac13;">0</div>
+                                <div class="mb-2 fw-bold">Upcoming services</div>
+                                <button class="show px-2 py-1">Show all</button>
+                            </div>
+                            <div class="col-md-4 col-12 red flex-column text-center mb-3">
+                                <div class="count mb-3 p-3" style="background-color: #ff6b6b;">0</div>
+                                <div class="mb-2 fw-bold">Service history</div>
+                                <button class="show px-2 py-1">Show all</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="tab-pane fade" id="ss" role="tabpanel" aria-labelledby="v-pills-ss-tab">
+                        <div class="row border g-0 rounded shadow-sm">
+                            <div class="col p-4">
+                                <p>
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!---------------footer--------------------->
+        @Html.Partial("_footer")
+
+        <div onclick="topFunction()" id="myBtn" title="Go to top"><img class="scroll ms-5" src="~/images/up.png"></div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script src=”https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js”></script>
+        <script src=”https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js”></script>
+        <script src="app.js"></script>
+
+        <script src="~/js/mobilemenu.js"></script>
+        <script src="~/js/script.js"></script>
+        <script type="text/javascript">
+            window.addEventListener("scroll", function () {
+                var header = document.querySelector("header");
+                header.classList.toggle("sticky", window.scrollY > 0);
+            });
+        </script>
+
+
+    </body>
+</html>
+}

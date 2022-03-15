@@ -1,0 +1,54 @@
+﻿@model Helperland.Models.UserAddress;
+
+<div class="mt-4 fw-bold">My Address</div>
+<hr>
+<div class="row">
+    <div class="col-md-4 col-12">
+        <label>Street name</label>
+        <input class="mb-3 p-2 street-name" type="name" name="street-name" id="streetname" asp-for="AddressLine1">
+    </div>
+
+    <div class="col-md-4 col-12">
+        <label>House number</label>
+        <input class="mb-3 p-2 house-number" type="name" name="house-number" id="housenumber" asp-for="AddressLine2">
+    </div>
+    <div class="col-md-4 col-12">
+        <label>Postal code</label>
+        <input class="mb-3 p-2 postal-code" type="name" name="postal-code" id="postalcode" asp-for="PostalCode">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 col-12">
+        <label>City</label>
+        <input class="mb-3 p-2 city" type="name" name="city" id="city" asp-for="City">
+    </div>
+    <div class="col-md-4 col-12"></div>
+    <div class="col-md-4 col-12"></div>
+</div>
+
+
+<div class="mt-4 fw-bold">My Billing Address</div>
+<hr>
+<div class="row">
+    <div class="col-md-4 col-12">
+        <label>Street name</label>
+        <input class="mb-3 p-2 street-name" type="name" name="street-name" id="streetname1" asp-for="AddressLine1">
+    </div>
+
+    <div class="col-md-4 col-12">
+        <label>House number</label>
+        <input class="mb-3 p-2 house-number" type="name" name="house-number" id="housenumber1" asp-for="AddressLine2">
+    </div>
+    <div class="col-md-4 col-12">
+        <label>Postal code</label>
+        <input class="mb-3 p-2 postal-code" type="name" name="postal-code" id="postalcode1" asp-for="PostalCode" >
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 col-12">
+        <label>City</label>
+        <input class="mb-3 p-2 city" type="name" name="city" id="city1" asp-for="City">
+    </div>
+    <div class="col-md-4 col-12"></div>
+    <div class="col-md-4 col-12"></div>
+</div>

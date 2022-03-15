@@ -1,0 +1,193 @@
+﻿@model IEnumerable<Helperland.Models.UserAddress>
+    <div class="col p-3">
+        <p class="fw-bold d-md-none" style="font-size: 18px;">My Addresses</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Adresses</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <label for="details" class="ms-3">
+                                <div>
+                                    Address:  @Html.DisplayFor(modelItem => item.AddressLine1)<span> @Html.DisplayFor(modelItem => item.AddressLine2)</span>
+                                    <span>@Html.DisplayFor(modelItem => item.PostalCode)</span>
+                                    <span>@Html.DisplayFor(modelItem => item.City)</span>
+                                </div>
+                                <div>Phone number:  @Html.DisplayFor(modelItem => item.Mobile)</div>
+                            </label>
+                        </td>
+                        <td>
+                            <img src="~/images/edit-icon.png" data-id="@item.AddressId" type="button" class="btn" data-toggle="modal" data-target="#editaddress" id="editaddressModal">
+
+                            <img src="~/images/delete-icon.png" data-id="@item.AddressId" class="btn" data-toggle="modal" data-target="#deleteaddress" id="deleteaddressModal">
+                            <div class="modal fade" class="del-Address" id="deleteaddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel111" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body" style="font-size: 18px;">
+                                            Are you sure, You want to delete this address?
+                                        </div>
+                                        <button class="login mb-4 mt-3 ms-5" id="Confirm-delete">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+                </tbody>
+        </table>
+        <button onclick="hidefunction()" class="new-address px-3 py-2 mb-3" id="addressbtn"><img class="me-2" src="~/images/add-address.png">Add New Address</button>
+        <div class="add-new-address p-3 d-none" id="address-box">
+            <form>
+                <div class="row gx-5 mb-3 mx-md-0 mx-3">
+                    <div class="col-md-4 me-5">
+                        <label>Street</label>
+                        <input type="text" class="form-control" id="AddressLine1" placeholder="Street" required>
+                    </div>
+                    <div class="col-md-4 ms-5">
+                        <label>House Number</label>
+                        <input type="text" class="form-control" placeholder="House Number" id="AddressLine2" required>
+                    </div>
+                </div>
+                <div class="row gx-5 mb-3 mx-md-0 mx-3">
+                    <div class="col-md-4 me-5">
+                        <label>Postcode</label>
+                        <input type="text" class="form-control" placeholder="postcode" id="PostalCode" required>
+                    </div>
+                    <div class="col-md-4 ms-5">
+                        <label>location</label>
+                        <input type="text" class="form-control" placeholder="location" id="City" required>
+                    </div>
+                </div>
+                <div class="row gx-5 mb-3 mx-md-0 mx-3">
+                    <div class="col-md-4 me-5 Phone">
+                        <label>Phone Number</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text py-2" id="basic-addon1">+91</span>
+                            </div>
+                            <input type="tel" id="Mobile" class="form-control py-2" placeholder="Phone Number"
+                                   aria-label="Phone Number" maxlength="10" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="button mb-3 px-4 py-2 me-2" id="save-new-address">Save</button>
+                <button class="discard mb-3 px-3 py-2" onclick="discard() ">Discard</button>
+            </form>
+        </div>
+    </div>
+
+    <!----------EditAddress--------------->
+    <div class="modal fade" id="editaddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel11" aria-hidden="true">
+        
+    </div>
+
+    <script>
+        function hidefunction() {
+            document.getElementById("addressbtn").classList.add("d-none");
+            document.getElementById("address-box").classList.remove("d-none");
+        }
+
+        function discard() {
+            document.getElementById("addressbtn").classList.remove("d-none");
+            document.getElementById("address-box").classList.add("d-none");
+        }
+
+         $(document).on('click', '#save-new-address', function () {
+                var address = {};
+                address.AddressLine1 = $('#AddressLine1').val();
+                address.AddressLine2 = $('#AddressLine2').val();
+                address.PostalCode = $('#PostalCode').val();
+                address.city = $('#City').val();
+                address.mobile = $('#Mobile').val();
+                console.log(address);
+                $.ajax({
+                    url: '@Url.Action("SaveNewAddress","Home")',
+                    type: 'post',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(address),
+                    success: function (res) {
+                        if (res == true) {
+                            $("#address").html("Updating Address...").load('@Url.Action("CustomerAddress", "Home")');
+                        }
+                        else if (res == false) {
+                            alert("Something went wrong while adding address..");
+                        }
+                    },
+                    error: function(err) {
+                        console.log('error in ajax');
+                    }
+                });
+            });
+    </script>
+
+    <script>
+        $("#editaddressModal").click(function(){
+            $("#editaddress").load('@Url.Action("EditAddress","Home")')
+        });
+
+        $(document).on('click', '#customerEditaddress', function () {
+            var add = {};
+            add.AddressLine1 = $("#streetname").val();
+            add.AddressLine2 = $("#housenumber").val();
+            add.PostalCode = $("#postalcode").val();
+            add.City = $("#city").val();
+            add.Mobile = $("#mobile").val();
+            console.log(add);
+            $.ajax({
+                url: '@Url.Action("Editaddress", "Home")',
+                type: 'post',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(add),
+                success: function (resp) {
+                    alert("Data has been added successfully.");
+                    location.reload();
+                },
+                error: function (err) {
+                    alert("Error while inserting data");
+                }
+            });
+        });
+
+     var addressid;
+        $(document).on("click","#deleteaddressModal",function(){
+        addressid = $(this).attr('data-id');
+    });
+    $(document).on("click","#Confirm-delete" , function(){
+        $.ajax({
+            url: '@Url.Action("DeleteAddress", "Home")',
+            method: "POST",
+            dataType : "json",
+            data: { id: addressid },
+            success: function(resp){
+                console.log(resp);
+                //$(function () {
+                //    $('#deleteaddress').modal('toggle');
+                //});
+                /*document.getElementById("#deleteaddress").classList.add("d-none");*/
+                alert("Data has been added successfully.");
+                location.reload();
+                @*$("#address").load('@Url.Action("CustomerAddress","Home")');*@
+            },
+            error: function(err){
+                console.log(err);
+                alert("error");
+            }
+        });
+    });
+    </script>
+

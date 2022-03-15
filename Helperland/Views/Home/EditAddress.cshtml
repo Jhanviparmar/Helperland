@@ -1,0 +1,49 @@
+﻿@model Helperland.Models.UserAddress
+
+<div class="modal-dialog modal-dialog-centered address">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit Address</h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body editaddress">
+            <div class="row">
+                <div class="col-md-6 col-12 mb-2">
+                    <label>Street Name</label>
+                    <div><input type="text" name="streetname" class="px-2" asp-for="AddressLine1" id="streetname"></div>
+                </div>
+                <div class="col-md-6 col-12 mb-2">
+                    <label>House Number</label>
+                    <div><input type="text" name="housenumber" class="px-2" asp-for="AddressLine2" id="housenumber"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-12 mb-2">
+                    <label>Postal Code</label>
+                    <div><input type="text" name="postalcode" class="px-2" asp-for="PostalCode" id="postalcode"></div>
+                </div>
+                <div class="col-md-6 col-12 mb-2">
+                    <label>City</label>
+                    <div><input type="text" name="city" class="px-2" asp-for="City" id="city"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-12 mb-2">
+                    <label>Mobile Number</label>
+                    <div class="input-group mb-3 mobile">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text py-2" id="basic-addon1">+91</span>
+                        </div>
+                        <input type="tel" class="form-control py-2" aria-label="Phone Number" aria-describedby="basic-addon1"
+                               asp-for="Mobile" id="mobile">
+                    </div>
+                </div>
+                <div class="col-md-6 col-12 mb-2">
+                </div>
+            </div>
+            <button class="login mb-4 mt-3 ms-5" id="customerEditaddress">Edit</button>
+        </div>
+    </div>
+</div>
