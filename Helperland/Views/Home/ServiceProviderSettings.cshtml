@@ -1,6 +1,6 @@
-﻿@model Helperland.Models.User;
+﻿@model Helperland.Models.SPSettings
 @using Microsoft.AspNetCore.Http;
-
+@Html.Raw(TempData["msg"])
 @{
     <!DOCTYPE html>
     <html>
@@ -78,15 +78,15 @@
                                             <div class="row">
                                                 <div class="col-md-4 col-12 mb-2">
                                                     <label>First Name</label>
-                                                    <div><input type="text" name="firstname" id="firstname" class="px-2" asp-for="FirstName"></div>
+                                                    <div><input type="text" name="firstname" id="firstname" class="px-2" asp-for="Users.FirstName"></div>
                                                 </div>
                                                 <div class="col-md-4 col-12 mb-2">
                                                     <label>Last Name</label>
-                                                    <div><input type="text" name="lastname" id="lastname" class="px-2" asp-for="LastName"></div>
+                                                    <div><input type="text" name="lastname" id="lastname" class="px-2" asp-for="Users.LastName"></div>
                                                 </div>
                                                 <div class="col-md-4 col-12 mb-2">
                                                     <label>Email</label>
-                                                    <div><input type="text" name="email" class="px-2" asp-for="Email" disabled></div>
+                                                    <div><input type="text" name="email" class="px-2" asp-for="Users.Email" disabled></div>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -96,7 +96,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text py-2" id="basic-addon1">+91</span>
                                                         </div>
-                                                        <input type="tel" class="form-control py-2" asp-for="Mobile" aria-label="Phone Number" id="mobile" aria-describedby="basic-addon1">
+                                                        <input type="tel" class="form-control py-2" asp-for="Users.Mobile" aria-label="Phone Number" id="mobile" aria-describedby="basic-addon1">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 mb-2 dob">
@@ -263,8 +263,59 @@
                                                     <img src="~/images/avatar-ship.png">
                                                 </div>
                                             </div>
-                                            @Html.Partial("spAddress")
-                                            <button class="button px-3" id="sp-details">Save</button>
+                                            <div class="mt-4 fw-bold">My Address</div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-4 col-12">
+                                                    <label>Street name</label>
+                                                    <input class="mb-3 p-2 street-name" type="name" name="street-name" id="streetname" asp-for="UserAddresses.AddressLine1">
+                                                </div>
+
+                                                <div class="col-md-4 col-12">
+                                                    <label>House number</label>
+                                                    <input class="mb-3 p-2 house-number" type="name" name="house-number" id="housenumber" asp-for="UserAddresses.AddressLine2">
+                                                </div>
+                                                <div class="col-md-4 col-12">
+                                                    <label>Postal code</label>
+                                                    <input class="mb-3 p-2 postal-code" type="name" name="postal-code" id="postalcode" asp-for="UserAddresses.PostalCode">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 col-12">
+                                                    <label>City</label>
+                                                    <input class="mb-3 p-2 city" type="name" name="city" id="city" asp-for="UserAddresses.City">
+                                                </div>
+                                                <div class="col-md-4 col-12"></div>
+                                                <div class="col-md-4 col-12"></div>
+                                            </div>
+
+
+                                            @*<div class="mt-4 fw-bold">My Billing Address</div>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-md-4 col-12">
+                                                        <label>Street name</label>
+                                                        <input class="mb-3 p-2 street-name" type="name" name="street-name" id="streetname1" asp-for="AddressLine1">
+                                                    </div>
+
+                                                    <div class="col-md-4 col-12">
+                                                        <label>House number</label>
+                                                        <input class="mb-3 p-2 house-number" type="name" name="house-number" id="housenumber1" asp-for="AddressLine2">
+                                                    </div>
+                                                    <div class="col-md-4 col-12">
+                                                        <label>Postal code</label>
+                                                        <input class="mb-3 p-2 postal-code" type="name" name="postal-code" id="postalcode1" asp-for="PostalCode">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4 col-12">
+                                                        <label>City</label>
+                                                        <input class="mb-3 p-2 city" type="name" name="city" id="city1" asp-for="City">
+                                                    </div>
+                                                    <div class="col-md-4 col-12"></div>
+                                                    <div class="col-md-4 col-12"></div>
+                                                </div>*@
+                                            <button class="button px-3" type="submit">Save</button>
                                         </div>
                                     </div>
                                 </div>
@@ -295,13 +346,12 @@
 
         <div onclick="topFunction()" id="myBtn" title="Go to top"><img class="scroll ms-5" src="~/images/up.png"></div>
 
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js">
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <script src=”https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js”></script>
-        <script src=”https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js”></script>
-        <script src="app.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
         <script src="~/js/mobilemenu.js"></script>
         <script src="~/js/script.js"></script>
@@ -314,14 +364,22 @@
 
         <script>
 
-            $("#sp-details").on('click', function () {
+            @*$("#sp-details").on('click', function () {
             var book = {};
             book.FirstName = $("#firstname").val();
             book.LastName = $("#lastname").val();
             book.Mobile = $("#mobile").val();
+            book.AddressLine1 = $("#streetname").val();
+            book.AddressLine2 = $("#housenumber").val();
+            book.PostalCode = $("#postalcode").val();
+            book.City = $("#city").val();
+            book.AddressLine1 = $("#streetname1").val();
+            book.AddressLine2 = $("#housenumber1").val();
+            book.PostalCode = $("#postalcode1").val();
+            book.City = $("#city1").val();
             console.log(book);
             $.ajax({
-                url: '@Url.Action("UpdateDetails", "Home")',
+                url: '@Url.Action("SPUpdateDetails", "Home")',
                 type: 'post',
                 dataType: 'json',
                 contentType: 'application/json',
@@ -334,7 +392,7 @@
                     alert("Error while inserting data");
                 }
             });
-        });
+        });*@
 
 
 
@@ -371,7 +429,7 @@
             });
 
 
-        $(document).on('click', '#save-details', function () {
+        @*$(document).on('click', '#save-details', function () {
             var add = {};
             add.AddressLine1 = $("#streetname").val();
             add.AddressLine2 = $("#housenumber").val();
@@ -396,7 +454,7 @@
                     alert("Error while inserting data");
                 }
             });
-        });
+        });*@
         </script>
 
     </body>
