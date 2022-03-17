@@ -23,13 +23,6 @@ namespace Helperland.Controllers
         HelperlanddContext db = new HelperlanddContext();
         
 
-        ////private readonly HelperlanddContext _DbContext;
-
-        ////public HomeController(HelperlanddContext DbContext)
-        ////{
-        ////    _DbContext = DbContext;
-        ////}
-
         public IActionResult Index()
         {
 
@@ -327,43 +320,7 @@ namespace Helperland.Controllers
             return book.ServiceId.ToString();
         }
 
-        //[HttpPost]
-        //public string ConfirmServiceRequest([FromBody] ServiceRequest sr)
-        //{
-
-        //    sr.UserId = (int)HttpContext.Session.GetInt32("User_id");
-        //    sr.ServiceId = 8230;
-        //    sr.ServiceHourlyRate = 9;
-        //    sr.PaymentDue = true;
-        //    sr.CreatedDate = DateTime.Now;
-        //    sr.ModifiedDate = DateTime.Now;
-        //    sr.ModifiedBy = sr.UserId;
-        //    sr.Distance = 15;
-        //    sr.Status = 0;
-        //    db.ServiceRequests.Add(sr);
-        //    db.SaveChanges();
-
-        //    UserAddress ua = db.UserAddresses.Where(x => x.AddressId == sr.AddressId).SingleOrDefault();
-        //    ServiceRequestAddress sra = new ServiceRequestAddress();
-        //    sra.ServiceRequestId = sr.ServiceRequestId;
-        //    sra.AddressLine1 = ua.AddressLine1;
-        //    sra.AddressLine2 = ua.AddressLine2;
-        //    sra.City = ua.City;
-        //    sra.State = ua.State;
-        //    sra.PostalCode = ua.PostalCode;
-        //    sra.Mobile = ua.Mobile;
-        //    sra.Email = ua.Email;
-        //    db.ServiceRequestAddresses.Add(sra);
-        //    db.SaveChanges();
-
-        //    sr.ServiceId = 2000 + sr.ServiceRequestId;
-        //    db.ServiceRequests.Update(sr);
-        //    db.SaveChanges();
-
-
-        //    return "true";
-        //}
-
+        
         public IActionResult sdashboard()
         {
             int userid = (int)HttpContext.Session.GetInt32("User_id");
@@ -551,8 +508,8 @@ namespace Helperland.Controllers
                              PostalCode = sra.PostalCode,
                              Mobile = sra.Mobile
 
-                         });
-            return View();
+                         }).ToList();
+            return View(query);
         }
 
         public string acceptedService(int id)
@@ -621,7 +578,7 @@ namespace Helperland.Controllers
         }
         public IActionResult SPServiceHistory()
         {
-            var a = (int)HttpContext.Session.GetInt32("userid");
+            var a = (int)HttpContext.Session.GetInt32("User_id");
 
             var query = (from sr in db.ServiceRequests
                          join sra in db.ServiceRequestAddresses
@@ -642,7 +599,7 @@ namespace Helperland.Controllers
 
                              FirstName = u.FirstName,
                              LastName = u.LastName
-                         });
+                         }).ToList();
 
             return View(query);
         }
@@ -708,7 +665,7 @@ namespace Helperland.Controllers
             }
 
             HttpContext.Session.SetString("username", u.FirstName + " " + u.LastName);
-            TempData["msg"] = "<script>alert('Change succesfully');</script>";
+            TempData["msg"] = "<script>alert('Successfull!!');</script>";
             return View();
 
         }
