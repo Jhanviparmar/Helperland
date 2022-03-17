@@ -302,18 +302,14 @@
             });
         });
 
-        //var srid;
-        //$(document).on("click", "#srmodel", function () {
-        //    srid = parseInt($(this).attr("data-id"));
-        //    console.log(srid);
-        //});
+       
         $(document).on("click", "#srmodel", function () {
             $.ajax({
                 url: '@Url.Action("srModel", "Home")',
                 type: 'GET',
                 contentType: 'application/html; charset=utf-8',
                 data: {
-                    /*ServiceRequestId: srid,*/
+                    
                     id: parseInt($(this).attr("data-id")),
                 },
                 success: function (resp) {
