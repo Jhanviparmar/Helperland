@@ -21,6 +21,14 @@ namespace Helperland.Controllers
             _logger = logger;
         }
         HelperlanddContext db = new HelperlanddContext();
+        
+
+        ////private readonly HelperlanddContext _DbContext;
+
+        ////public HomeController(HelperlanddContext DbContext)
+        ////{
+        ////    _DbContext = DbContext;
+        ////}
 
         public IActionResult Index()
         {
@@ -76,14 +84,14 @@ namespace Helperland.Controllers
                 {
                     HttpContext.Session.SetInt32("User_id", login_user.UserId);
                     HttpContext.Session.SetInt32("Usertype_id", login_user.UserTypeId);
-                    HttpContext.Session.SetString("username", u.FirstName + " " + u.LastName);
+                    HttpContext.Session.SetString("username", login_user.FirstName + " " + login_user.LastName);
                     return RedirectToAction("sdashboard", "Home");
                 }
                 else if (login_user.UserTypeId == 2)
                 {
                     HttpContext.Session.SetInt32("User_id", login_user.UserId);
                     HttpContext.Session.SetInt32("Usertype_id", login_user.UserTypeId);
-                    HttpContext.Session.SetString("username", u.FirstName + " " + u.LastName);
+                    HttpContext.Session.SetString("username", login_user.FirstName + " " + login_user.LastName);
                     return RedirectToAction("SPDashboard", "Home");
                     
                 }
@@ -280,24 +288,81 @@ namespace Helperland.Controllers
             return "true";
         }
 
+        
         [HttpPost]
-        public string ConfirmServiceRequest([FromBody] ServiceRequest sr)
+        public string BookServiceRequest([FromBody] ServiceRequest book)
         {
+            int userID = (int)HttpContext.Session.GetInt32("User_id");
+            book.UserId = userID;
+            book.ServiceId = 1000;
+            book.PaymentDue = true;
+            book.CreatedDate = DateTime.Now;
+            book.ModifiedDate = DateTime.Now;
+            book.ModifiedBy = userID;
+            book.Distance = 10;
+            book.Status = 0;                
 
-            sr.UserId = (int)HttpContext.Session.GetInt32("User_id");
-            //UserAddress address = db.UserAddresses.Where(x => x.AddressId == sr.AddressId).SingleOrDefault();
-            sr.ServiceId = 8570;
-            sr.ServiceHourlyRate = 9;
-            sr.PaymentDue = true;
-            sr.CreatedDate = DateTime.Now;
-            sr.ModifiedDate = DateTime.Now;
-            sr.ModifiedBy = 13;
-            sr.Distance = 15;
-            sr.Status = 0;
-            db.ServiceRequests.Add(sr);
+            db.ServiceRequests.Add(book);
             db.SaveChanges();
-            return "true";
+
+            book.ServiceId = 1000 + book.ServiceRequestId;
+            db.ServiceRequests.Update(book);
+            db.SaveChanges();
+
+            UserAddress address = db.UserAddresses.Where(x => x.AddressId == book.AddressId).SingleOrDefault();
+            ServiceRequestAddress requestAddress = new ServiceRequestAddress();
+            requestAddress.ServiceRequestId = book.ServiceRequestId;
+            requestAddress.AddressLine1 = address.AddressLine1;
+            requestAddress.AddressLine2 = address.AddressLine2;
+            requestAddress.City = address.City;
+            requestAddress.State = address.State;
+            requestAddress.PostalCode = address.PostalCode;
+            requestAddress.Email = address.Email;
+            requestAddress.Mobile = address.Mobile;
+
+            db.ServiceRequestAddresses.Add(requestAddress);
+            db.SaveChanges();
+
+            ModelState.Clear();
+            return book.ServiceId.ToString();
         }
+
+        //[HttpPost]
+        //public string ConfirmServiceRequest([FromBody] ServiceRequest sr)
+        //{
+
+        //    sr.UserId = (int)HttpContext.Session.GetInt32("User_id");
+        //    sr.ServiceId = 8230;
+        //    sr.ServiceHourlyRate = 9;
+        //    sr.PaymentDue = true;
+        //    sr.CreatedDate = DateTime.Now;
+        //    sr.ModifiedDate = DateTime.Now;
+        //    sr.ModifiedBy = sr.UserId;
+        //    sr.Distance = 15;
+        //    sr.Status = 0;
+        //    db.ServiceRequests.Add(sr);
+        //    db.SaveChanges();
+
+        //    UserAddress ua = db.UserAddresses.Where(x => x.AddressId == sr.AddressId).SingleOrDefault();
+        //    ServiceRequestAddress sra = new ServiceRequestAddress();
+        //    sra.ServiceRequestId = sr.ServiceRequestId;
+        //    sra.AddressLine1 = ua.AddressLine1;
+        //    sra.AddressLine2 = ua.AddressLine2;
+        //    sra.City = ua.City;
+        //    sra.State = ua.State;
+        //    sra.PostalCode = ua.PostalCode;
+        //    sra.Mobile = ua.Mobile;
+        //    sra.Email = ua.Email;
+        //    db.ServiceRequestAddresses.Add(sra);
+        //    db.SaveChanges();
+
+        //    sr.ServiceId = 2000 + sr.ServiceRequestId;
+        //    db.ServiceRequests.Update(sr);
+        //    db.SaveChanges();
+
+
+        //    return "true";
+        //}
 
         public IActionResult sdashboard()
         {
@@ -307,18 +372,55 @@ namespace Helperland.Controllers
             return View(obj);
         }
 
+        public IActionResult srModel(int id)
+        {
+            var query = (from sr in db.ServiceRequests
+                         join sra in db.ServiceRequestAddresses on sr.ServiceRequestId equals sra.ServiceRequestId
+                         where sr.ServiceRequestId == id
+                         select new CustomModel
+                         {
+                             ServiceRequestId = sr.ServiceRequestId,
+                             ServiceId = sr.ServiceId,
+                             ServiceStartDate = sr.ServiceStartDate,
+                             ServiceHours = sr.ServiceHours,
+                             Comments = sr.Comments,
+                             HasPets = sr.HasPets,
+                             TotalCost = sr.TotalCost,
+
+                             AddressLine1 = sra.AddressLine1,
+                             AddressLine2 = sra.AddressLine2,
+                             City = sra.City,
+                             State = sra.State,
+                             PostalCode = sra.PostalCode,
+                             Mobile = sra.Mobile
+
+                         }).SingleOrDefault();
+
+            return View(query);
+        }
+    
+
         public IActionResult shistory()
         {
             int userid = (int)HttpContext.Session.GetInt32("User_id");
-            List<ServiceRequest> obj = db.ServiceRequests.Where(x => x.UserId == userid && x.Status == 2 || x.Status == 3).ToList();
+            List<ServiceRequest> obj = db.ServiceRequests.Where(x => x.UserId == userid && x.Status == 1 || x.Status == 2).ToList();
             return View(obj);
         }
 
         public bool CancelRequest([FromBody] ServiceRequest sr)
         {
             ServiceRequest obj = db.ServiceRequests.Where(x => x.ServiceRequestId == sr.ServiceRequestId).FirstOrDefault();
-            obj.Status = 3;
+            obj.Status = 2;
             obj.Comments = sr.Comments;
+            db.ServiceRequests.Update(obj);
+            db.SaveChanges();
+            return true;
+        }
+
+        public bool RescheduleRequest([FromBody] ServiceRequest sr)
+        {
+            ServiceRequest obj = db.ServiceRequests.Where(x => x.ServiceRequestId == sr.ServiceRequestId).FirstOrDefault();
+            obj.ServiceStartDate = sr.ServiceStartDate;
             db.ServiceRequests.Update(obj);
             db.SaveChanges();
             return true;
@@ -381,11 +483,16 @@ namespace Helperland.Controllers
             return "true";
         }
 
-        public IActionResult EditAddress()
+        public IActionResult EditAddress(int id, bool isAjax = false)
         {
-            var a = (int)HttpContext.Session.GetInt32("User_id");
-            UserAddress u = db.UserAddresses.Where(x => x.AddressId == a).FirstOrDefault();
-            return View(u);
+            UserAddress address = db.UserAddresses.Where(x => x.AddressId == id).FirstOrDefault();
+            if (isAjax)
+            {
+
+                return View(address);
+            }
+            return View(address);
+
         }
 
         [HttpPost]
@@ -419,15 +526,125 @@ namespace Helperland.Controllers
 
         public IActionResult SPNewRequest()
         {
+            var a = (int)HttpContext.Session.GetInt32("User_id");
+            UserAddress ua = db.UserAddresses.Where(x => x.UserId == a).FirstOrDefault();
+
+            var query = (from sr in db.ServiceRequests
+                         join sra in db.ServiceRequestAddresses
+                         on sr.ServiceRequestId equals sra.ServiceRequestId
+                         join u in db.UserAddresses on sr.UserId equals u.UserId
+                         where ua.PostalCode == sra.PostalCode && sr.Status == 0
+                         select new CustomModel
+                         {
+                             ServiceRequestId = sr.ServiceRequestId,
+                             ServiceId = sr.ServiceId,
+                             ServiceStartDate = sr.ServiceStartDate,
+                             ServiceHours = sr.ServiceHours,
+                             Comments = sr.Comments,
+                             HasPets = sr.HasPets,
+                             TotalCost = sr.TotalCost,
+
+                             AddressLine1 = sra.AddressLine1,
+                             AddressLine2 = sra.AddressLine2,
+                             City = sra.City,
+                             State = sra.State,
+                             PostalCode = sra.PostalCode,
+                             Mobile = sra.Mobile
+
+                         });
             return View();
         }
+
+        public string acceptedService(int id)
+        {
+            var a = (int)HttpContext.Session.GetInt32("User_id");
+            User user = db.Users.Where(x => x.UserId == a).FirstOrDefault();
+
+            ServiceRequest sr = db.ServiceRequests.Where(x => x.ServiceRequestId == id).FirstOrDefault();
+            sr.ServiceProviderId = a;
+            sr.Status = 1;
+            sr.SpacceptedDate = DateTime.Now;
+            db.ServiceRequests.Update(sr);
+            db.SaveChanges();
+            return "true";
+        }
+
         public IActionResult SPUpcomingServices()
         {
-            return View();
+            var a = (int)HttpContext.Session.GetInt32("User_id");
+            User user = db.Users.Where(x => x.UserId == a).FirstOrDefault();
+
+            var query = (from sr in db.ServiceRequests
+                         join sra in db.ServiceRequestAddresses
+                         on sr.ServiceRequestId equals sra.ServiceRequestId
+                         join u in db.Users on sr.UserId equals u.UserId
+                         where sr.ServiceProviderId == a && sr.Status == 1
+                         select new CustomModel
+                         {
+                             ServiceId = sr.ServiceId,
+                             ServiceRequestId = sr.ServiceRequestId,
+                             ServiceStartDate = sr.ServiceStartDate,
+                             SubTotal = sr.SubTotal,
+
+                             AddressLine1 = sra.AddressLine1,
+                             AddressLine2 = sra.AddressLine2,
+                             PostalCode = sra.PostalCode,
+                             City = sra.City,
+
+                             FirstName = u.FirstName,
+                             LastName = u.LastName
+
+                         }).ToList();
+
+            return View(query);
+        }
+
+        public string CancelServicerequest(int id)
+        {
+            ServiceRequest sr = db.ServiceRequests.Where(x => x.ServiceRequestId == id).FirstOrDefault();
+            sr.ServiceProviderId = null;
+            sr.SpacceptedDate = DateTime.Now;
+            sr.Status = null;
+            db.ServiceRequests.Update(sr);
+            db.SaveChanges();
+
+            return "true";
+        }
+
+        public string Completedservice(int i)
+        {
+            ServiceRequest sr = db.ServiceRequests.Where(x => x.ServiceRequestId == i).FirstOrDefault();
+            sr.Status = 2;
+            db.ServiceRequests.Update(sr);
+            db.SaveChanges();
+            return "true";
         }
         public IActionResult SPServiceHistory()
         {
-            return View();
+            var a = (int)HttpContext.Session.GetInt32("userid");
+
+            var query = (from sr in db.ServiceRequests
+                         join sra in db.ServiceRequestAddresses
+                         on sr.ServiceRequestId equals sra.ServiceRequestId
+                         join u in db.Users on sr.UserId equals u.UserId
+                         where sr.ServiceProviderId == a && sr.Status == 2
+                         select new CustomModel
+                         {
+                             ServiceId = sr.ServiceId,
+                             ServiceRequestId = sr.ServiceRequestId,
+                             ServiceStartDate = sr.ServiceStartDate,
+                             SubTotal = sr.SubTotal,
+
+                             AddressLine1 = sra.AddressLine1,
+                             AddressLine2 = sra.AddressLine2,
+                             PostalCode = sra.PostalCode,
+                             City = sra.City,
+
+                             FirstName = u.FirstName,
+                             LastName = u.LastName
+                         });
+
+            return View(query);
         }
         public IActionResult SPRatings()
         {
@@ -438,56 +655,63 @@ namespace Helperland.Controllers
             return View();
         }
 
+
         public IActionResult ServiceProviderSettings()
         {
             var a = (int)HttpContext.Session.GetInt32("User_id");
-            User u = db.Users.Where(x => x.UserId == a).FirstOrDefault();
-            return View(u);
-        }
 
-        public IActionResult spAddress()
-        {
-            var a = (int)HttpContext.Session.GetInt32("User_id");
-            UserAddress u = db.UserAddresses.Where(x => x.AddressId == a).FirstOrDefault();
-            return View(u);
+            SPSettings spsettings = new SPSettings();
+            spsettings.Users = db.Users.Where(x => x.UserId == a).FirstOrDefault();
+            spsettings.UserAddresses = db.UserAddresses.Where(x => x.UserId == a).FirstOrDefault();
+            return View(spsettings);
         }
-
         [HttpPost]
-        public string spAddress([FromBody] UserAddress add)
+        public IActionResult ServiceProviderSettings(SPSettings sp)
         {
             var a = (int)HttpContext.Session.GetInt32("User_id");
-            UserAddress ua = db.UserAddresses.Where(x => x.UserId == a).FirstOrDefault();
-            ua.AddressLine1 = add.AddressLine1;
-            ua.AddressLine2 = add.AddressLine2;
-            ua.PostalCode = add.PostalCode;
-            ua.City = add.City;
-            ua.Mobile = add.Mobile;
-            db.UserAddresses.Update(ua);
+            User u = db.Users.Where(x => x.UserId == a).FirstOrDefault();
+            u.FirstName = sp.Users.FirstName;
+            u.LastName = sp.Users.LastName;
+            u.Mobile = sp.Users.Mobile;
+            u.ZipCode = sp.UserAddresses.PostalCode;
+            u.DateOfBirth = sp.Users.DateOfBirth;
+            db.Users.Update(u);
             db.SaveChanges();
-            return "true";
+
+
+
+            UserAddress add = db.UserAddresses.Where(x => x.UserId == a).FirstOrDefault();
+            if (add != null)
+            {
+
+                add.AddressLine1 = sp.UserAddresses.AddressLine1;
+                add.AddressLine2 = sp.UserAddresses.AddressLine2;
+                add.City = sp.UserAddresses.City;
+                add.PostalCode = sp.UserAddresses.PostalCode;
+                add.Mobile = sp.Users.Mobile;
+                 db.UserAddresses.Update(add);
+                db.SaveChanges();
+            }
+            else
+            {
+                UserAddress ua = new UserAddress();
+                ua.UserId = a;
+                ua.AddressLine1 = sp.UserAddresses.AddressLine1;
+                ua.AddressLine2 = sp.UserAddresses.AddressLine2;
+                ua.City = sp.UserAddresses.City;
+                ua.PostalCode = sp.UserAddresses.PostalCode;
+                ua.Mobile = sp.Users.Mobile;
+                ua.Email = u.Email;
+                db.UserAddresses.Add(ua);
+                db.SaveChanges();
+
+            }
+
+            HttpContext.Session.SetString("username", u.FirstName + " " + u.LastName);
+            TempData["msg"] = "<script>alert('Change succesfully');</script>";
+            return View();
+
         }
-
-        //public IActionResult spAddress()
-        //{
-        //    var a = (int)HttpContext.Session.GetInt32("User_id");
-        //    UserAddress u = db.UserAddresses.Where(x => x.AddressId == a).FirstOrDefault();
-        //    return View(u);
-        //}
-
-        //[HttpPost]
-        //public string spAddress([FromBody] UserAddress add)
-        //{
-        //    var a = (int)HttpContext.Session.GetInt32("User_id");
-        //    UserAddress ua = db.UserAddresses.Where(x => x.UserId == a).FirstOrDefault();
-        //    ua.AddressLine1 = add.AddressLine1;
-        //    ua.AddressLine2 = add.AddressLine2;
-        //    ua.PostalCode = add.PostalCode;
-        //    ua.City = add.City;
-        //    ua.Mobile = add.Mobile;
-        //    db.UserAddresses.Update(ua);
-        //    db.SaveChanges();
-        //    return "true";
-        //}
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
