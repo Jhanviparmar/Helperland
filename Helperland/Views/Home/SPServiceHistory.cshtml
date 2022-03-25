@@ -62,80 +62,38 @@
 
                     <div class="tab-pane fade show active" id="sh" role="tabpanel" aria-labelledby="v-pills-sh-tab">
                         <div class="col">
-                            <div class="tableabove navbar d-flex align-items-center">
-                                <div>
-                                    <p class="left">
-                                        Payment Status<span class="p-0">
-                                            <select class="table-dropdown p-2 me-2" name="table-rows" id="table-rows">
-                                                <option value="All">All</option>
-                                                <option value="20">50km</option>
-                                                <option value="50">75km</option>
-                                                <option value="100">100km</option>
-                                            </select>
-                                        </span>
-                                    </p>
-                                </div>
-                                <button class="button px-3">Export</button>
-                            </div>
-                            <table class="table">
+                            <table class="table" id="servicehistory">
                                 <thead class="gap-5">
                                     <tr>
-                                        <th>Service ID<img class="ms-2" src="~/images/arrows.png"></th>
-                                        <th>Service date<img class="ms-2" src="~/images/arrows.png"></th>
-                                        <th>Customer details<img class="ms-2" src="~/images/arrows.png"></th>
+                                        <th>Service ID</th>
+                                        <th>Service date</th>
+                                        <th>Customer details</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model)
+
                                     {
+                                      
+                                            <tr>
+                                                <td class="NewServiceModal" data-id="@item.ServiceRequestId">@item.ServiceId</td>
 
-                                        <tr>
-                                            <td class="NewServiceModal" data-id="@item.ServiceRequestId">@item.ServiceId</td>
+                                                <td>
+                                                    <img class="me-2" src="~/images/calculator.png"><span class="fw-bold">@item.ServiceStartDate.ToShortDateString()</span>
+                                                    <img class="me-2" src="~/images/clock.png"><span>12:00 - 18:00</span>
+                                                </td>
+                                                <td>
+                                                    @item.FirstName @item.LastName<br>
+                                                    <img class="me-2" src="~/images/address.png"><span>
+                                                        @item.AddressLine1 @item.AddressLine2<br>
+                                                        @item.PostalCode @item.City
+                                                    </span>
+                                                </td>
+                                            </tr>
 
-                                            <td>
-                                                <img class="me-2" src="~/images/calculator.png"><span class="fw-bold">@item.ServiceStartDate.ToShortDateString()</span>
-                                                <img class="me-2" src="~/images/clock.png"><span>12:00 - 18:00</span>
-                                            </td>
-                                            <td>
-                                                @item.FirstName @item.LastName<br>
-                                                <img class="me-2" src="~/images/address.png"><span>
-                                                    @item.AddressLine1 @item.AddressLine2<br>
-                                                    @item.PostalCode @item.City
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
+                                        }                                    }
+                                    </tbody>
                             </table>
-                            <div class="tablebelow navbar d-flex align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <!-------------------------entries------------------>
-                                    <p class="left">
-                                        Show <span class="p-0">
-                                            <select class="entries table-dropdown" name="table-rows" id="table-rows">
-                                                <option value="10">10</option>
-                                                <option value="20">20</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select>
-                                        </span> Entries Total records : 3
-                                    </p>
-                                </div>
-                                <div class="d-flex align-items-center pb-2 gap-3 pe-3">
-                                    <!---------------------pagination----------------->
-                                    <nav aria-label="Page navigation example ">
-                                        <ul class="pagination pagination-circle pagination-sm">
-                                            <li class="page-item"><a class="page-link" href="#"><img src="~/images/group-36.png"></a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><img src="~/images/keyboard-arrow.png"></a></li>
-                                            <li class="page-item"><a class="page-link circle circle-md border" href="#"><span>1</span></a></li>
-                                            <li class="page-item"><a class="page-link circle circle-md" href="#"><span>2</span></a></li>
-                                            <li class="page-item"><a class="page-link circle circle-md" href="#"><span>3</span></a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><img class="right" src="~/images/keyboard-arrow.png"></a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><img class="right" src="~/images/group-36.png"></a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
@@ -147,12 +105,12 @@
 
         <div onclick="topFunction()" id="myBtn" title="Go to top"><img class="scroll ms-5" src="~/images/up.png"></div>
 
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <script src=”https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js”></script>
-        <script src=”https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js”></script>
-        <script src="app.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
         <script src="~/js/mobilemenu.js"></script>
         <script src="~/js/script.js"></script>
@@ -160,6 +118,10 @@
             window.addEventListener("scroll", function () {
                 var header = document.querySelector("header");
                 header.classList.toggle("sticky", window.scrollY > 0);
+            });
+
+            $(document).ready(function () {
+                $('#servicehistory').DataTable();
             });
         </script>
 

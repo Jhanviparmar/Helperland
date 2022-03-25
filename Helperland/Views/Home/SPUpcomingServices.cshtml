@@ -52,14 +52,14 @@
 
                     <div class="tab-pane fade show active" id="us" role="tabpanel" aria-labelledby="v-pills-us-tab">
                         <div class="col">
-                            <table class="table">
+                            <table class="table" id="upcomingservices">
                                 <thead>
                                     <tr>
-                                        <th>Service ID<img class="ms-2" src="~/images/arrows.png"></th>
-                                        <th>Service date<img class="ms-2" src="~/images/arrows.png"></th>
-                                        <th>Customer details<img class="ms-2" src="~/images/arrows.png"></th>
+                                        <th>Service ID</th>
+                                        <th>Service date</th>
+                                        <th>Customer details</th>
                                         <th>Payment</th>
-                                        <th>Distance<img class="ms-2" src="~/images/arrows.png"></th>
+                                        <th>Distance</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -67,57 +67,35 @@
                                     @foreach (var item in Model)
                                     {
 
-                                    <tr>
-                                        <td class="NewServiceModal" data-id="@item.ServiceRequestId">@item.ServiceId</td>
+                                        <tr>
+                                            <td><button type="button" data-id="@item.ServiceRequestId" class="btn NewServiceModal" id="upcomingService">@item.ServiceId</button></td>
 
-                                        <td>
-                                            <img class="me-2" src="~/images/calculator.png"><span class="fw-bold">@item.ServiceStartDate.ToShortDateString()</span>
-                                            <img class="me-2" src="~/images/clock.png"><span>12:00 - 18:00</span>
-                                        </td>
-                                        <td>
-                                            @item.FirstName @item.LastName<br>
-                                            <img class="me-2" src="~/images/address.png"><span>
-                                                @item.AddressLine1 @item.AddressLine2<br>
-                                                @item.PostalCode @item.City
-                                            </span>
-                                        </td>
-                                        <td>@item.SubTotal€</td>
-                                        <td>15 km</td>
+                                            @*<td class="NewServiceModal" data-id="@item.ServiceRequestId">@item.ServiceId</td>*@
 
-                                        <td><button class="Cancel mt-2" data-id="@item.ServiceRequestId" id="CancelService">Cancel</button></td>
-                                        @*<td><button class="Complete mt-2" data-id="@item.ServiceRequestId" id="CompleteService">Completed</button></td>*@
+                                            <td>
+                                                <img class="me-2" src="~/images/calculator.png"><span class="fw-bold">@item.ServiceStartDate.ToShortDateString()</span>
+                                                <img class="me-2" src="~/images/clock.png"><span>12:00 - 18:00</span>
+                                            </td>
+                                            <td>
+                                                @item.FirstName @item.LastName<br>
+                                                <img class="me-2" src="~/images/address.png"><span>
+                                                    @item.AddressLine1 @item.AddressLine2<br>
+                                                    @item.PostalCode @item.City
+                                                </span>
+                                            </td>
+                                            <td>@item.SubTotal€</td>
+                                            <td>15 km</td>
 
-                                    </tr>
+                                            <td><button class="Cancel mt-2" data-id="@item.ServiceRequestId" id="CancelServiceid">Cancel</button></td>
+                                            @*<td><button class="Complete mt-2" data-id="@item.ServiceRequestId" id="CompleteService">Completed</button></td>*@
+
+                                        </tr>
+
                                     }
+
                                 </tbody>
                             </table>
-                            <div class="tablebelow navbar d-flex align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <!-------------------------entries------------------>
-                                    <p class="left">
-                                        Show <span class="p-0">
-                                            <select class="entries table-dropdown" name="table-rows" id="table-rows">
-                                                <option value="10">10</option>
-                                                <option value="20">20</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select>
-                                        </span> Entries Total records : 3
-                                    </p>
-                                </div>
-                                <div class="d-flex align-items-center pb-2 gap-3 pe-3">
-                                    <!---------------------pagination----------------->
-                                    <nav aria-label="Page navigation example ">
-                                        <ul class="pagination pagination-circle pagination-sm">
-                                            <li class="page-item"><a class="page-link" href="#"><img src="~/images/group-36.png"></a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><img src="~/images/keyboard-arrow.png"></a></li>
-                                            <li class="page-item"><a class="page-link circle circle-md border" href="#"><span>1</span></a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><img class="right" src="~/images/keyboard-arrow.png"></a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><img class="right" src="~/images/group-36.png"></a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
 
@@ -134,57 +112,81 @@
                 </div>
             </div>
         </div>
-        <!---------------footer--------------------->
-        @Html.Partial("_footer")
+        <div class="modal fade px-5" id="UpServices" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            </div>
 
-        <div onclick="topFunction()" id="myBtn" title="Go to top"><img class="scroll ms-5" src="~/images/up.png"></div>
+            <!---------------footer--------------------->
+            @Html.Partial("_footer")
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <script src=”https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js”></script>
-        <script src=”https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js”></script>
-        <script src="app.js"></script>
+            <div onclick="topFunction()" id="myBtn" title="Go to top"><img class="scroll ms-5" src="~/images/up.png"></div>
 
-        <script src="~/js/mobilemenu.js"></script>
-        <script src="~/js/script.js"></script>
-        <script type="text/javascript">
-            window.addEventListener("scroll", function () {
-                var header = document.querySelector("header");
-                header.classList.toggle("sticky", window.scrollY > 0);
-            });
-        </script>
+            <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-        <script>
-             $("#CancelService").click(function () {
+            <script src="~/js/mobilemenu.js"></script>
+            <script src="~/js/script.js"></script>
+            <script type="text/javascript">
+                window.addEventListener("scroll", function () {
+                    var header = document.querySelector("header");
+                    header.classList.toggle("sticky", window.scrollY > 0);
+                });
+
+                $(document).ready(function () {
+                    $('#upcomingservices').DataTable();
+                });
+
+                $("#myModalLabel .close").click()
+            </script>
+            <script>
+            $(document).on("click", "#upcomingService", function () {
                 $.ajax({
-                    url: '@Url.Action("CancelServiceRequest", "Home")',
-                    type: 'post',
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
+                    url: '@Url.Action("UpcomingServiceModal", "Home")',
+                    type: 'GET',
+                    contentType: 'application/html; charset=utf-8',
                     data: {
+                        /*ServiceRequestId: srid,*/
                         id: parseInt($(this).attr("data-id")),
                     },
-                    success: function (res) {
-                        console.log(res)
-                        $("#cancel").modal("hide");
-                        alert("Your Service Request has been Cancelled.");
-                        location.reload();
+                    success: function (resp) {
+                        $("#UpServices").html(resp);
+                        $("#UpServices").modal('show');
                     },
                     error: function (err) {
-                        console.log(err);
                         console.log("Error");
                     }
                 });
-             });
+            });
+            </script>
+            <script>
+            $(document).on('click', "#CancelServiceid", function () {
+                    debugger;
+                    $.ajax({
+                        url: '@Url.Action("CancelServiceRequest", "home")',
+                        type: 'post',
+                        data: {
+                            id: parseInt($(this).attr("data-id")),
+                        },
+                        success: function (resp) {
+                            alert("Service Cancelled!!");
+                            location.reload();
+                        },
+                        error: function (err) {
+                            alert("Error...service is not cancelled!");
+                        }
+                    });
+                });
 
-            $(document).on('click', "CompleteService", function () {
+                $(document).on('click', "#CompleteService", function () {
                 $.ajax({
-                    url: '@Url.Action("Completedservice", "Starting")',
+                    url: '@Url.Action("CompletedService", "Home")',
                     type: 'post',
                     data: { id: parseInt($(this).attr("data-id")),},
                     success: function (resp) {
-                        alert('true');
+                        alert('Service Completed!!');
                         location.reload();
                     },
                     error: function (err) {
@@ -192,7 +194,7 @@
                     }
                 });
             });
-        </script>
+            </script>
     </body>
 </html>
 }

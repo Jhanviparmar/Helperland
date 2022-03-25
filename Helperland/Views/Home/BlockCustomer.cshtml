@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http;
+@model IEnumerable<Helperland.Models.CustomModel>
 @{
     <!DOCTYPE html>
     <html>
@@ -28,7 +29,7 @@
                 <div class="sidemenu mb-5">
                     <div class="nav flex-column nav-pills bg-transparent" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
-                       <a class="nav-link" id="v-pills-db-tab" asp-action="SPDashboard" asp-controller="Home" role="tab" aria-controls="v-pills-db" aria-selected="true">Dashboard</a>
+                        <a class="nav-link" id="v-pills-db-tab" asp-action="SPDashboard" asp-controller="Home" role="tab" aria-controls="v-pills-db" aria-selected="true">Dashboard</a>
 
                         <a class="nav-link" id="v-pills-nsr-tab" asp-action="SPNewRequest" asp-controller="Home" role="tab" aria-controls="v-pills-nsr" aria-selected="false">New Service Requests</a>
 
@@ -62,44 +63,43 @@
                     <div class="tab-pane fade show active" id="bc" role="tabpanel" aria-labelledby="v-pills-bc-tab">
                         <div class="col p-3">
                             <div class="fav-pros d-flex flex-sm-row flex-column align-items-center mb-5 gap-4">
-                                <div class="first d-flex flex-column align-items-center px-sm-5 px-3 py-3">
+                                @if (Model != null)
+                                {
+                                    @foreach (var item in Model)
+                                    {
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="first d-flex align-items-center flex-column px-sm-5 px-3 py-3">
+
+                                                    <img class="avatar-hat pb-2" src="~/images/avatar-car.png">
+                                                    <p>@item.FirstName @item.LastName</p>
+                                                    @if (@item.IsBlocked)
+                                                    {
+                                                        <a asp-action="UnblockCustomer" asp-route-id="@item.Id">
+                                                            <button class="btn" id="cancel">Unblock</button>
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a asp-action="BlockCustomer1" asp-route-id="@item.Id">
+                                                            <button class="btn" id="cancel">
+                                                                Block
+                                                            </button>
+
+                                                        </a>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                @*<div class="first d-flex flex-column align-items-center px-sm-5 px-3 py-3">
                                     <img class="avatar-hat pb-2" src="~/images/avatar-car.png">
                                     <p>Gaurang Patel</p>
                                     <div><button class="button px-3" id="cancel">Block</button></div>
-                                </div>
-                                <div class="first d-flex flex-column align-items-center px-sm-5 px-3 py-3">
-                                    <img class="avatar-hat pb-2" src="~/images/avatar-hat.png">
-                                    <p>Kayur Nakrani</p>
-                                    <div><button class="button px-3" id="cancel">Block</button></div>
-                                </div>
+                                </div>*@
                             </div>
-                            <div class="tablebelow navbar d-flex align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <!-------------------------entries------------------>
-                                    <p class="left">
-                                        Show <span class="p-0">
-                                            <select class="entries table-dropdown" name="table-rows" id="table-rows">
-                                                <option value="10">10</option>
-                                                <option value="20">20</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select>
-                                        </span> entries Total records : 2
-                                    </p>
-                                </div>
-                                <div class="d-flex align-items-center pb-2 gap-3 pe-3">
-                                    <!---------------------pagination----------------->
-                                    <nav aria-label="Page navigation example ">
-                                        <ul class="pagination pagination-circle pagination-sm">
-                                            <li class="page-item"><a class="page-link" href="#"><img src="~/images/group-36.png"></a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><img src="~/images/keyboard-arrow.png"></a></li>
-                                            <li class="page-item"><a class="page-link circle circle-md border" href="#"><span>1</span></a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><img class="right" src="~/images/keyboard-arrow.png"></a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><img class="right" src="~/images/group-36.png"></a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
 

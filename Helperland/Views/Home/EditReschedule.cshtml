@@ -1,0 +1,49 @@
+﻿@model Helperland.Models.CustomModel;
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit Service Request</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" asp-for="ServiceRequestId" id="sid"/>
+            <div class="row gx-5 mb-3 mx-md-0 mx-3">
+                <div class="col-md-6">
+                    <label>Date</label>
+                    <input class="me-2 calender" type="date" id="date" asp-for="ServiceStartDate" style="width: 185px; border: 1px solid #c8c8c8; height: 40px;
+                                                            border-radius: 3px">
+                </div>
+                <div class="col-md-6">
+                    <label>Time</label><br>
+                    <input class="time" type="time" id="time" value="08:00" min="09:00" max="18:00" style="width: 185px; border: 1px solid #c8c8c8; height: 40px; border-radius: 3px">
+                </div>
+            </div>
+            <div class="row gx-5 mb-3 mx-md-0 mx-3">
+                <h6 class="fw-bold mb-2">Service Request Address</h6>
+                <div class="col-md-6">
+                    <label>Street</label>
+                    <input type="text" class="form-control" id="Street" placeholder="Street" asp-for="AddressLine1" required>
+                </div>
+                <div class="col-md-6">
+                    <label>House Number</label>
+                    <input type="text" class="form-control" id="HouseNumber" placeholder="House Number" asp-for="AddressLine2" required>
+                </div>
+            </div>
+            <div class="row gx-5 mb-3 mx-md-0 mx-3">
+                <div class="col-md-6">
+                    <label>Postcode</label>
+                    <input type="text" class="form-control" id="postcode" placeholder="postcode" asp-for="PostalCode" required>
+                </div>
+                <div class="col-md-6">
+                    <label>location</label>
+                    <input type="text" class="form-control" id="location" placeholder="location" asp-for="City" required>
+                </div>
+            </div>
+            <div class="row mb-3 mx-4">
+                <div>Why do you want to reschedule Service request?</div>
+                <textarea rows="4" style="border: 1px solid #c8c8c8; border-radius: 3px" id="why"></textarea>
+                <button type="button" class="btn btn-primary" id="updatesr">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
