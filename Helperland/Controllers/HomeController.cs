@@ -22,14 +22,6 @@ namespace Helperland.Controllers
         }
         HelperlanddContext db = new HelperlanddContext();
         
-
-        ////private readonly HelperlanddContext _DbContext;
-
-        ////public HomeController(HelperlanddContext DbContext)
-        ////{
-        ////    _DbContext = DbContext;
-        ////}
-
         public IActionResult Index()
         {
 
@@ -657,16 +649,16 @@ namespace Helperland.Controllers
             db.ServiceRequests.Update(sr);
             db.SaveChanges();
 
-            var aa = db.FavoriteAndBlockeds.Where(x => x.UserId == sr.ServiceProviderId && x.TargetUserId == sr.UserId).FirstOrDefault();
+            var a = db.FavoriteAndBlockeds.Where(x => x.UserId == sr.ServiceProviderId && x.TargetUserId == sr.UserId).FirstOrDefault();
 
-            if (aa == null)
+            if (a == null)
             {
-                FavoriteAndBlocked fav = new FavoriteAndBlocked();
-                fav.UserId = (int)sr.ServiceProviderId;
-                fav.TargetUserId = sr.UserId;
-                fav.IsFavorite = false;
-                fav.IsBlocked = false;
-                db.FavoriteAndBlockeds.Add(fav);
+                FavoriteAndBlocked fb = new FavoriteAndBlocked();
+                fb.UserId = (int)sr.ServiceProviderId;
+                fb.TargetUserId = sr.UserId;
+                fb.IsBlocked = false;
+                fb.IsFavorite = false;
+                db.FavoriteAndBlockeds.Add(fb);
                 db.SaveChanges();
             }
             return "true";
@@ -721,18 +713,18 @@ namespace Helperland.Controllers
         
         public IActionResult BlockCustomer1(int id)
         {
-            FavoriteAndBlocked fav = db.FavoriteAndBlockeds.Where(x => x.Id == id).FirstOrDefault();
-            fav.IsBlocked = true;
-            db.FavoriteAndBlockeds.Update(fav);
+            FavoriteAndBlocked fb = db.FavoriteAndBlockeds.Where(x => x.Id == id).FirstOrDefault();
+            fb.IsBlocked = true;
+            db.FavoriteAndBlockeds.Update(fb);
             db.SaveChanges();
             return RedirectToAction("BlockCustomer");
         }
 
         public IActionResult UnblockCustomer(int id)
         {
-            FavoriteAndBlocked fav = db.FavoriteAndBlockeds.Where(x => x.Id == id).FirstOrDefault();
-            fav.IsBlocked = false;
-            db.FavoriteAndBlockeds.Update(fav);
+            FavoriteAndBlocked fb = db.FavoriteAndBlockeds.Where(x => x.Id == id).FirstOrDefault();
+            fb.IsBlocked = false;
+            db.FavoriteAndBlockeds.Update(fb);
             db.SaveChanges();
             return RedirectToAction("BlockCustomer");
         }
