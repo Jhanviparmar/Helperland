@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="~/css/AdminStyle.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://use.fontawesome.com/48380cf6ab.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Admin | Helperland</title>
 </head>
 <body>
@@ -21,10 +23,23 @@
             <div class="d-flex align-items-center px-md-3 px-0 mx-md-3 mx-0">
                 <img src="~/images/admin-user.png">
                 <div class="title2 px-md-2 px-0">@Context.Session.GetString("username")</div>
-                <a asp-action="Logout" asp-controller="Home"><img src="~/images/logout.png"></a>
+                @*<a asp-action="Logout" asp-controller="Home"><img src="~/images/logout.png"></a>*@
+                <a style="text-decoration: none;" class="ps-3" data-bs-toggle="modal" data-bs-target="#logout">
+                <img src="~/images/logout.png"></a>
             </div>
         </div>
     </header>
+    <div class="modal fade" id="logout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center p-3">
+                    <img src="~/images/green-tick.png" class="mb-4" style="height: 50px; width: 50px;">
+                    <h5 class="mb-4">You will be logged out from the sysytem, Click Ok button to proceed.</h5>
+                    <a class="button px-5 py-2" style="text-decoration: none; color: #fff ; z-index:9997 " asp-action="Logout" asp-controller="Home">Ok</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <section>
         <div class="container-fluid">
             <div class="row">
@@ -119,9 +134,10 @@
                                         </div>
                                         <div class="mb-3 d-flex flex-md-row flex-column gap-2">
                                             <input type="text" placeholder="From Date"
-                                                   onfocus="(this.type='date')" class="username p-2">
+                                                   onfocus="(this.type='date')" class="username p-2" id="min">
                                             <input type="text" placeholder="To Date"
-                                                   onfocus="(this.type='date')" class="username p-2">
+                                                   onfocus="(this.type='date')" class="username p-2" id="max">
+
                                             <button class="search" type="button" id="search">Search</button>
 
                                             <button class="clear">Clear</button>
@@ -134,11 +150,11 @@
                                 <table class="table mb-3 ms-2" id="example">
                                     <thead>
                                         <tr>
-                                            <th>Service ID<img class="ms-2" src="~/images/arrows.png"></th>
-                                            <th>Service date<img class="ms-2" src="~/images/arrows.png"></th>
-                                            <th>Customer details<img class="ms-2" src="~/images/arrows.png"></th>
-                                            <th>Service Provider<img class="ms-2" src="~/images/arrows.png"></th>
-                                            <th>Status<img class="ms-2" src="~/images/arrows.png"></th>
+                                            <th>Service ID</th>
+                                            <th>Service date</th>
+                                            <th>Customer details</th>
+                                            <th>Service Provider</th>
+                                            <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -160,8 +176,93 @@
                                                         @item.PostalCode @item.City
                                                     </span>
                                                 </td>
-                                                <td>
-                                                </td>
+                                                @if (item.Status == 1)
+                                                {
+                                                    <td>
+                                                        @if (item.UserProfilePicture == "car")
+                                                        {
+                                                            <img src="~/images/avatar-hat.png" id="profilepic" class="ms-2 mt-3"
+                                                                 style="margin-top: -40px; height: 30px; width: 30px;">
+                                                        }
+                                                        else @if (item.UserProfilePicture == "female")
+                                                   {
+                                                    <img src="~/images/avatar-female.png" id="profilepic" class="ms-2 mt-3"
+                                                         style="margin-top: -40px; height: 30px; width: 30px;">
+                                                }
+                                                else @if (item.UserProfilePicture == "iron")
+                                               {
+                                                <img src="~/images/avatar-iron.png" id="profilepic" class="ms-2 mt-3"
+                                                     style="margin-top: -40px; height: 30px; width: 30px;">
+                                            }
+                                            else @if (item.UserProfilePicture == "male")
+                                           {
+                                            <img src="~/images/avatar-male.png" id="profilepic" class="ms-2 mt-3"
+                                                 style="margin-top: -40px; height: 30px; width: 30px;">
+                                        }
+                                        else @if (item.UserProfilePicture == "ship")
+                                       {
+                                        <img src="~/images/avatar-ship.png" id="profilepic" class="ms-2 mt-3"
+                                             style="margin-top: -40px; height: 30px; width: 30px;">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/avatar-hat.png" id="profilepic" class="ms-2 mt-2 mt-3"
+                                             style="margin-top: -40px; height: 30px; width: 30px;">
+                                    }<span>@item.spFirstName @item.spLastName</span>
+                                    <div class="rate">
+                                        @for (int i = 0; i < 5; i++)
+                                        {
+                                            if (i < (item.Ratings))
+                                            {
+                                                <i class="fa fa-star yellow" aria-hidden="true"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            }
+                                        }
+                                    </div>
+                                </td>
+                            }
+                            else @if (item.Status == 2)
+                           {
+                            <td>
+                                @if (item.UserProfilePicture == "car")
+                                {
+                                    <img src="~/images/avatar-hat.png" id="profilepic" class="ms-2 mt-3"
+                                         style="margin-top: -40px; height: 30px; width: 30px;">
+                                }
+                                else @if (item.UserProfilePicture == "female")
+                           {
+                            <img src="~/images/avatar-female.png" id="profilepic" class="ms-2 mt-3"
+                                 style="margin-top: -40px; height: 30px; width: 30px;">
+                        }
+                        else @if (item.UserProfilePicture == "iron")
+                       {
+                        <img src="~/images/avatar-iron.png" id="profilepic" class="ms-2 mt-3"
+                             style="margin-top: -40px; height: 30px; width: 30px;">
+                    }
+                    else @if (item.UserProfilePicture == "male")
+                   {
+                    <img src="~/images/avatar-male.png" id="profilepic" class="ms-2 mt-3"
+                         style="margin-top: -40px; height: 30px; width: 30px;">
+                }
+                else @if (item.UserProfilePicture == "ship")
+               {
+                <img src="~/images/avatar-ship.png" id="profilepic" class="ms-2 mt-3"
+                     style="margin-top: -40px; height: 30px; width: 30px;">
+            }
+            else
+            {
+                <img src="~/images/avatar-hat.png" id="profilepic" class="ms-2 mt-2 mt-3"
+                     style="margin-top: -40px; height: 30px; width: 30px;">
+            }<span>@item.spFirstName @item.spLastName</span>
+        </td>
+    }
+    else
+    {
+        <td></td>
+    }
 
                                                 @if (@item.Status == 0)
                                                 {
@@ -222,6 +323,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdn.datatables.net/datetime/1.1.2/js/dataTables.dateTime.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             var table = $('#example').DataTable({
@@ -231,17 +335,55 @@
                     targets: [1, 5]
                 }]
             });
+            minDate = new DateTime($('#min'), {
+                format: 'MMMM Do YYYY'
+            });
+            maxDate = new DateTime($('#max'), {
+                format: 'MMMM Do YYYY'
+            });
+
+            $('#min, #max').on('change', function () {
+                table.draw();
+            });
             $('.dataTables_length').addClass('bs-select');
 
             $(document).on('click', "#search", function () {
+                debugger;
                 table.column(0).search($("#srid").val()).draw();
-                console.log('click');
                 table.column(2).search($("#cust").val()).draw();
                 table.column(2).search($("#zip").val()).draw();
                 table.column(3).search($("#sp").val()).draw();
                 table.column(4).search($("#status option:selected").val()).draw();
+                $.fn.dataTable.ext.search.push(
+                    function (settings, data, dataIndex) {
+                        debugger;
+                        var min = minDate.val();
+                        var max = maxDate.val();
+                        var date = new Date(data[4]);
+
+                        if (
+                            (min === null && max === null) ||
+                            (min === null && date <= max) ||
+                            (min <= date && max === null) ||
+                            (min <= date && date <= max)
+                        ) {
+                            return true;
+                        }
+                        return false;
+                    }
+                );
             });
         });
+    </script>
+    <script language="javascript">
+
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+
+        today = yyyy + '-' + mm + '-' + dd;
+        $('#date').attr('min', today);
     </script>
     <script>
         $("#editmodal").click(function(){

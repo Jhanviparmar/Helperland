@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -15,7 +16,7 @@
     <!----------------Welcome------------->
     <section class="welcome" style="padding: 100px 0 20px 0;">
         <div class="d-flex text-center align-items-center justify-content-center">
-            <p id="welcome">Welcome, <span class="fw-bold"> Gaurang!</span></p>
+            <p id="welcome">Welcome, <span class="fw-bold"> @Context.Session.GetString("username")!</span></p>
         </div>
     </section>
     <!----------------Mainbody-------------->
@@ -43,7 +44,39 @@
 
             <div class="tab-content" id="v-pills-tabContent">
 
-               
+                <div class="tab-pane fade" id="cview" role="tabpanel" aria-labelledby="v-pills-cview-tab">
+                    <div class="row border g-0 rounded shadow-sm">
+                        <div class="col p-4">
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane fade" id="invoices" role="tabpanel" aria-labelledby="v-pills-invoices-tab">
+                    <div class="row border g-0 rounded shadow-sm">
+                        <div class="col p-4">
+
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="notifications" role="tabpanel" aria-labelledby="v-pills-notifications-tab">
+                    <div class="row border g-0 rounded shadow-sm">
+                        <div class="col p-4">
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="tab-pane fade show active" id="favpros" role="tabpanel" aria-labelledby="v-pills-favpros-tab">
                     <div class="col ps-3">
                         <div class="fav-pros d-flex flex-sm-row flex-column align-items-center mb-5 gap-4">
@@ -82,33 +115,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tablebelow navbar d-flex align-items-center">
-                            <div class="d-flex align-items-center">
-                                <!-------------------------entries------------------>
-                                <p class="left">
-                                    Show <span class="p-0">
-                                        <select class="entries table-dropdown" name="table-rows" id="table-rows">
-                                            <option value="10">10</option>
-                                            <option value="20">20</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select>
-                                    </span> entries Total records:2
-                                </p>
-                            </div>
-                            <div class="d-flex align-items-center pb-2 gap-3 pe-3">
-                                <!---------------------pagination----------------->
-                                <nav aria-label="Page navigation example ">
-                                    <ul class="pagination pagination-circle pagination-sm">
-                                        <li class="page-item"><a class="page-link" href="#"><img src="~/images/group-36.png"></a></li>
-                                        <li class="page-item"><a class="page-link" href="#"><img src="~/images/keyboard-arrow.png"></a></li>
-                                        <li class="page-item"><a class="page-link circle circle-md border" href="#"><span>1</span></a></li>
-                                        <li class="page-item"><a class="page-link" href="#"><img class="right" src="~/images/keyboard-arrow.png"></a></li>
-                                        <li class="page-item"><a class="page-link" href="#"><img class="right" src="~/images/group-36.png"></a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
+
                     </div>
 
                 </div>
@@ -133,10 +140,10 @@
     <script src="~/js/mobilemenu.js"></script>
     <script src="~/js/script.js"></script>
     <script type="text/javascript">
-      window.addEventListener("scroll", function()){
-        var header = document.querySelector("header");
-        header.classList.toggle("sticky", window.scrollY > 0);
-      }
+        window.addEventListener("scroll", function ()){
+            var header = document.querySelector("header");
+            header.classList.toggle("sticky", window.scrollY > 0);
+        }
     </script>
 
 </body>

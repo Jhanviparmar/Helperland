@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Helperland.Models.ServiceRequest>
+﻿@model IEnumerable<Helperland.Models.CustomRatings>
 @using Microsoft.AspNetCore.Http;
 <!DOCTYPE html>
 <html>
@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="~/css/book-a-serviceStyle.css">
     <link rel="stylesheet" type="text/css" href="~/css/service-historyStyle.css">
     <link rel="stylesheet" type="text/css" href="~/css/styles.css">
+    <script src="https://use.fontawesome.com/48380cf6ab.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Customer Pages</title>
     <!--------------Bootstrap------------------>
 </head>
@@ -44,6 +46,37 @@
         <div class="col-lg-9 col-12">
 
             <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade" id="cview" role="tabpanel" aria-labelledby="v-pills-cview-tab">
+                    <div class="row border g-0 rounded shadow-sm">
+                        <div class="col p-4">
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane fade" id="invoices" role="tabpanel" aria-labelledby="v-pills-invoices-tab">
+                    <div class="row border g-0 rounded shadow-sm">
+                        <div class="col p-4">
+
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="notifications" role="tabpanel" aria-labelledby="v-pills-notifications-tab">
+                    <div class="row border g-0 rounded shadow-sm">
+                        <div class="col p-4">
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="tab-pane fade show active" id="css" role="tabpanel" aria-labelledby="v-pills-css-tab">
                     <div class="col">
@@ -71,8 +104,8 @@
                                 {
 
                                     <tr>
-                                        <td><button type="button" data-id="@item.ServiceRequestId" class="btn srModel" @*data-toggle="modal" data-target="#myModal"*@ id="srmodel1">@item.ServiceId</button></td>
-                                        <td class="cs btn" id="cs srmodel1" data-id="@item.ServiceRequestId" type="button" @*data-toggle="modal" data-target="#myModal"*@>
+                                        <td><button type="button" data-id="@item.ServiceRequestId" class="btn sModel" id="smodel">@item.ServiceId</button></td>
+                                        <td class="cs btn" id="cs srmodel1" data-id="@item.ServiceRequestId" type="button">
                                             <div class="fw-bold"><img class="me-2" src="~/images/calender.png">@item.ServiceStartDate.ToShortDateString()</div>
                                             <div class="ms-lg-0 ms-5">12:00 - 18:00</div>
                                         </td>
@@ -80,44 +113,135 @@
                                         {
 
                                             <td class="cs">
-                                                <img class="hat me-2" src="~/images/hat.png"><span>Lyum Watson</span>
-                                                <div class="rate">
-                                                    <img src="~/images/ystar.png" />
-                                                    <img src="~/images/ystar.png" />
-                                                    <img src="~/images/ystar.png" />
-                                                    <img src="~/images/ystar.png" />
-                                                    <img src="~/images/wstar.png" />
-                                                </div>
-                                            </td>
-                                            <td class="price">€<span class="fw-bold">@item.TotalCost</span></td>
-                                            <td>
-                                                <button class="complete mt-md-3 mt-2">Completed</button>
-                                            </td>
-                                            <td><button class="Rate mt-2"><a href="#">Rate SP</a></button></td>
+                                                @if (item.UserProfilePicture == "car")
+                                                {
+                                                    <img src="~/images/avatar-hat.png" id="profilepic" class="ms-2"
+                                                         style="margin-top: -40px; height: 30px; width: 30px;">
+                                                }
+                                                else @if (item.UserProfilePicture == "female")
+                                           {
+                                            <img src="~/images/avatar-female.png" id="profilepic" class="ms-2"
+                                                 style="margin-top: -40px; height: 30px; width: 30px;">
                                         }
-                                        else if (item.Status == 2)
+                                        else @if (item.UserProfilePicture == "iron")
+                                       {
+                                        <img src="~/images/avatar-iron.png" id="profilepic" class="ms-2"
+                                             style="margin-top: -40px; height: 30px; width: 30px;">
+                                    }
+                                    else @if (item.UserProfilePicture == "male")
+                                   {
+                                    <img src="~/images/avatar-male.png" id="profilepic" class="ms-2"
+                                         style="margin-top: -40px; height: 30px; width: 30px;">
+                                }
+                                else @if (item.UserProfilePicture == "ship")
+                               {
+                                <img src="~/images/avatar-ship.png" id="profilepic" class="ms-2"
+                                     style="margin-top: -40px; height: 30px; width: 30px;">
+                            }
+                            else
+                            {
+                                <img src="~/images/avatar-hat.png" id="profilepic" class="ms-2 mt-2"
+                                     style="margin-top: -40px; height: 30px; width: 30px;">
+                            }<span>@item.FirstName @item.LastName</span>
+                            <div class="rate">
+                                @for (int i = 0; i < 5; i++)
+                                {
+                                    if (i < (item.Ratings))
+                                    {
+                                        <i class="fa fa-star yellow" aria-hidden="true"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    }
+                                }
 
-                                        {
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                <button class="cancelled mt-md-3 mt-2">cancelled</button>
-                                            </td>
-                                            <td></td>
+                            </div>
+                        </td>
+                        <td class="price">€<span class="fw-bold">@item.TotalCost</span></td>
+                        <td>
+                            <button class="complete mt-md-3 mt-2">Completed</button>
+                        </td>
+                        <td>
+                            <button class="Rate mt-2" @*data-bs-toggle="modal" data-bs-target="#ratesp"*@
+                                    id="rateSP" srid="@item.ServiceRequestId" spid="@item.ServiceProviderId">
+                                Rate SP
+                            </button>
+                        </td>
+                    }
+                    else @if (item.Status == 2)
 
-                                        }
+                           {
+                            <td class="cs">
+                                @if (item.UserProfilePicture == "car")
+                                {
+                                    <img src="~/images/avatar-hat.png" id="profilepic" class="ms-2"
+                                         style="margin-top: -40px; height:30px; width:30px;">
+                                }
+                                else @if (item.UserProfilePicture == "female")
+                           {
+                            <img src="~/images/avatar-female.png" id="profilepic" class="ms-2"
+                                 style="margin-top: -40px; height: 30px; width: 30px;">
+                        }
+                        else @if (item.UserProfilePicture == "iron")
+                       {
+                        <img src="~/images/avatar-iron.png" id="profilepic" class="ms-2"
+                             style="margin-top: -40px; height: 30px; width: 30px;">
+                    }
+                    else @if (item.UserProfilePicture == "male")
+                   {
+                    <img src="~/images/avatar-male.png" id="profilepic" class="ms-2"
+                         style="margin-top: -40px; height: 30px; width: 30px;">
+                }
+                else @if (item.UserProfilePicture == "ship")
+                       {
+                        <img src="~/images/avatar-ship.png" id="profilepic" class="ms-2"
+                             style="margin-top: -40px; height: 30px; width: 30px;">
+                    }
+                    else
+                    {
+                        <img src="~/images/avatar-hat.png" id="profilepic" class="ms-2 mt-2"
+                             style="margin-top: -40px; height: 30px; width: 30px;">
+                    }<span>@item.FirstName @item.LastName</span>
+                </td>
+                <td></td>
+                <td>
+                    <button class="cancelled mt-md-3 mt-2">cancelled</button>
+                </td>
+                <td></td>
+            }
+            else
+            {
+                <td></td>
+                <td></td>
+                <td>
+                    <button class="cancelled mt-md-3 mt-2" style="background-color:orange">pending</button>
+                </td>
+                <td></td>
+            }
                                     </tr>
                                 }
                             </tbody>
                         </table>
-                       
+
                     </div>
                 </div>
 
             </div>
         </div>
     </div>
+    
+    <div class="modal fade px-5" id="shistory" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    </div>
 
+    <div class="modal fade" id="ratesp" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                </div>
+            </div>
+        </div>
+    </div>
     <!---------------footer--------------------->
     @Html.Partial("_footer")
 
@@ -142,9 +266,15 @@
             $('#HistoryTable').DataTable();
         });
 
-        $(document).on("click", "#srmodel1", function () {
+        //var srid;
+        //$(document).on("click", "#shistory", function () {
+        //    srid = parseInt($(this).attr("data-id"));
+        //    console.log(srid);
+        //});
+
+        $(document).on("click", "#smodel", function () {
             $.ajax({
-                url: '@Url.Action("srModel", "Home")',
+                url: '@Url.Action("shistoryModal", "Home")',
                 type: 'GET',
                 contentType: 'application/html; charset=utf-8',
                 data: {
@@ -152,10 +282,186 @@
                     id: parseInt($(this).attr("data-id")),
                 },
                 success: function (resp) {
-                    $("#SRModel").html(resp);
-                    $("#SRModel").modal('show');
+                    $("#shistory").html(resp);
+                    $("#shistory").modal('show');
                 },
                 error: function (err) {
+                    console.log("Error");
+                }
+            });
+        });
+    </script>
+
+    <script>
+        var o, f, q = 0;
+        $(document).ready(function () {
+            $(document).on('click','#o1', function () {
+                $("#o1").css('color', "yellow");
+                $("#o2,#o3,#o4,#o5").css('color', "#D3D3D3");
+                o = 1;
+            });
+            $(document).on('click', '#o2', function () {
+                $("#o1,#o2").css('color', "yellow");
+                $("#o3,#o4,#o5").css('color', "#D3D3D3");
+                o = 2;
+            });
+            $(document).on('click', '#o3', function () {
+                $("#o1,#o2,#o3").css('color', "yellow");
+                $("#o4,#o5").css('color', "#D3D3D3");
+                o = 3;
+            });
+            $(document).on('click', '#o4', function (){
+                $("#o1,#o2,#o3,#o4").css('color', "yellow");
+                $("#o5").css('color', "#D3D3D3");
+                o = 4;
+            });
+            $(document).on('click', '#o5', function () {
+                $("#o1,#o2,#o3,#o4,#o5").css('color', "yellow");
+                o = 5;
+            });
+            $(document).on('click', '#f1', function () {
+                $("#f1").attr('src', '~/image/yellow-star.png');
+                $("#f2,#f3,#f4,#f5").css('color', "#D3D3D3");
+                f = 1;
+            });
+            $(document).on('click', '#f2', function () {
+                $("#f1,#f2").css('color', "yellow");
+                $("#f3,#f4,#f5").css('color', "#D3D3D3");
+                f = 2;
+            });
+            $(document).on('click', '#f3', function () {
+                $("#f1,#f2,#f3").css('color', "yellow");
+                $("#f4,#f5").css('color', "#D3D3D3");
+                f = 3;
+            });
+            $(document).on('click', '#f4', function () {
+                $("#f1,#f2,#f3,#f4").css('color', "yellow");
+                $("#f5").css('color', "#D3D3D3");
+                f = 4;
+            });
+            $(document).on('click', '#f5', function () {
+                $("#f1,#f2,#f3,#f4,#f5").css('color', "yellow");
+                f = 5;
+            });
+            $(document).on('click', '#q1', function () {
+                $("#q1").css('color', "yellow");
+                $("#q2,#q3,#q4,#q5").css('color', "#D3D3D3");
+                q = 1;
+            });
+            $(document).on('click', '#q2', function () {
+                $("#q1,#q2").css('color', "yellow");
+                $("#q3,#q4,#q5").css('color', "#D3D3D3");
+                q = 2;
+            });
+            $(document).on('click', '#q3', function () {
+                $("#q1,#q2,#q3").css('color', "yellow");
+                $("#q4,#q5").css('color', "#D3D3D3");
+                q = 3;
+            });
+            $(document).on('click', '#q4', function () {
+                $("#q1,#q2,#q3,#q4").css('color', "yellow");
+                $("#q5").css('color', "#D3D3D3");
+                q = 4;
+            });
+            $(document).on('click', '#q5', function () {
+                $("#q1,#q2,#q3,#q4,#q5").css('color', "yellow");
+                q = 5;
+            });
+
+            $(document).on('click', '.rate', function () {
+                var ratesp = (o + f + q) / 3;
+                x = Math.floor(ratesp)
+                x = ratesp.toFixed(0);
+                $("#rateavg").html(x);
+                switch (x) {
+                    case '0':
+                        $("#a1,#a2,#a3,#a4,#a5").css('color', "yellow");
+                        break;
+                    case '1':
+                        $("#a1").css('color', "yellow");
+                        $("#a2,#a3,#a4,#a5").css('color', "#D3D3D3");
+                        break;
+                    case '2':
+                        $("#a1,#a2").css('color', "yellow");
+                        $("#a3,#a4,#a5").css('color', "#D3D3D3");
+                        break;
+                    case '3':
+                        $("#a1,#a2,#a3").css('color', "yellow");
+                        $("#a4,#a5").css('color', "#D3D3D3");
+                        break;
+                    case '4':
+                        $("#a1,#a2,#a3,#a4").css('color', "yellow");
+                        $("#a5").css('color', "#D3D3D3");
+                        break;
+                    case '5':
+                        $("#a1,#a2,#a3,#a4,#a5").css('color', "yellow");
+                        break;
+                }
+            })
+        });
+    </script>
+
+    <script>
+        var srid,spid;
+            $(document).on("click","#rateSP",function(){
+            srid = parseInt($(this).attr('srid'));
+            spid = parseInt($(this).attr('spid'));
+            console.log(srid);
+            console.log(spid);
+        });
+
+        $(document).on("click", "#rateSP", function () {
+            $.ajax({
+                url: '@Url.Action("RateSPModal", "Home")',
+                type: 'GET',
+                contentType: 'application/html; charset=utf-8',
+                dataType: 'html',
+                data: {
+                    spid: parseInt($(this).attr("spid"))
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res != '') {
+                        console.log(res);
+                        $("#ratesp").html(res);
+                        $("#ratesp").modal('show');
+
+                    }
+                    else {
+                        console.log(res);
+                    }
+
+                },
+                error: function (err) {
+                    console.log(err);
+                    console.log("Error");
+                }
+            });
+        });
+        $(document).on("click", "#ratesubmit", function () {
+            var rate = {};
+            rate.Ratings = parseInt(x);
+            rate.OnTimeArrival = parseInt(o);
+            rate.Friendly = parseInt(f);
+            rate.QualityOfService = parseInt(q);
+            rate.Comments = $("#comments").val();
+            rate.ServiceRequestId = parseInt(srid);
+            rate.RatingTo = parseInt($("#id").val());
+            console.log(rate);
+            $.ajax({
+                url: '@Url.Action("RatingSP","Home")',
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(rate),
+                success: function (res) {
+                    console.log(res);
+                    alert("rating done");
+                    $("#ratesp").modal('hide');
+                    location.reload();
+                },
+                error: function (err) {
+                    console.log(err);
                     console.log("Error");
                 }
             });

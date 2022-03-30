@@ -1,7 +1,9 @@
-﻿@{
+﻿@model Helperland.Models.User;
+@{
     ViewData["Title"] = "Home Page";
 }
 @Html.Raw(ViewBag.SuccessMessage)
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,70 +13,17 @@
     <link href="~/css/HomepageStyle.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/css/mobilemenu.css">
     <title>Home | Helperland</title>
+
+    
 </head>
 <body>
 
     <!------------------HEADER------------>
     <!--landingpage-->
     <div class="landingpage">
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-light bg-transparent main-navigation">
-                <div class="container-fluid ">
-                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                        <img class="ms-2 mt-1" src="~/images/homelogo.png">
-                    </a>
-                    <button class="navbar-toggler order-lg-0 order-1" type="button">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="overlay d-flex d-lg-none"></div>
-                    <div class="d-lg-flex w-100 pb-3 pb-lg-0 sidebar" id="navbarSupportedContent">
-                        <ul class="navbar-nav ms-auto">
-                            <li class="blue-btn nav-item text-center ms-xl-2 my-2">
-                                <a class="nav-link text-light px-3" aria-current="page" href="#">Book a cleaner</a>
-                            </li>
-                            <li class="nav-item text-center ms-xl-2  my-2 ">
-                                <a class="nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="Price">Prices</a>
-                            </li>
-                            <li class="nav-item text-center ms-xl-2 my-2 ">
-                                <a class="nav-link text-light px-3" aria-current="page" href="#">Our Guarantee  </a>
-                            </li>
-                            <li class="nav-item text-center ms-xl-2  my-2 ">
-                                <a class="nav-link text-light px-3" aria-current="page" href="#">Blog</a>
-                            </li>
-                            <li class="nav-item text-center ms-xl-2  my-2 ">
-                                <a class="nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="Contact">Contact Us</a>
-                            </li>
-                            <li class="blue-btn nav-item text-center ms-xl-2 my-2 ">
-                                <a class="nav-link text-light px-3" aria-current="page" data-bs-toggle="modal" href="#exampleModalToggle">Login</a>
-                            </li>
-                            <li class="blue-btn nav-item text-center ms-xl-2 my-2">
-                                <a class=" nav-link text-light px-3" aria-current="page" asp-controller="Home" asp-action="serviceproviderSignup">Become a Helper</a>
-                            </li>
-                            <li><hr class="dropdown-divider divider d-lg-none" style="color: #646464; height: 2px;"></li>
-                            <li class="divider d-lg-none mt-3"><img src="~/images/fb.png" class="mx-5"><img src="~/images/ig.png"></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="dropdown me-2 order-lg-1 order-0">
-                    <a class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="~/images/ga.png">
+        @Html.Partial("_homeheader")
+        @Html.Partial("_login")
 
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                <img class="me-1" src="~/images/india.png">
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                <img class="me-1" src="~/images/us.png">
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
         <div class="mid pt-5 mt-5 ps-5">
             <div class="lefttext text-left">
                 <div>
@@ -85,7 +34,7 @@
                 </div>
             </div>
             <div class="justify-content-center container-fluid d-flex mt-3 mb-5">
-                <div class="center-button mt-3" href="#">Let's Book a Cleaner</div>
+                <div class="center-button mt-3" asp-controller="Home" asp-action="BookService">Let's Book a Cleaner</div>
             </div>
         </div>
         <div class="bottom">
@@ -115,7 +64,7 @@
         </div>
         <div class="nextarrow text-center pb-5"><a href="#why"><img src="~/images/nextarrow.png"></a></div>
     </div>
-    @Html.Partial("_login")
+
     <!------------------WHY-HELPERLAND-------------->
     <section class="why mt-5" id="why">
         <h2 class="text-center fw-bold mb-5">Why Helperland</h2>
@@ -297,7 +246,6 @@
         <p class="pt-4 mx-auto">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut feugiat nunc libero, ac malesuada ligula aliquam ac.<span><a href=""> Privacy Policy</a></span></p>
         <button id="ok">OK!</button>
     </div>
-
     <script src="~/js/script.js"></script>
     <script>
         window.onload = function () {
@@ -309,6 +257,24 @@
             document.getElementById("thisdiv").classList.add("d-none");
         }
     </script>
+    
     <script src="~/js/mobilemenu.js"></script>
+    @{
+        var message = TempData["AlertMessage"] ?? string.Empty;
+    }
+
+    <script type="text/javascript">
+    var message = '@message';
+    if(message)
+        alert(message);
+    </script>
+
+    @*<script>
+            @if (TempData["Message"] != null)
+            {
+                alert(@TempData["Message"]);
+            }
+        </script>*@
+
 </body>
 </html>

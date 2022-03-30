@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Helperland.Models.ServiceRequest>
+﻿@model IEnumerable<Helperland.Models.CustomRatings>
 @using Microsoft.AspNetCore.Http;
 <!DOCTYPE html>
 <html>
@@ -52,7 +52,7 @@
                             <div class="d-flex align-items-center"><p class="text1 fw-bold">Current Service Requests</p></div>
                             <div class="d-flex align-items-center">
                                 <p class="button text-center">
-                                    <a asp-action="BookService" asp-controller="Home" class="px-3">Add new service request</a>
+                                    <a asp-action="BookService" class="px-3">Add new service request</a>
                                 </p>
                             </div>
                         </div>
@@ -91,7 +91,7 @@
                                 }
                             </tbody>
                         </table>
-                        
+
                     </div>
                 </div>
 
@@ -137,9 +137,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title" id="exampleModalToggleLabel">Reschedule Service Request</h2>
-                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p class="pb-1">Select New Date & Time</p>
@@ -174,42 +172,6 @@
     <!---------ServiceHistory-------------->
     <div class="modal fade px-5" id="SRModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     </div>
-    <!--------------CurrentBooking--------------->
-    <div class="modal fade px-5" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Service Details</h5>
-                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="d-flex flex-row"><h6>Duration : </h6><span class="ps-2">hours</span></div>
-                    <div class="d-flex flex-row"><h6>Service-ID : </h6></div>
-                    <div class="d-flex flex-row"><h6>Extras : </h6><span class="ps-2">Cleaning cupboard interiors, cleaning the refridgerator</span></div>
-                    <div class="d-flex flex-row"><h6>Total payment : </h6><span class="price fw-bold ps-5">  0.00 €</span></div>
-                    <hr>
-                    <div class="d-flex flex-row"><h6>Address : </h6><span class="ps-2">123</span></div>
-                    <div class="d-flex flex-row"><h6>Billing address : </h6><span class="ps-2">Same as address</span></div>
-                    <div class="d-flex flex-row"><h6>Phone : </h6><span class="ps-2">+49 1232123454</span></div>
-                    <div class="d-flex flex-row"><h6>E-Mail : </h6><span class="ps-2">a@gmail.com</span></div>
-
-                    <hr>
-                    <h6>Do you want to tell your helper something?</h6>
-                    <div>I keep Pets</div>
-                    <button type="button" class="button mt-md-3 mt-2 px-3" data-toggle="modal"
-                            data-target="#exampleModal" id="Reschedule" data-dismiss="modal">
-                        Reschedule
-                    </button>
-                    <button type="button" class="button mt-md-3 mt-2 px-3" data-toggle="modal"
-                            data-target="#exampleModal1" id="cancel" data-dismiss="modal">
-                        Cancel
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
     <!---------------footer--------------------->
     @Html.Partial("_footer")
 
@@ -221,7 +183,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+
 
     <script src="~/js/mobilemenu.js"></script>
     <script src="~/js/script.js"></script>
@@ -234,6 +197,18 @@
         $(document).ready(function () {
             $('#DashboardTable').DataTable();
         });
+
+
+    </script>
+    <script language="javascript">
+
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+
+        today = yyyy + '-' + mm + '-' + dd;
+        $('#start').attr('min', today);
     </script>
     <script>
         var srid;
@@ -257,7 +232,6 @@
                 }),
                 success: function (res) {
                     console.log(res);
-
                     $("#cancel").modal("hide");
                     alert("Your Service Request has been Cancelled.");
                     location.reload();
@@ -302,14 +276,19 @@
             });
         });
 
-       
+        //var srid;
+        //$(document).on("click", "#srmodel", function () {
+        //    srid = parseInt($(this).attr("data-id"));
+        //    console.log(srid);
+        //});
         $(document).on("click", "#srmodel", function () {
+            
             $.ajax({
                 url: '@Url.Action("srModel", "Home")',
                 type: 'GET',
                 contentType: 'application/html; charset=utf-8',
                 data: {
-                    
+                    /*ServiceRequestId: srid,*/
                     id: parseInt($(this).attr("data-id")),
                 },
                 success: function (resp) {

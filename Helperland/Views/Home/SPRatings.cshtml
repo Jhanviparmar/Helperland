@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http;
+@model IEnumerable<Helperland.Models.CustomRatings>
 @{
     <!DOCTYPE html>
     <html>
@@ -10,6 +11,8 @@
         <link rel="stylesheet" type="text/css" href="~/css/upcoming-servicesStyle.css">
         <link rel="stylesheet" type="text/css" href="~/css/styles.css">
         <title>Serviceprovider Pages</title>
+        <script src="https://use.fontawesome.com/48380cf6ab.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!--------------Bootstrap------------------>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     </head>
@@ -40,7 +43,7 @@
 
                         <a class="nav-link active" id="v-pills-mr-tab" asp-action="SPRatings" asp-controller="Home" role="tab" aria-controls="v-pills-mr" aria-selected="false">My Ratings</a>
 
-                        <a class="nav-link active" id="v-pills-bc-tab" asp-action="BlockCustomer" asp-controller="Home" role="tab" aria-controls="v-pills-bc" aria-selected="false">Block Customer</a>
+                        <a class="nav-link" id="v-pills-bc-tab" asp-action="BlockCustomer" asp-controller="Home" role="tab" aria-controls="v-pills-bc" aria-selected="false">Block Customer</a>
                     </div>
                 </div>
             </div>
@@ -60,105 +63,68 @@
                     </div>
 
                     <div class="tab-pane fade show active" id="mr" role="tabpanel" aria-labelledby="v-pills-mr-tab">
+                        <table id="myratings">
                         <div class="col">
-                            <div class="tableabove navbar d-flex align-items-center">
-
-                                <div>
-                                    <p class="left">
-                                        Rating<span class="p-0">
-                                            <select class="table-dropdown p-2 me-2" name="table-rows" id="table-rows">
-                                                <option value="All">All</option>
-                                                <option value="20">50km</option>
-                                                <option value="50">75km</option>
-                                                <option value="100">100km</option>
-                                            </select>
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
+                            @foreach (var item in Model)
+                            {
                             <div class="d-flex flex-column my-ratings p-3 mb-3">
                                 <div class="d-flex flex-md-row flex-column gap-md-5 g-2">
                                     <div class="inline me-5">
-                                        <div>8318</div>
-                                        <div class="fw-bold">Gaurang Patel</div>
+                                        <div>@item.ServiceId</div>
+                                        <div class="fw-bold">@item.FirstName @item.LastName</div>
                                     </div>
                                     <div class="inline mx-lg-5 mx-0">
                                         <div>
-                                            <img class="me-2" src="~/images/calculator.png"><span class="fw-bold">09/04/2018</span>
+                                            <img class="me-2" src="~/images/calculator.png"><span class="fw-bold">@item.RatingDate.ToShortDateString()</span>
                                         </div>
                                         <div><img class="me-2" src="~/images/clock.png"><span>12:00 - 18:00</span></div>
                                     </div>
                                     <div class="inline ms-lg-5 ms-0">
                                         <div class="fw-bold">ratings</div>
                                         <div>
-                                            <img src="~/images/ystar.png">
-                                            <img src="~/images/ystar.png">
-                                            <img src="~/images/ystar.png">
-                                            <img src="~/images/ystar.png">
-                                            <img class="me-2" src="~/images/wstar.png">Very Good
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr style="width:95%;text-align:center;">
-                                <div class="fw-bold">Customer Comment</div>
-                            </div>
-                            <div class="d-flex flex-column my-ratings p-3 mb-3">
-                                <div class="d-flex flex-md-row flex-column gap-md-5 g-2">
-                                    <div class="inline me-5">
-                                        <div>8318</div>
-                                        <div class="fw-bold">Gaurang Patel</div>
-                                    </div>
-                                    <div class="inline mx-lg-5 mx-0">
-                                        <div>
-                                            <img class="me-2" src="~/images/calculator.png"><span class="fw-bold">09/03/2018</span>
-                                        </div>
-                                        <div><img class="me-2" src="~/images/clock.png"><span>12:00 - 18:00</span></div>
-                                    </div>
-                                    <div class="inline ms-lg-5 ms-0">
-                                        <div class="fw-bold">ratings</div>
-                                        <div>
-                                            <img src="~/images/ystar.png">
-                                            <img src="~/images/ystar.png">
-                                            <img src="~/images/ystar.png">
-                                            <img src="~/images/ystar.png">
-                                            <img class="me-2" src="~/images/wstar.png">Very Good
+                                            @for (int i = 0; i < 5; i++)
+                                            {
+                                                if (i < (item.Ratings))
+                                                {
+                                                    <i class="fa fa-star yellow" aria-hidden="true"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                }
+                                            }
+                                            @switch (((int)item.Ratings))
+                                            {
+                                                case 1:
+                                                    <span>Very Bad</span>
+                                                    break;
+                                                case 2:
+                                                    <span>Bad</span>
+                                                    break;
+                                                case 3:
+                                                    <span>Good</span>
+                                                    break;
+                                                case 4:
+                                                    <span>Very Good</span>
+                                                    break;
+                                                case 5:
+                                                    <span>Excellent</span>
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
                                         </div>
                                     </div>
                                 </div>
                                 <hr style="width:95%;text-align:center;">
                                 <div class="fw-bold">Customer Comment</div>
                                 <div>
-                                    Excellent work done by the provider. I am very happy and would like to receive the services of same provider.
+                                    @item.Comments
                                 </div>
                             </div>
-                            <div class="tablebelow navbar d-flex align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <!-------------------------entries------------------>
-                                    <p class="left">
-                                        Show <span class="p-0">
-                                            <select class="entries table-dropdown" name="table-rows" id="table-rows">
-                                                <option value="10">10</option>
-                                                <option value="20">20</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select>
-                                        </span> Entries Total records : 2
-                                    </p>
-                                </div>
-                                <div class="d-flex align-items-center pb-2 gap-3 pe-3">
-                                    <!---------------------pagination----------------->
-                                    <nav aria-label="Page navigation example ">
-                                        <ul class="pagination pagination-circle pagination-sm">
-                                            <li class="page-item"><a class="page-link" href="#"><img src="~/images/group-36.png"></a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><img src="~/images/keyboard-arrow.png"></a></li>
-                                            <li class="page-item"><a class="page-link circle circle-md border" href="#"><span>1</span></a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><img class="right" src="~/images/keyboard-arrow.png"></a></li>
-                                            <li class="page-item"><a class="page-link" href="#"><img class="right" src="~/images/group-36.png"></a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
+                            }
                         </div>
+                            </table>
                     </div>
 
 
@@ -175,7 +141,6 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <script src=”https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js”></script>
         <script src=”https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js”></script>
-        <script src="app.js"></script>
 
         <script src="~/js/mobilemenu.js"></script>
         <script src="~/js/script.js"></script>
@@ -184,6 +149,12 @@
                 var header = document.querySelector("header");
                 header.classList.toggle("sticky", window.scrollY > 0);
             });
+
+            $(document).ready(function () {
+                $('#myratings').DataTable();
+            });
+
+
         </script>
 
 

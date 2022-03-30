@@ -1,0 +1,97 @@
+﻿@model Helperland.Models.User
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex flex-row">
+                    <div>
+                        @if (Model.UserProfilePicture == "car")
+                        {
+                            <img src="~/images/avatar-hat.png" id="profilepic" class="ms-2 mt-4"
+                                 style="margin-top: -40px;">
+                        }
+                        else @if (Model.UserProfilePicture == "female")
+                   {
+                    <img src="~/images/avatar-female.png" id="profilepic" class="ms-2 mt-4"
+                         style="margin-top: -40px;">
+                }
+                else @if (Model.UserProfilePicture == "iron")
+           {
+            <img src="~/images/avatar-iron.png" id="profilepic" class="ms-2 mt-4"
+                 style="margin-top: -40px;">
+        }
+        else @if (Model.UserProfilePicture == "male")
+   {
+    <img src="~/images/avatar-male.png" id="profilepic" class="ms-2 mt-4"
+         style="margin-top: -40px;">
+}
+else @if (Model.UserProfilePicture == "ship")
+{
+<img src="~/images/avatar-ship.png" id="profilepic" class="ms-2 mt-4"
+     style="margin-top: -40px;">
+}
+else
+{
+<img src="~/images/avatar-hat.png" id="profilepic" class="ms-2 mt-4"
+     style="margin-top: -40px;">
+}
+    </div>
+    <div class="ms-3">
+        <input type="hidden" id="id" asp-for="@Model.UserId" /><br>
+        <h5>@Model.FirstName @Model.LastName</h5>
+        <div><span>
+            <i class="fa fa-star" id="a1"></i>
+            <i class="fa fa-star" id="a2"></i>
+            <i class="fa fa-star" id="a3"></i>
+            <i class="fa fa-star" id="a4"></i>
+            <i class="fa fa-star" id="a5"></i>
+            </span><label id="rateavg">0</label>
+        </div>
+    </div>
+</div>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <h5>Rate your Service Provider</h5>
+    <div class="row pt-2">
+        <div class="col">
+            <div class="mb-3">On Time Arrival</div>
+            <div class="mb-3">Friendly</div>
+            <div class="mb-4">Quality of Service</div>
+        </div>
+        <div class="col">
+
+            <div class="mb-3">
+                <i class="fa fa-star rate" id="o1"></i>
+                <i class="fa fa-star rate" id="o2"></i>
+                <i class="fa fa-star rate" id="o3"></i>
+                <i class="fa fa-star rate" id="o4"></i>
+                <i class="fa fa-star rate" id="o5"></i>
+            </div>
+
+            <div class="mb-3">
+                <i class="fa fa-star rate" id="f1"></i>
+                <i class="fa fa-star rate" id="f2"></i>
+                <i class="fa fa-star rate" id="f3"></i>
+                <i class="fa fa-star rate" id="f4"></i>
+                <i class="fa fa-star rate" id="f5"></i>
+            </div>
+
+            <div class="mb-4">
+                <i class="fa fa-star rate" id="q1"></i>
+                <i class="fa fa-star rate" id="q2"></i>
+                <i class="fa fa-star rate" id="q3"></i>
+                <i class="fa fa-star rate" id="q4"></i>
+                <i class="fa fa-star rate" id="q5"></i>
+            </div>
+        </div>
+        <div class="col"></div>
+        <h6 style="font-size: 18px">Feedback on ServiceProvider</h6>
+        <textarea rows="3" id="comments"></textarea>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="button px-3 py-1" id="ratesubmit" style="z-index : 100;"  data-bs-dismiss="modal" >Submit</button>
+</div>
+</div>
+</div>
+
