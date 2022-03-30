@@ -22,10 +22,12 @@ namespace Helperland.Models
         
         public int UserId { get; set; }
 
-        [Required]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Name is required")]
+        [StringLength(20, MinimumLength = 5, ErrorMessage = "Name Should be min 2 and max 20 length")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Name is required")]
+        [StringLength(20, MinimumLength = 5, ErrorMessage = "Name Should be min 2 and max 20 length")]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Please enter your email address")]
@@ -35,8 +37,9 @@ namespace Helperland.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Password is required.")]
-        [StringLength(10, MinimumLength = 3,
-         ErrorMessage = "Password Should be minimum 3 characters and a maximum of 10 characters")]
+        [StringLength(20, MinimumLength = 8, ErrorMessage = "Password must be 8 character long")]
+        [RegularExpression("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",
+            ErrorMessage = "Password must contain minimum 8 letters")]
         public string Password { get; set; }
 
         [NotMapped]
@@ -45,7 +48,7 @@ namespace Helperland.Models
         public string ConfirmPassword { get; set; }
 
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Please Enter Valid Mobile Number.")]
+        [RegularExpression(@"^(\d{10})$", ErrorMessage = "Invalid Phone Number")]
         [Required(ErrorMessage = "Phone Number Required!")]
         public string Mobile { get; set; }
 
@@ -76,7 +79,7 @@ namespace Helperland.Models
         public virtual ICollection<ServiceRequest> ServiceRequestServiceProviders { get; set; }
         public virtual ICollection<ServiceRequest> ServiceRequestUsers { get; set; }
         public virtual ICollection<UserAddress> UserAddresses { get; set; }
-
+        //public object HttpContext { get; internal set; }
     }
     
 }
