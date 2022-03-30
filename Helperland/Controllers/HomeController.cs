@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 
+
 namespace Helperland.Controllers
 {
     public class HomeController : Controller
@@ -21,7 +22,7 @@ namespace Helperland.Controllers
             _logger = logger;
         }
         HelperlanddContext db = new HelperlanddContext();
-        
+
         public IActionResult Index()
         {
 
@@ -46,91 +47,118 @@ namespace Helperland.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Contact(ContactU contactu)
         {
-            contactu.Name = HttpContext.Request.Form["firstName"] + " " + HttpContext.Request.Form["lastName"];
-            contactu.CreatedOn = DateTime.Now;
-            contactu.CreatedBy = contactu.ContactUsId;
-            db.ContactUs.Add(contactu);
-            db.SaveChanges();
-            TempData["Msg"] = "Your Response has been recorded";
-            return RedirectToAction("Contact");
+            if (ModelState.IsValid)
+            {
+                ContactU cu = new ContactU();
+                cu.Name = contactu.FirstName + " " + contactu.LastName;
+                cu.Email = contactu.Email;
+                cu.Message = contactu.Message;
+                cu.PhoneNumber = contactu.PhoneNumber;
+                cu.Subject = contactu.Subject;
+                cu.CreatedOn = DateTime.Now;
+                cu.CreatedBy = contactu.ContactUsId;
+                db.ContactUs.Add(cu);
+                db.SaveChanges();
+                TempData["Msg"] = "Your Response has been recorded";
+                return RedirectToAction("Contact");
+            }
+            else
+            {
+                TempData["error"] = "Problem occured while recording your response!";
+                return RedirectToAction("Contact");
+            }
         }
 
         public IActionResult About()
         {
             return View();
         }
+        
+        //-------------------------Authentication------------------------------------
+        
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost]  // 1:Customer 2:ServiceProvider 3:Admin
         public IActionResult Login(User u)
         {
 
             var login_user = db.Users.Where(x => x.Email == u.Email && x.Password == u.Password).FirstOrDefault();
-            if (login_user != null)
+            if(login_user != null)
             {
-                if (login_user.UserTypeId == 1)
+                if(login_user.IsActive == true)
                 {
                     HttpContext.Session.SetInt32("User_id", login_user.UserId);
                     HttpContext.Session.SetInt32("Usertype_id", login_user.UserTypeId);
                     HttpContext.Session.SetString("username", login_user.FirstName + " " + login_user.LastName);
-                    return RedirectToAction("sdashboard", "Home");
-                }
-                else if (login_user.UserTypeId == 2 && login_user.IsActive == true)
-                {
-                    HttpContext.Session.SetInt32("User_id", login_user.UserId);
-                    HttpContext.Session.SetInt32("Usertype_id", login_user.UserTypeId);
-                    HttpContext.Session.SetString("username", login_user.FirstName + " " + login_user.LastName);
-                    return RedirectToAction("SPDashboard", "Home");   
-                }
-                else if (login_user.UserTypeId == 3)
-                {
-                    HttpContext.Session.SetInt32("User_id", login_user.UserId);
-                    HttpContext.Session.SetInt32("Usertype_id", login_user.UserTypeId);
-                    HttpContext.Session.SetString("username", login_user.FirstName + " " + login_user.LastName);
-                    return RedirectToAction("ServiceRequests", "Home");
+                    int UserType = login_user.UserTypeId;
+
+                    switch (UserType)
+                    {
+                        case 1:
+                            return RedirectToAction("sdashboard");
+
+                        case 2:
+                            return RedirectToAction("SPDashboard");
+
+                        case 3:
+                            return RedirectToAction("Servicerequests");
+
+                        default:
+                            TempData["alert"] = "No such account found";
+                            return RedirectToAction("Index");
+
+                    }
                 }
                 else
                 {
+                    TempData["alert"] = "Access Denied!";
+                    TempData["msg"] = "You don't have access to this account. Contact Admin for further queries.";
                     return RedirectToAction("Index");
                 }
             }
             else
             {
-                ViewBag.message = "Username or Password is Incorrect. Please try again";
-                return RedirectToAction("Price");
+                TempData["alert"] = "Please try logging in again!";
+                TempData["msg"] = "*Email or password is invalid! Please try again.";
+                return RedirectToAction("Index");
             }
+
         }
 
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("User_id");
+            HttpContext.Session.Remove("Usertype_id");
+            HttpContext.Session.Remove("username");
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public IActionResult ForgetPassword(User user)
         {
-            string resetCode = Guid.NewGuid().ToString();
-            var link = "<a href='" + Url.Action("ResetPassword", "Home", null, "http") + "'>Reset Password</a>";
-            using (var db = new HelperlanddContext())
-            {
+            //string resetCode = Guid.NewGuid().ToString();
+            //var link = "<a href='" + Url.Action("ResetPassword", "Home", null, "http") + "'>Reset Password</a>";
+            
 
                 var getUser = db.Users.FirstOrDefault(x => x.Email.Equals(user.Email));
 
                 if (getUser != null)
                 {
-                    var senderemail = new MailAddress("Helperlandservices@gmail.com", "Reset your password");
+                    string BaseUrl = string.Format("{0}://{1}", HttpContext.Request.Scheme, HttpContext.Request.Host);
+                var link = $"{BaseUrl}/Home/ResetPassword?id=" + getUser.UserId;
+
+                var senderemail = new MailAddress("helperlandservices@gmail.com", "Reset your password");
                     var receiveremail = new MailAddress(user.Email);
 
                     var password = "2022#helperland";
                     var subject = "Password Reset Request";
                     var body = "Hi " + getUser.FirstName + ", You recently requested to reset your password for your account. Click the link to reset it. " 
                                      + link + 
-                                     "If you did not request a password reset, please ignore this email or reply to let us know.Thank you";
+                                     " If you did not request a password reset, please ignore this email or reply to let us know.Thank you";
                     var smtp = new SmtpClient
                     {
                         Host = "smtp.gmail.com",
@@ -149,113 +177,84 @@ namespace Helperland.Controllers
                     {
                         smtp.Send(message);
                     }
-                    return RedirectToAction("Index", "Home");
+                TempData["alert"] = "Email has been sent!";
+                TempData["message1"] = "Email has been sent!";
+                return RedirectToAction("Index", "Home");
 
                 }
                 else
                 {
-                    return View();
+                    TempData["alert"] = "Email does not exists in records!";
+                    TempData["message"] = "Email doesn't exists! Provide valid email id.";
+                    return RedirectToAction("Index");
 
-                }
             }
         }
 
-        public ActionResult ResetPassword()
-        {   
-            return View();
+        public IActionResult ResetPassword(int id)
+        {
+            User user = db.Users.Where(x => x.UserId == id).FirstOrDefault();
+            return View(user);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ResetPassword(User u)
+        public IActionResult ResetPassword(User u)
         {
-            var getUser = db.Users.FirstOrDefault(x => x.Email.Equals(u.Email));
-            if (getUser != null)
+            if (u.Password.Length >= 8)
             {
-                getUser.Email = u.Email;
-                getUser.Password = u.Password;
-                db.Users.Update(getUser);
-                db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                if (u.Password == u.ConfirmPassword)
+                {
+                    User user = db.Users.Where(x => x.UserId == u.UserId).FirstOrDefault();
+                    user.Password = u.Password;
+                    user.ModifiedBy = u.UserId;
+                    user.ModifiedDate = DateTime.Now;
+                    db.Users.Update(user);
+                    db.SaveChanges();
+                    TempData["success"] = "Password has been changed successfully";
+                    return RedirectToAction("ResetPassword");
+                }
+                
+                return RedirectToAction("ResetPassword"); ;
             }
-            else
-            {
-                TempData["Error"] = "Invalid email";
-                return RedirectToAction("ResetPassword");
-            }
+            TempData["error"] = "Password must contain 8 characters.";
+            return RedirectToAction("ResetPassword");
         }
-        public IActionResult CreateAccount()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult CreateAccount(User user)
-        {
-            if (ModelState.IsValid)
-            {
-                user.UserTypeId = 1;
-                user.IsRegisteredUser = false;
-                user.WorksWithPets = false;
-                user.CreatedDate = DateTime.Now;
-                user.ModifiedDate = DateTime.Now;
-                user.ModifiedBy = 0;
-                user.IsApproved = false;
-                user.IsActive = false;
-                user.IsDeleted = false;
-                db.Users.Add(user);
-                db.SaveChanges();
-                ViewBag.Msg = "Your Customer account is created!! Now go to Login.";
-                return View();
-            }
-            return View();
-        }
-
-        public IActionResult serviceproviderSignup()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult serviceproviderSignup(User user)
-        {
-            if (ModelState.IsValid)
-            {
-                user.UserTypeId = 2;
-                user.IsRegisteredUser = false;
-                user.WorksWithPets = false;
-                user.CreatedDate = DateTime.Now;
-                user.ModifiedDate = DateTime.Now;
-                user.ModifiedBy = 0;
-                user.IsApproved = false;
-                user.IsActive = true;
-                user.IsDeleted = false;
-                db.Users.Add(user);
-                db.SaveChanges();
-                ViewBag.Msg = "Your service Provider account is created!! Now go to Login";
-                return View();
-            }
-            return View();
-        }
-
+        
+        //--------------------------------------Book Service-------------------------------------
+        
         public IActionResult BookService()
         {
             var UserID = HttpContext.Session.GetInt32("User_id");
+            var user = db.Users.Where(x => x.UserId == UserID).FirstOrDefault();
 
             if (UserID != null)
             {
-                return View();
+                if(user.UserTypeId == 1)
+                {
+                    return View();
+                }
+                else
+                {
+                    TempData["alert"] = "This account does not contain customer access.";
+                    return RedirectToAction("Index");
+                }
+                
             }
-            ViewBag.msg = "<alert>You have to login first to Book a Service.</alert>";
+            TempData["alert"] = "You have to login first before booking service!!";
             return RedirectToAction("Index");
+            
         }
 
         public string PostalCode(string postalcode)
         {
-
-            var PostalCode = db.Zipcodes.Where(x => x.ZipcodeValue == postalcode).SingleOrDefault();
+            if (postalcode == null)
+            {
+                return "false";
+            }
+            var PostalCode = db.Users.Any(x => x.ZipCode == postalcode);
             string IsValid;
-            if (PostalCode != null)
+            if (PostalCode)
             {
                 IsValid = "true";
             }
@@ -264,7 +263,6 @@ namespace Helperland.Controllers
                 IsValid = "false";
             }
             return IsValid;
-
         }
 
         public IActionResult Details()
@@ -294,9 +292,12 @@ namespace Helperland.Controllers
             book.UserId = userID;
             book.ServiceId = 1000;
             book.PaymentDue = true;
+            book.ServiceStartDate = book.ServiceStartDate;
+            book.ServiceHours = 3 + book.ServiceHours;
+            
             book.CreatedDate = DateTime.Now;
-            book.ModifiedDate = DateTime.Now;
-            book.ModifiedBy = userID;
+            //book.ModifiedDate = DateTime.Now;
+            //book.ModifiedBy = userID;
             book.Distance = 10;
             book.Status = 0;                
 
@@ -315,28 +316,223 @@ namespace Helperland.Controllers
             requestAddress.City = address.City;
             requestAddress.State = address.State;
             requestAddress.PostalCode = address.PostalCode;
+            book.ZipCode = address.PostalCode;
             requestAddress.Email = address.Email;
             requestAddress.Mobile = address.Mobile;
 
             db.ServiceRequestAddresses.Add(requestAddress);
             db.SaveChanges();
 
+            ServiceRequestExtra extra = new ServiceRequestExtra();
+            extra.ServiceRequestId = book.ServiceRequestId;
+            extra.ServiceExtraId = book.extraId;
+            db.ServiceRequestExtras.Add(extra);
+            db.SaveChanges();
+
+
+            var query = from u in db.Users
+                        where u.UserTypeId == 2
+                        select u.Email;
+            
+            var senderemail = new MailAddress("helperlandservices@gmail.com", "New Service Request Alert");
+            foreach (var i in query)
+            {
+                var receiver = new MailAddress(i);
+            }
+            
+            var password = "2022#helperland";
+            var subject = "Password Reset Request";
+            var body = "Hello Service Provider,\n\nNew Service Request is Available " +
+                "in your area\n \n Visit Helperland for further Information.  " +
+                "\n\nRegards,\nHelperland Team";
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(senderemail.Address, password)
+            };
+            using (var message = new MailMessage(senderemail, receiver)
+            {
+                Subject = subject,
+                Body = body
+
+            })
+            {
+                smtp.Send(message);
+            }
+
+
             ModelState.Clear();
             return book.ServiceId.ToString();
         }
+        
+        //----------------------------------Customer Pages ---------------------------------
+        
+        public IActionResult CreateAccount()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public IActionResult CreateAccount(User user)
+        {
+            if (ModelState.IsValid)
+            {
+                var isEmailAlreadyExists = db.Users.Any(x => x.Email == user.Email);
+                if (isEmailAlreadyExists)
+                {
+
+                    TempData["alert"] = "This email already exists! Try with another email id.";
+                    return View(user);
+                }
+                user.UserTypeId = 1;
+                user.IsRegisteredUser = false;
+                user.WorksWithPets = false;
+                user.CreatedDate = DateTime.Now;
+                user.ModifiedDate = DateTime.Now;
+                user.ModifiedBy = 0;
+                user.IsApproved = false;
+                user.IsActive = true;
+                user.IsDeleted = false;
+                db.Users.Add(user);
+                db.SaveChanges();
+                ViewBag.Msg = "Your Customer account is created!! Now go to Login.";
+                return View(user);
+            }
+            return View();
+        }
+        
+        //Customer Dashboard :
         public IActionResult sdashboard()
         {
             int userid = (int)HttpContext.Session.GetInt32("User_id");
-            List<ServiceRequest> obj = new List<ServiceRequest>();
-            obj = db.ServiceRequests.Where(x => x.UserId == userid && x.Status == 0).ToList();
-            return View(obj);
+            User u = db.Users.Where(x => x.UserId == userid).FirstOrDefault();
+            if (u != null)
+            {
+                if(u.UserTypeId == 1)
+                {
+                    var query = (from sr in db.ServiceRequests
+                                 join user in db.Users on sr.UserId equals user.UserId
+                                 join rate in db.Ratings on sr.ServiceRequestId equals rate.ServiceRequestId
+                                 into Rating
+                                 from rate in Rating.DefaultIfEmpty()
+                                 where sr.UserId == userid && sr.Status == 0 || sr.Status == 4
+                                 select new CustomRatings
+                                 {
+                                     ServiceRequestId = sr.ServiceRequestId,
+                                     ServiceStartDate = sr.ServiceStartDate,
+                                     TotalCost = sr.TotalCost,
+                                     Status = sr.Status,
+                                     ServiceId = sr.ServiceId,
+
+                                     Ratings = rate == null ? 0 : rate.Ratings,
+
+                                     FirstName = user.FirstName,
+                                     LastName = user.LastName,
+                                     UserProfilePicture = user.UserProfilePicture
+
+                                 }).ToList();
+
+                    return View(query);
+                }
+                TempData["alret"] = "Access Denied ! Credentials doesn't match Customer records.";
+                return RedirectToAction("Index");
+            }
+            TempData["alret"] = "You have to login first before accessing this page.";
+            return RedirectToAction("Index");
+
         }
 
         public IActionResult srModel(int id)
         {
+           
             var query = (from sr in db.ServiceRequests
                          join sra in db.ServiceRequestAddresses on sr.ServiceRequestId equals sra.ServiceRequestId
+                         join u in db.Users on sr.UserId equals u.UserId
+                         join sre in db.ServiceRequestExtras on sr.ServiceRequestId equals sre.ServiceRequestId
+                         into Sre
+                         from sre in Sre.DefaultIfEmpty()
+                         where sr.ServiceRequestId == id
+                         select new CustomModel
+                         {
+                             ServiceRequestId = sr.ServiceRequestId,
+                             ServiceId = sr.ServiceId,
+                             ServiceStartDate = sr.ServiceStartDate,
+                             ServiceHours = sr.ServiceHours,
+                             Comments = sr.Comments,
+                             HasPets = sr.HasPets,
+                             TotalCost = sr.TotalCost,
+                             
+
+                             AddressLine1 = sra.AddressLine1,
+                             AddressLine2 = sra.AddressLine2,
+                             City = sra.City,
+                             State = sra.State,
+                             PostalCode = sra.PostalCode,
+                             Mobile = sra.Mobile,
+
+                             ServiceExtraId = sre.ServiceExtraId,
+
+                             Email = u.Email
+
+                         }).SingleOrDefault();
+
+            return View(query);
+        }
+        
+        //Customer History :
+        public IActionResult shistory()
+        {
+            int userid = (int)HttpContext.Session.GetInt32("User_id");
+            User u = db.Users.Where(x => x.UserId == userid).FirstOrDefault();
+            if( u != null)
+            {
+                if(u.UserTypeId == 1)
+                {
+                    var query = (from sr in db.ServiceRequests
+                              join user in db.Users
+                              on sr.ServiceProviderId equals user.UserId into A
+                              from User in A.DefaultIfEmpty()
+                              join rate in db.Ratings on sr.ServiceRequestId equals rate.ServiceRequestId
+                              into Rating
+                              from rate in Rating.DefaultIfEmpty()
+                              where sr.UserId == userid && sr.Status != 0
+                              select new CustomRatings
+                              {
+                                  FirstName = User == null ? " " : User.FirstName,
+                                  LastName = User == null ? " " : User.LastName,
+                                  Ratings = Rating == null ? 0 : rate.Ratings,
+                                  ServiceStartDate = sr.ServiceStartDate,
+                                  TotalCost = sr.TotalCost,
+                                  Status = sr.Status,
+                                  ServiceId = sr.ServiceId,
+                                  ServiceRequestId = sr.ServiceRequestId,
+                                  ServiceProviderId = sr.ServiceProviderId,
+
+                              }).ToList();
+                    return View(query);
+                }
+                TempData["alret"] = "Access Denied ! Credentials doesn't match Customer records.";
+                return RedirectToAction("Index");
+
+            }
+            TempData["alret"] = "You have to login first before accessing this page.";
+            return RedirectToAction("Index");
+
+        }
+
+        public IActionResult shistoryModal(int id)
+        {
+            var query = (from sr in db.ServiceRequests
+                         join sra in db.ServiceRequestAddresses on sr.ServiceRequestId equals sra.ServiceRequestId
+                         join sre in db.ServiceRequestExtras on sr.ServiceRequestId equals sre.ServiceRequestId
+                         into Sre
+                         from sre in Sre.DefaultIfEmpty()
+                         join u in db.Users on sr.UserId equals u.UserId
                          where sr.ServiceRequestId == id
                          select new CustomModel
                          {
@@ -353,26 +549,23 @@ namespace Helperland.Controllers
                              City = sra.City,
                              State = sra.State,
                              PostalCode = sra.PostalCode,
-                             Mobile = sra.Mobile
+                             Mobile = sra.Mobile,
+
+                             ServiceExtraId = sre.ServiceExtraId,
+
+                             Email = u.Email
 
                          }).SingleOrDefault();
 
             return View(query);
         }
-    
-
-        public IActionResult shistory()
-        {
-            int userid = (int)HttpContext.Session.GetInt32("User_id");
-            List<ServiceRequest> obj = db.ServiceRequests.Where(x => x.UserId == userid && x.Status == 1 || x.Status == 2).ToList();
-            return View(obj);
-        }
-
         public bool CancelRequest([FromBody] ServiceRequest sr)
         {
             ServiceRequest obj = db.ServiceRequests.Where(x => x.ServiceRequestId == sr.ServiceRequestId).FirstOrDefault();
             obj.Status = 2;
             obj.Comments = sr.Comments;
+            obj.ModifiedBy = sr.UserId;
+            obj.ModifiedDate = sr.ModifiedDate;
             db.ServiceRequests.Update(obj);
             db.SaveChanges();
             return true;
@@ -382,21 +575,79 @@ namespace Helperland.Controllers
         {
             ServiceRequest obj = db.ServiceRequests.Where(x => x.ServiceRequestId == sr.ServiceRequestId).FirstOrDefault();
             obj.ServiceStartDate = sr.ServiceStartDate;
+            obj.ModifiedBy = sr.UserId;
+            obj.ModifiedDate = sr.ModifiedDate;
             db.ServiceRequests.Update(obj);
             db.SaveChanges();
             return true;
         }
 
+        public IActionResult RateSPModal(int spid)
+        {
+            User u = db.Users.Where(x => x.UserId == spid).FirstOrDefault();
+            return View(u);
+        }
+        public string RatingSP([FromBody] Rating rate)
+        {
+            int userid = (int)HttpContext.Session.GetInt32("User_id");
+            Rating rt = db.Ratings.Where(x => x.ServiceRequestId == rate.ServiceRequestId).FirstOrDefault();
+
+            if (rt != null)
+            {
+                rt.Friendly = rate.Friendly;
+                rt.OnTimeArrival = rate.OnTimeArrival;
+                rt.QualityOfService = rate.QualityOfService;
+                rt.Ratings = rate.Ratings;
+                rt.RatingDate = DateTime.Now;               
+                rt.Comments = rate.Comments;
+                db.Ratings.Update(rt);
+                db.SaveChanges();
+            }
+            else
+            {
+                rate.RatingFrom = userid;
+                rate.RatingDate = DateTime.Now;
+                db.Ratings.Add(rate);
+                db.SaveChanges();
+            }
+            return "true";
+        }
+
         public IActionResult favouritepros()
         {
-            return View();
+            int userid = (int)HttpContext.Session.GetInt32("User_id");
+            User u = db.Users.Where(x => x.UserId == userid).FirstOrDefault();
+            if (u != null)
+            {
+                if (u.UserTypeId == 1)
+                {
+                    return View();
+                }
+                TempData["alret"] = "Access Denied ! Credentials doesn't match Customer records.";
+                return RedirectToAction("Index");
+
+            }
+            TempData["alret"] = "You have to login first before accessing this page.";
+            return RedirectToAction("Index");
         }
 
         public IActionResult settings()
         {
-            var a = (int)HttpContext.Session.GetInt32("User_id");
-            User u = db.Users.Where(x => x.UserId == a).FirstOrDefault();
-            return View(u);
+            int userid = (int)HttpContext.Session.GetInt32("User_id");
+            User u = db.Users.Where(x => x.UserId == userid).FirstOrDefault();
+            if (u != null)
+            {
+                if (u.UserTypeId == 1)
+                {
+                    return View();
+                }
+                TempData["alret"] = "Access Denied ! Credentials doesn't match Customer records.";
+                return RedirectToAction("Index");
+
+            }
+            TempData["alret"] = "You have to login first before accessing this page.";
+            return RedirectToAction("Index");
+     
         }
 
         public string UpdateDetails([FromBody] User book)
@@ -406,6 +657,7 @@ namespace Helperland.Controllers
             u.FirstName = book.FirstName;
             u.LastName = book.LastName;
             u.Mobile = book.Mobile;
+            u.DateOfBirth = book.DateOfBirth;
             db.Users.Update(u);
             db.SaveChanges();
 
@@ -420,6 +672,7 @@ namespace Helperland.Controllers
                 if (u.Password == password.Password)
                 {
                     u.Password = password.ConfirmPassword;
+                    u.ModifiedBy = a;
                     db.Users.Update(u);
                     db.SaveChanges();
                     return "true";
@@ -479,7 +732,44 @@ namespace Helperland.Controllers
             db.SaveChanges();
             return "true";
         }
+        
+        
+        //-----------------------------------------------Service Provider Pages----------------------------
+        
+        public IActionResult serviceproviderSignup()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public IActionResult serviceproviderSignup(User user)
+        {
+            if (ModelState.IsValid)
+            {
+                var isEmailAlreadyExists = db.Users.Any(x => x.Email == user.Email);
+                if (isEmailAlreadyExists)
+                {
+                    TempData["alert"] = "This email is already exists! Try with another email id.";
+                    return View(user);
+                }
+                user.UserTypeId = 2;
+                user.IsRegisteredUser = false;
+                user.WorksWithPets = false;
+                user.CreatedDate = DateTime.Now;
+                user.ModifiedDate = DateTime.Now;
+                user.ModifiedBy = 0;
+                user.IsApproved = false;
+                user.IsActive = true;
+                user.IsDeleted = false;
+                db.Users.Add(user);
+                db.SaveChanges();
+                ViewBag.Msg = "Your service Provider account is created!! Now go to Login";
+
+                return View();
+            }
+            return View();
+        }
+        
         public IActionResult SPDashboard()
         {
             return View();
@@ -487,34 +777,54 @@ namespace Helperland.Controllers
 
         public IActionResult SPNewRequest()
         {
-            var a = (int)HttpContext.Session.GetInt32("User_id");
-            UserAddress ua = db.UserAddresses.Where(x => x.UserId == a).FirstOrDefault();
-            var query = (from sr in db.ServiceRequests
-                         join sra in db.ServiceRequestAddresses
-                         on sr.ServiceRequestId equals sra.ServiceRequestId
-                         join u in db.UserAddresses on sr.UserId equals u.UserId
-                         join fav in db.FavoriteAndBlockeds on u.UserId equals fav.TargetUserId
-                         where ua.PostalCode == sra.PostalCode && sr.Status == 0 && fav.IsBlocked == false 
-                        
-                         select new CustomModel
-                         {
-                             ServiceRequestId = sr.ServiceRequestId,
-                             ServiceId = sr.ServiceId,
-                             ServiceStartDate = sr.ServiceStartDate,
-                             ServiceHours = sr.ServiceHours,
-                             Comments = sr.Comments,
-                             HasPets = sr.HasPets ,
-                             SubTotal = sr.SubTotal,
+            int userid = (int)HttpContext.Session.GetInt32("User_id");
+            UserAddress ua = db.UserAddresses.Where(x => x.UserId == userid).FirstOrDefault();
+            User u = db.Users.Where(x => x.UserId == userid).FirstOrDefault();
+            if (u != null)
+            {
+                if (u.UserTypeId == 2)
+                {
+                    var query = (from sr in db.ServiceRequests
+                                 join sra in db.ServiceRequestAddresses
+                                 on sr.ServiceRequestId equals sra.ServiceRequestId
+                                 join user in db.Users on sr.UserId equals user.UserId
+                                 join fb in db.FavoriteAndBlockeds on sr.UserId equals fb.TargetUserId
+                                 into fav
+                                 from fb in fav.DefaultIfEmpty()
+                                 where ua.PostalCode == sra.PostalCode && sr.Status == 0 && sr.ServiceProviderId == null
+                                 && (fb.IsBlocked == false || fb.IsBlocked == null)
+                                 && (fb.UserId == null || fb.UserId == userid)
+                                 select new CustomModel
 
-                             AddressLine1 = sra.AddressLine1,
-                             AddressLine2 = sra.AddressLine2,
-                             City = sra.City,
-                             State = sra.State,
-                             PostalCode = sra.PostalCode,
-                             Mobile = sra.Mobile
 
-                         }); 
-            return View(query);
+                                 {
+                                     ServiceRequestId = sr.ServiceRequestId,
+                                     ServiceId = sr.ServiceId,
+                                     ServiceStartDate = sr.ServiceStartDate,
+                                     ServiceHours = sr.ServiceHours,
+                                     Comments = sr.Comments,
+                                     HasPets = sr.HasPets,
+                                     SubTotal = sr.SubTotal,
+
+                                     AddressLine1 = sra.AddressLine1,
+                                     AddressLine2 = sra.AddressLine2,
+                                     City = sra.City,
+                                     State = sra.State,
+                                     PostalCode = sra.PostalCode,
+                                     Mobile = sra.Mobile,
+
+                                     FirstName = user.FirstName,
+                                     LastName = user.LastName
+
+                                 });
+                    return View(query);
+                }
+                TempData["alret"] = "Access Denied ! Credentials doesn't match Service Provider records.";
+                return RedirectToAction("Index");
+
+            }
+            TempData["alret"] = "You have to login first before accessing this page.";
+            return RedirectToAction("Index");
         }
 
         public IActionResult NewRequestModal(int id)
@@ -524,8 +834,12 @@ namespace Helperland.Controllers
 
             var query = (from sr in db.ServiceRequests
                          join sra in db.ServiceRequestAddresses on sr.ServiceRequestId equals sra.ServiceRequestId
-                         where sr.ServiceRequestId == id
                          join u in db.Users on sr.UserId equals u.UserId
+                         join sre in db.ServiceRequestExtras on sr.ServiceRequestId equals sre.ServiceRequestId
+                         into Sre
+                         from sre in Sre.DefaultIfEmpty()
+                         where sr.ServiceRequestId == id
+                         
                          select new CustomModel
                          {
                              ServiceId = sr.ServiceId,
@@ -538,9 +852,14 @@ namespace Helperland.Controllers
                              AddressLine2 = sra.AddressLine2,
                              PostalCode = sra.PostalCode,
                              City = sra.City,
+                             Mobile = sra.Mobile,
+
+                             ServiceExtraId = sre.ServiceExtraId,
 
                              FirstName = u.FirstName,
-                             LastName = u.LastName
+                             LastName = u.LastName,
+                             Email = u.Email
+                             
 
                          }).SingleOrDefault();
 
@@ -565,36 +884,48 @@ namespace Helperland.Controllers
 
         public IActionResult SPUpcomingServices()
         {
+            int userid = (int)HttpContext.Session.GetInt32("User_id");
+            User u = db.Users.Where(x => x.UserId == userid).FirstOrDefault();
+            if (u != null)
+            {
+                if (u.UserTypeId == 2)
+                {
+                    var query = (from sr in db.ServiceRequests
+                                 join sra in db.ServiceRequestAddresses
+                                 on sr.ServiceRequestId equals sra.ServiceRequestId
+                                 join user in db.Users on sr.UserId equals user.UserId
+                                 where sr.ServiceProviderId == userid && sr.Status == 4
+                                 select new CustomModel
+                                 {
+                                     ServiceId = sr.ServiceId,
+                                     ServiceRequestId = sr.ServiceRequestId,
+                                     ServiceStartDate = sr.ServiceStartDate,
+                                     SubTotal = sr.SubTotal,
+                                     ServiceHours = sr.ServiceHours,
+                                     Comments = sr.Comments,
+                                     HasPets = sr.HasPets,
+                                     TotalCost = sr.TotalCost,
+
+                                     AddressLine1 = sra.AddressLine1,
+                                     AddressLine2 = sra.AddressLine2,
+                                     PostalCode = sra.PostalCode,
+                                     City = sra.City,
+
+                                     FirstName = user.FirstName,
+                                     LastName = user.LastName
+
+                                 }).ToList();
+
+                    return View(query);
+                }
+                TempData["alret"] = "Access Denied ! Credentials doesn't match Service Provider records.";
+                return RedirectToAction("Index");
+
+            }
+            TempData["alret"] = "You have to login first before accessing this page.";
+            return RedirectToAction("Index");
             var a = (int)HttpContext.Session.GetInt32("User_id");
             User user = db.Users.Where(x => x.UserId == a).FirstOrDefault();
-
-            var query = (from sr in db.ServiceRequests
-                         join sra in db.ServiceRequestAddresses
-                         on sr.ServiceRequestId equals sra.ServiceRequestId
-                         join u in db.Users on sr.UserId equals u.UserId
-                         where sr.ServiceProviderId == a && sr.Status == 4
-                         select new CustomModel
-                         {
-                             ServiceId = sr.ServiceId,
-                             ServiceRequestId = sr.ServiceRequestId,
-                             ServiceStartDate = sr.ServiceStartDate,
-                             SubTotal = sr.SubTotal,
-                             ServiceHours = sr.ServiceHours,
-                             Comments = sr.Comments,
-                             HasPets = sr.HasPets,
-                             TotalCost = sr.TotalCost,
-
-                             AddressLine1 = sra.AddressLine1,
-                             AddressLine2 = sra.AddressLine2,
-                             PostalCode = sra.PostalCode,
-                             City = sra.City,
-
-                             FirstName = u.FirstName,
-                             LastName = u.LastName
-
-                         }).ToList();
-
-            return View(query);
         }
 
         public IActionResult UpcomingServiceModal(int id)
@@ -606,6 +937,10 @@ namespace Helperland.Controllers
                          join sra in db.ServiceRequestAddresses on sr.ServiceRequestId equals sra.ServiceRequestId
                          where sr.ServiceRequestId == id
                          join u in db.Users on sr.UserId equals u.UserId
+                         join sre in db.ServiceRequestExtras on sr.ServiceRequestId equals sre.ServiceRequestId
+                         into Sre
+                         from sre in Sre.DefaultIfEmpty()
+
                          select new CustomModel
                          {
                              ServiceId = sr.ServiceId,
@@ -618,9 +953,13 @@ namespace Helperland.Controllers
                              AddressLine2 = sra.AddressLine2,
                              PostalCode = sra.PostalCode,
                              City = sra.City,
+                             Mobile = sra.Mobile,
+
+                             ServiceExtraId = sre.ServiceExtraId,
 
                              FirstName = u.FirstName,
-                             LastName = u.LastName
+                             LastName = u.LastName,
+                             Email = u.Email
 
                          }).SingleOrDefault();
 
@@ -649,51 +988,95 @@ namespace Helperland.Controllers
             db.ServiceRequests.Update(sr);
             db.SaveChanges();
 
-            var a = db.FavoriteAndBlockeds.Where(x => x.UserId == sr.ServiceProviderId && x.TargetUserId == sr.UserId).FirstOrDefault();
+            var fb = db.FavoriteAndBlockeds.Where(x => x.UserId == sr.ServiceProviderId && x.TargetUserId == sr.UserId).FirstOrDefault();
 
-            if (a == null)
+            if (fb == null)
             {
-                FavoriteAndBlocked fb = new FavoriteAndBlocked();
-                fb.UserId = (int)sr.ServiceProviderId;
-                fb.TargetUserId = sr.UserId;
-                fb.IsBlocked = false;
-                fb.IsFavorite = false;
-                db.FavoriteAndBlockeds.Add(fb);
+                FavoriteAndBlocked fav = new FavoriteAndBlocked();
+                fav.UserId = (int)sr.ServiceProviderId;
+                fav.TargetUserId = sr.UserId;
+                fav.IsFavorite = false;
+                fav.IsBlocked = false;
+                db.FavoriteAndBlockeds.Add(fav);
                 db.SaveChanges();
             }
             return "true";
         }
         public IActionResult SPServiceHistory()
         {
-            var a = (int)HttpContext.Session.GetInt32("User_id");
-            
-            var query = (from sr in db.ServiceRequests
-                         join sra in db.ServiceRequestAddresses
-                         on sr.ServiceRequestId equals sra.ServiceRequestId
-                         join u in db.Users on sr.UserId equals u.UserId
-                         where sr.ServiceProviderId == a && sr.Status == 1
-                         select new CustomModel
-                         {
-                             ServiceId = sr.ServiceId,
-                             ServiceRequestId = sr.ServiceRequestId,
-                             ServiceStartDate = sr.ServiceStartDate,
-                             SubTotal = sr.SubTotal,
+            int userid = (int)HttpContext.Session.GetInt32("User_id");
+            User u = db.Users.Where(x => x.UserId == userid).FirstOrDefault();
+            if (u != null)
+            {
+                if (u.UserTypeId == 2)
+                {
+                    var query = (from sr in db.ServiceRequests
+                                 join sra in db.ServiceRequestAddresses
+                                 on sr.ServiceRequestId equals sra.ServiceRequestId
+                                 join user in db.Users on sr.UserId equals user.UserId
+                                 where sr.ServiceProviderId == userid && sr.Status == 1
+                                 select new CustomModel
+                                 {
+                                     ServiceId = sr.ServiceId,
+                                     ServiceRequestId = sr.ServiceRequestId,
+                                     ServiceStartDate = sr.ServiceStartDate,
+                                     SubTotal = sr.SubTotal,
 
-                             AddressLine1 = sra.AddressLine1,
-                             AddressLine2 = sra.AddressLine2,
-                             PostalCode = sra.PostalCode,
-                             City = sra.City,
+                                     AddressLine1 = sra.AddressLine1,
+                                     AddressLine2 = sra.AddressLine2,
+                                     PostalCode = sra.PostalCode,
+                                     City = sra.City,
 
-                             FirstName = u.FirstName,
-                             LastName = u.LastName
-                         }).ToList();
+                                     FirstName = user.FirstName,
+                                     LastName = user.LastName
 
-            return View(query);
+                                 }).ToList();
+
+                    return View(query);
+                }
+                TempData["alret"] = "Access Denied ! Credentials doesn't match Service Provider records.";
+                return RedirectToAction("Index");
+
+            }
+            TempData["alret"] = "You have to login first before accessing this page.";
+            return RedirectToAction("Index");
+
         }
+        
         public IActionResult SPRatings()
         {
-            return View();
+            int userid = (int)HttpContext.Session.GetInt32("User_id");
+            User u = db.Users.Where(x => x.UserId == userid).FirstOrDefault();
+            if (u != null)
+            {
+                if (u.UserTypeId == 2)
+                {
+                    var query = (from User in db.Users
+                                 join Rating in db.Ratings
+                                 on User.UserId equals Rating.RatingFrom
+                                 join ServiceRequest in db.ServiceRequests
+                                 on Rating.ServiceRequestId equals ServiceRequest.ServiceRequestId
+                                 where Rating.RatingTo == userid
+                                 select new CustomRatings
+                                 {
+                                     ServiceId = ServiceRequest.ServiceId,
+                                     FirstName = User.FirstName,
+                                     LastName = User.LastName,
+                                     RatingDate = (DateTime)Rating.RatingDate,
+                                     Ratings = Rating.Ratings,
+                                     Comments = Rating.Comments
+                                 }).ToList();
+
+                    return View(query);
+                }
+                TempData["alret"] = "Access Denied ! Credentials doesn't match Service Provider records.";
+                return RedirectToAction("Index");
+
+            }
+            TempData["alret"] = "You have to login first before accessing this page.";
+            return RedirectToAction("Index");
         }
+        
         public IActionResult BlockCustomer()
         {
             int id = (int)HttpContext.Session.GetInt32("User_id");
@@ -713,18 +1096,18 @@ namespace Helperland.Controllers
         
         public IActionResult BlockCustomer1(int id)
         {
-            FavoriteAndBlocked fb = db.FavoriteAndBlockeds.Where(x => x.Id == id).FirstOrDefault();
-            fb.IsBlocked = true;
-            db.FavoriteAndBlockeds.Update(fb);
+            FavoriteAndBlocked fav = db.FavoriteAndBlockeds.Where(x => x.Id == id).FirstOrDefault();
+            fav.IsBlocked = true;
+            db.FavoriteAndBlockeds.Update(fav);
             db.SaveChanges();
             return RedirectToAction("BlockCustomer");
         }
 
         public IActionResult UnblockCustomer(int id)
         {
-            FavoriteAndBlocked fb = db.FavoriteAndBlockeds.Where(x => x.Id == id).FirstOrDefault();
-            fb.IsBlocked = false;
-            db.FavoriteAndBlockeds.Update(fb);
+            FavoriteAndBlocked fav = db.FavoriteAndBlockeds.Where(x => x.Id == id).FirstOrDefault();
+            fav.IsBlocked = false;
+            db.FavoriteAndBlockeds.Update(fav);
             db.SaveChanges();
             return RedirectToAction("BlockCustomer");
         }
@@ -746,64 +1129,115 @@ namespace Helperland.Controllers
         {
             int userid = (int)HttpContext.Session.GetInt32("User_id");
             User u = db.Users.Where(x => x.UserId == userid).FirstOrDefault();
-            u.LastName = sp.Users.LastName;
-            u.FirstName = sp.Users.FirstName;
-            u.Mobile = sp.Users.Mobile;
-            db.Users.Update(u);
-            db.SaveChanges();
+            if (ModelState.IsValid)
+            {
+               
+                    u.LastName = sp.Users.LastName;
+                    u.FirstName = sp.Users.FirstName;
+                    u.Mobile = sp.Users.Mobile;
+                    u.Gender = sp.Users.Gender;
+                    u.DateOfBirth = sp.Users.DateOfBirth;
+                    u.UserProfilePicture = sp.Users.UserProfilePicture;
+                    u.ZipCode = sp.UserAddresses.PostalCode;
+                    db.Users.Update(u);
+                    db.SaveChanges();
+               
+                
 
-            UserAddress ua = db.UserAddresses.Where(x => x.UserId == userid).FirstOrDefault();
-            if (ua != null)
-            {
-                ua.AddressLine1 = sp.UserAddresses.AddressLine1;
-                ua.AddressLine2 = sp.UserAddresses.AddressLine2;
-                ua.PostalCode = sp.UserAddresses.PostalCode;
-                ua.City = sp.UserAddresses.City;
-                ua.Mobile = sp.Users.Mobile;
-                db.UserAddresses.Update(ua);
-                db.SaveChanges();
+                UserAddress ua = db.UserAddresses.Where(x => x.UserId == userid).FirstOrDefault();
+                if (ua != null)
+                {
+                    ua.AddressLine1 = sp.UserAddresses.AddressLine1;
+                    ua.AddressLine2 = sp.UserAddresses.AddressLine2;
+                    ua.PostalCode = sp.UserAddresses.PostalCode;
+                    ua.City = sp.UserAddresses.City;
+                    ua.Mobile = sp.Users.Mobile;
+                    db.UserAddresses.Update(ua);
+                    db.SaveChanges();
+
+                }
+                else
+                {
+                    UserAddress address = new UserAddress();
+                    address.UserId = userid;
+                    address.Mobile = sp.UserAddresses.Mobile;
+                    address.City = sp.UserAddresses.City;
+                    address.AddressLine1 = sp.UserAddresses.AddressLine1;
+                    address.AddressLine2 = sp.UserAddresses.AddressLine2;
+                    address.PostalCode = sp.UserAddresses.PostalCode;
+                    db.UserAddresses.Add(address);
+                    db.SaveChanges();
+                    
+                }
+                HttpContext.Session.SetString("username", u.FirstName);
+                SPSettings spsettings = new SPSettings();
+                spsettings.Users = db.Users.Where(x => x.UserId == userid).FirstOrDefault();
+                spsettings.UserAddresses = db.UserAddresses.Where(x => x.UserId == userid).FirstOrDefault();
+                return View(spsettings);
             }
-            else
-            {
-                UserAddress address = new UserAddress();
-                address.UserId = userid;
-                address.Mobile = sp.UserAddresses.Mobile;
-                address.City = sp.UserAddresses.City;
-                address.AddressLine1 = sp.UserAddresses.AddressLine1;
-                address.AddressLine2 = sp.UserAddresses.AddressLine2;
-                address.PostalCode = sp.UserAddresses.PostalCode;
-                db.UserAddresses.Add(address);
-                db.SaveChanges();
-            }
+            
             HttpContext.Session.SetString("username", u.FirstName);
-            return View();
+            SPSettings spsetting = new SPSettings();
+            spsetting.Users = db.Users.Where(x => x.UserId == userid).FirstOrDefault();
+            spsetting.UserAddresses = db.UserAddresses.Where(x => x.UserId == userid).FirstOrDefault();
+            return View(spsetting);
         }
 
+
+        
+        //-----------------------------Admin Pages----------------------------
+          
+        
         public IActionResult ServiceRequests()
         {
+            int userid = (int)HttpContext.Session.GetInt32("User_id");
+            User u = db.Users.Where(x => x.UserId == userid).FirstOrDefault();
+            if (u != null)
+            {
+                if (u.UserTypeId == 3)
+                {
+                    var query = (from sr in db.ServiceRequests
+                                 join sra in db.ServiceRequestAddresses on
+                                 sr.ServiceRequestId equals sra.ServiceRequestId
+                                 join user in db.Users on sr.UserId equals user.UserId
+                                 join rating in db.Ratings on sr.ServiceRequestId equals rating.ServiceRequestId 
+                                 into Rate
+                                 from rating in Rate.DefaultIfEmpty()
+                                 join sp in db.Users on sr.ServiceProviderId equals sp.UserId into SP
+                                 from sp in SP.DefaultIfEmpty()
+                                 select new CustomModel
+                                 {
+
+                                     ServiceRequestId = sr.ServiceRequestId,
+                                     ServiceId = sr.ServiceId,
+                                     ServiceStartDate = sr.ServiceStartDate,
+                                     ServiceProviderId = sr.ServiceProviderId,
+                                     Status = sr.Status,
+
+                                     AddressLine1 = sra.AddressLine1,
+                                     AddressLine2 = sra.AddressLine2,
+                                     City = sra.City,
+                                     Mobile = sra.Mobile,
+                                     PostalCode = sra.PostalCode,
+
+                                     FirstName = user.FirstName,
+                                     LastName = user.LastName,
+                                     UserProfilePicture = sp.UserProfilePicture,
+
+                                     spFirstName = sp == null ? " " : sp.FirstName,
+                                     spLastName = sp == null ? " " : sp.LastName,
+                                     Ratings = rating == null ? 0 : rating.Ratings,
+
+                                 }).ToList();
+                    return View(query);
+                }
+                TempData["alret"] = "Access Denied ! Only admins can access this page";
+                return RedirectToAction("Index");
+
+            }
+            TempData["alret"] = "You have to login first before accessing this page.";
+            return RedirectToAction("Index");
             
-            var query = (from sr in db.ServiceRequests
-                         join sra in db.ServiceRequestAddresses
-                         on sr.ServiceRequestId equals sra.ServiceRequestId
-                         join u in db.Users on sr.UserId equals u.UserId
-                         select new CustomModel
-                         {
-                             ServiceId = sr.ServiceId,
-                             
-                             ServiceStartDate = sr.ServiceStartDate,
-                             ServiceRequestId = sr.ServiceRequestId,
-                             Status = sr.Status,
-
-                             AddressLine1 = sra.AddressLine1,
-                             AddressLine2 = sra.AddressLine2,
-                             PostalCode = sra.PostalCode,
-                             City = sra.City,
-
-                             FirstName = u.FirstName,
-                             LastName = u.LastName
-
-                         }).ToList(); 
-            return View(query);
         }
 
         public IActionResult EditReSchedule(int id)
@@ -849,18 +1283,6 @@ namespace Helperland.Controllers
             return "true";
         }
 
-        //[HttpPost]
-        //public IActionResult servicesearch(string searchby)
-        //{ 
-        //    var users = db.Users.ToList();
-        //    if (searchby != null)
-        //    {
-        //        users = db.Users.Where(x => x.FirstName.Contains(searchby)).ToList();
-        //    }
-        //    return View(users);
-        // }
-
-
         public IActionResult UserManagement()
         {
             User user = new User();
@@ -876,6 +1298,7 @@ namespace Helperland.Controllers
                              LastName = u.LastName,
                              UserTypeId = u.UserTypeId,
                              IsActive = u.IsActive,
+                             CreatedDate = u.CreatedDate,
                              
 
                              AddressLine1 = ua.AddressLine1,
@@ -913,7 +1336,6 @@ namespace Helperland.Controllers
         }
     }
 
-    internal class HttpContext
-    {
-    }
+    
 }
+
