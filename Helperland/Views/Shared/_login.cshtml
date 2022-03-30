@@ -1,6 +1,4 @@
 ﻿@model Helperland.Models.User;
-@Html.Raw(ViewBag.SucessMessage)
-@Html.Raw(ViewBag.ErrorMessage)
 <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -12,17 +10,20 @@
                 <div class="form container-fluid text-center mt-3">
                     @using (Html.BeginForm("Login", "Home", FormMethod.Post))
                     {
-                        <form>
-                            <div class="mb-2">
-                                <input type="email" asp-for="Email" class="form-control" id="exampleInputEmail1" placeholder="Email id" aria-describedby="emailHelp">
-                            </div>
-                            <div class="mb-2">
-                                <input type="password" asp-for="Password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                            </div>
-                            <input class="form-check-input mb-3 check-box" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label me-5 pe-3" for="flexCheckDefault" id="text-checkbox">Remember me</label>
-                            <button type="submit" class="login w-100 mb-2">Login</button>
-                        </form>
+                    <form>
+                        <div class="text-danger border-danger">@TempData["msg"]</div>
+                        <div class="mb-2">
+                            <input type="email" asp-for="Email" class="form-control" id="exampleInputEmail1" placeholder="Email id" aria-describedby="emailHelp">
+                            <span class="text-danger" asp-validation-for="Email"></span>
+                        </div>
+                        <div class="mb-2">
+                            <input type="password" asp-for="Password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            <span class="text-danger" asp-validation-for="Password"></span>
+                        </div>
+                        <input class="form-check-input mb-3 check-box" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label me-5 pe-3" for="flexCheckDefault" id="text-checkbox">Remember me</label>
+                        <button type="submit" class="login w-100 mb-2">Login</button>
+                    </form>
                     }
                     <div>
                         <a class="py-2" data-bs-target="#exampleModalToggle2"
@@ -52,7 +53,11 @@
                     {
                         <form>
                             <div class="mb-2">
+                                <div class="text-danger border-danger">@TempData["message"]</div>
+                                <div class="text-success border-success">@TempData["message1"]</div>
+                                @*<input type="hidden" asp-for="UserId" />*@
                                 <input type="email" asp-for="Email" class="form-control" id="exampleInputPassword2" placeholder="Email id">
+                                <span class="text-danger" asp-validation-for="Email"></span>
                             </div>
                             <button type="submit" class="login mb-2">Send</button>
                         </form>

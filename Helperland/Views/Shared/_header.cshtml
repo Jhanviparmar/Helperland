@@ -62,33 +62,70 @@ else
                         <ul class="navbar-nav ms-auto pb-3">
                             <div class="d-lg-none px-3 pt-3" style="color:#4f4f4f;">Warm welcome,<div class="fw-bold">Customer</div></div>
                             <li><hr class="dropdown-divider divider d-lg-none" style="color: #646464; height: 2px;"></li>
-                            <ul class="nav nav-pills flex-column d-lg-none mobo-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link px-3" data-toggle="pill" href="#overview">Overview</a>
+                            @if (Context.Session.GetInt32("Usertype_id") == 1)
+                            {
+                                <ul class="nav nav-pills flex-column d-lg-none mobo-menu">
+
+                                    <li class="nav-item">
+                                        <a class="nav-link px-3" asp-action="sdashboard" asp-controller="Home">Overview</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link px-3" asp-action="shistory" asp-controller="Home">Completed Service Orders</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link px-3" data-toggle="pill" href="#cview">Calender View</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link px-3" asp-action="favouritepros" asp-controller="Home">Favourite Pros</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link px-3" data-toggle="pill" href="#invoices">Invoices</a>
+                                    </li>
+                                </ul>
+                                <li class="nav-item text-center ms-xl-2 d-lg-none">
+                                    <a class="nav-link px-3" asp-action="settings" asp-controller="Home">My Setting</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link px-3" data-toggle="pill" href="#css">Completed Service Orders</a>
+                                <li class="nav-item text-center ms-xl-2 d-lg-none">
+                                    <a class="nav-link text-light px-3" asp-action="Logout" asp-controller="Home">Logout</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link px-3" data-toggle="pill" href="#cview">Calender View</a>
+                                <li><hr class="dropdown-divider divider d-lg-none" style="color: #646464; height: 2px;"></li>
+
+                                <li class="blue-btn nav-item text-center ms-xl-2">
+                                    <a class="nav-link text-light px-3" aria-current="page" asp-action="BookService" asp-controller="Home">Book a cleaner</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link px-3" data-toggle="pill" href="#favpros">Favourite Pros</a>
+                            }
+                            else
+                            {
+                                <ul class="nav nav-pills flex-column d-lg-none mobo-menu">
+
+                                    <li class="nav-item">
+                                        <a class="nav-link px-3" asp-action="SPDashboard" asp-controller="Home">Dashboard</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link px-3" asp-action="SPNewRequest" asp-controller="Home">New Requests</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link px-3" asp-action="SPUpcomingServices" asp-controller="Home">Upcoming Services</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link px-3" asp-action="SPServiceHistory" asp-controller="Home">Service History</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link px-3" asp-action="BlockCustomer" asp-controller="Home">Block Customer</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link px-3" asp-action="SPRatings" asp-controller="Home">My Ratings</a>
+                                    </li>
+                                </ul>
+                                <li class="nav-item text-center ms-xl-2 d-lg-none">
+                                    <a class="nav-link px-3" asp-action="ServiceProviderSettings" asp-controller="Home">My Setting</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link px-3" data-toggle="pill" href="#invoices">Invoices</a>
+                                <li class="nav-item text-center ms-xl-2 d-lg-none">
+                                    <a class="nav-link text-light px-3" asp-action="Logout" asp-controller="Home">Logout</a>
                                 </li>
-                            </ul>
-                            <li class="nav-item text-center ms-xl-2 d-lg-none">
-                                <a class="nav-link px-3" data-toggle="pill" href="#mysettings">My Setting</a>
-                            </li>
-                            <li class="nav-item text-center ms-xl-2 d-lg-none">
-                                <a class="nav-link text-light px-3" aria-current="page" href="#">Logout</a>
-                            </li>
-                            <li><hr class="dropdown-divider divider d-lg-none" style="color: #646464; height: 2px;"></li>
-                            <li class="blue-btn nav-item text-center ms-xl-2">
-                                <a class="nav-link text-light px-3" aria-current="page" asp-action="BookService" asp-controller="Home">Book a cleaner</a>
-                            </li>
+                                <li><hr class="dropdown-divider divider d-lg-none" style="color: #646464; height: 2px;"></li>
+                            }
+
                             <li class="nav-item text-center ms-xl-2 ">
                                 <a class="nav-link text-light px-3" aria-current="page" asp-action="Price" asp-controller="Home">Prices & Services</a>
                             </li>
@@ -115,7 +152,7 @@ else
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li>
-                            <a class="dropdown-item bg-transparent" href="#">Welcome <br><div class="fw-bold">@TempData["username"]</div> </a>
+                            <a class="dropdown-item bg-transparent" href="#">Welcome <br><div class="fw-bold">@Context.Session.GetString("username")</div> </a>
                         </li>
                         <li> <hr class="dropdown-divider"> </li>
 
@@ -132,11 +169,36 @@ else
                                 <a style="text-decoration: none;" class="ps-3" asp-action="SPDashboard" asp-controller="Home">Dashboard</a>
                                 <a class="nav-link" id="v-pills-mysettings-tab" asp-action="ServiceProviderSettings" asp-controller="Home" role="tab">My Settings</a>
                             }
-                            <a style="text-decoration: none;" class="ps-3" asp-action="Logout" asp-controller="Home">Logout</a>
+                            <a style="text-decoration: none;" class="ps-3" data-bs-toggle="modal" data-bs-target="#logout">Logout</a>
                         </div>
                     </div>
                 </div>
             </nav>
         </section>
     </header>
+    <div class="modal fade" id="logout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center p-3">
+                    <img src="~/images/green-tick.png" class="mb-4" style="height: 50px; width: 50px;">
+                    <h5 class="mb-4">You will be logged out from the sysytem, Click Ok button to proceed.</h5>
+                    <a class="button px-5 py-2" style="text-decoration: none; color: #fff " asp-action="Logout" asp-controller="Home">Ok</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*@section Scripts
+{
+        <script>
+            $(function () {
+                debugger;
+           var r = '@TempData["message"]';
+           if (r.length>0)
+           {
+                $('#logout').modal('show');
+           }
+        });
+        </script>
+    }*@
 }
